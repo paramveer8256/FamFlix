@@ -5,7 +5,11 @@
   <br />
   <a href="https://famflix.onrender.com"><strong>Live Demo</strong></a>
 </p>
+# 🎬 FAMFLIX
 
+Welcome to **FamFlix** – a modern movie streaming web app built for film lovers. Explore trending content, watch trailers, and discover your next favorite movie or show.
+
+[👉 Live Demo](https://famflix.onrender.com)
 ---
 
 ## ✨ Features
