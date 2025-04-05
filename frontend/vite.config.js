@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://famflix.onrender.com",
+        target: "http://localhost:5000",
       },
     },
   },
