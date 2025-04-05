@@ -1,4 +1,4 @@
-<h1 align="center">🎬 FamFlix</h1>
+<h1 align="center">🎬 FAMFLIX</h1>
 
 <p align="center">
   Welcome to *FamFlix* – a modern movie streaming web app built for film lovers. Explore trending content, watch trailers, and discover your next favorite movie or show.
