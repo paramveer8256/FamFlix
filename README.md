@@ -23,6 +23,8 @@
 - **Frontend:** React.js, Tailwind CSS
 - **Backend:** Node.js, Express (Deployed on Render)
 - **API:** TMDB (The Movie Database)
+- **State Management:** Zustand
+- **Token:** JWT (Json Web Token)
 - **Deployment:** Full Stack on Render
 
 ---
