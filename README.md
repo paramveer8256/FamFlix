@@ -1,7 +1,7 @@
 <h1 align="center">🎬 FamFlix</h1>
 
 <p align="center">
-  A sleek and modern movie streaming web app made for film lovers.
+  Welcome to *FamFlix* – a modern movie streaming web app built for film lovers. Explore trending content, watch trailers, and discover your next favorite movie or show.
   <br />
   <a href="https://famflix.onrender.com"><strong>Live Demo</strong></a>
 </p>
@@ -23,7 +23,7 @@
 - **Frontend:** React.js, Tailwind CSS
 - **Backend:** Node.js, Express (Deployed on Render)
 - **API:** TMDB (The Movie Database)
-- **Deployment:** Frontend (Coming soon on Vercel), Backend on Render
+- **Deployment:** Full Stack on Render
 
 ---
 
