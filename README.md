@@ -1,54 +1,56 @@
-# FamFlix
+<h1 align="center">🎬 FamFlix</h1>
 
-Welcome to **FamFlix** – a modern movie streaming web app built for film lovers. Explore trending content, watch trailers, and discover your next favorite movie or show.
-
-**Live Demo:** [famflix.onrender.com](https://famflix.onrender.com)
-
----
-
-## Features
-
-- **Movie Streaming UI** – Watch movie trailers and preview content with a clean player interface.
-- **Dynamic Search** – Find movies, TV shows, or actors using a smart search with pagination and tabs.
-- **Watch Page** – Get full details of a movie or show, including a trailer, cast, and similar content.
-- **Responsive Design** – Optimized for desktops, tablets, and phones.
-- **Smooth Horizontal Scroll** – Enjoy a Netflix-like experience when browsing similar or recommended titles.
+<p align="center">
+  A sleek and modern movie streaming web app made for film lovers.
+  <br />
+  <a href="https://famflix.onrender.com"><strong>Live Demo</strong></a>
+</p>
 
 ---
 
-## Tech Stack
+## ✨ Features
+
+- 🎥 **Movie Streaming UI** – Watch movie trailers in a beautiful player interface.
+- 🔍 **Dynamic Search** – Smart search with pagination and tabs for movies, shows, and people.
+- 🎞 **Watch Page** – Dive deep into movie/show details, cast, and similar content.
+- 📱 **Responsive Design** – Works perfectly on all devices.
+- 🧭 **Smooth Horizontal Scroll** – Netflix-like carousel for similar content.
+
+---
+
+## 🛠 Tech Stack
 
 - **Frontend:** React.js, Tailwind CSS
-- **Backend:** Node.js, Express (deployed on Render)
+- **Backend:** Node.js, Express (Deployed on Render)
 - **API:** TMDB (The Movie Database)
-- **Deployment:** Frontend on Vercel (soon), Backend on Render
+- **Deployment:** Frontend (Coming soon on Vercel), Backend on Render
 
 ---
 
-## Installation
+## 🚀 Getting Started
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/paramveer7267/FamFlix.git
 cd FamFlix
 ```
 
-### 2. Install dependencies
+### 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Create `.env` file
+### 3. Setup Environment Variables
 
-Create a `.env` file in the root folder and add your TMDB API key:
+Create a `.env` file in the root and add your TMDB API key:
 
 ```bash
 VITE_TMDB_API_KEY=your_tmdb_api_key
 ```
 
-### 4. Run the development server
+### 4. Start the Development Server
 
 ```bash
 npm run dev
@@ -56,23 +58,26 @@ npm run dev
 
 ---
 
-## Contributors
+## 👥 Contributors
 
-- **Harsh** – [GitHub](https://github.com/harsh2711)
 - **Paramveer** – [GitHub](https://github.com/paramveer7267)
 
 ---
 
-## License
+## 📸 Screenshots
 
-This project is licensed under the MIT License.
-
----
-
-## Screenshots
-
-*(Add screenshots of the homepage, watch page, and search page here if available)*
+> *(Add screenshots of the homepage, watch page, and search functionality here)*
 
 ---
 
-Feel free to fork this project or contribute to improve the experience!
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+## 🌟 Show Your Support
+
+If you like this project, consider giving it a ⭐ on GitHub and sharing it with others!
+
+---
