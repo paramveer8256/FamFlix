@@ -186,15 +186,15 @@ const WatchPage = () => {
               />
             ) : (
               <div className="relative w-full h-full mb-4">
-                {/* Mobile iframe
+                {/* Mobile iframe */}
                 <iframe
                   src={`https://vidsrc.icu/embed/movie/${id}`}
                   width="100%"
                   height="100%"
                   referrerPolicy="origin"
                   allowFullScreen
-                  className="block sm:hidden rounded-2xl mt-4"
-                ></iframe> */}
+                  className="block lg:hidden rounded-2xl mt-4"
+                ></iframe>
 
                 {/* Desktop iframe */}
                 <iframe
@@ -202,7 +202,7 @@ const WatchPage = () => {
                   width="100%"
                   height="80%"
                   allowFullScreen
-                  className="block rounded-2xl mt-4"
+                  className="lg:block hidden rounded-2xl mt-4"
                 ></iframe>
                 <p className="px-2 pt-2 text-sm sm:text-xl italic">
                   Use Brave browser for no ads.😎
