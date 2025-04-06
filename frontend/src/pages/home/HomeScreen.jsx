@@ -84,14 +84,14 @@ const HomeScreen = () => {
           </div>
           <div className="flex mt-8">
             <Link
-              to={`/watch/upcoming/${trendingContent?.id}`}
+              to={`/watch/movie/${trendingContent?.id}`}
               className="bg-white hover:bg-white/80 text-black font-bold px-4 py-2 rounded  mr-4 flex items-center"
             >
               <Play className="size-6 inline-block mr-2 fill-black" />
               Play
             </Link>
             <Link
-              to={`/watch/${trendingContent?.id}`}
+              to={`/watch/upcoming/${trendingContent?.id}`}
               className="bg-gray-500/70 hover:bg-gray-500 text-white font-bold px-4 py-2 rounded  mr-4 flex items-center"
             >
               <Info className="size-6 inline-block mr-2" />

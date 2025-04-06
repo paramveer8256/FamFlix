@@ -1,4 +1,4 @@
-import React, { useState, useEffect, act } from "react";
+import React, { useState, useEffect } from "react";
 import { useContentStore } from "../store/content.js";
 import Navbar from "../components/Navbar";
 import { Search } from "lucide-react";
@@ -197,4 +197,3 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
-

@@ -193,7 +193,7 @@ const WatchPage = () => {
                   height="100%"
                   referrerPolicy="origin"
                   allowFullScreen
-                  className="block md:hidden rounded-2xl mt-4"
+                  className="block sm:hidden rounded-2xl mt-4"
                 ></iframe>
 
                 {/* Desktop iframe */}
@@ -202,7 +202,7 @@ const WatchPage = () => {
                   width="100%"
                   height="80%"
                   allowFullScreen
-                  className="hidden md:block rounded-2xl mt-4"
+                  className="hidden sm:block rounded-2xl mt-4"
                 ></iframe>
                 <p className="px-2 pt-2 text-sm sm:text-xl italic">
                   Use Brave for no ads.😎
