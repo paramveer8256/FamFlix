@@ -36,7 +36,7 @@ const SignupPage = () => {
       <div className="flex justify-center items-center mt-20 mx-3">
         <div className="w-full max-w-md space-y-6 bg-black/60 rounded-lg shadow-md p-8">
           <h1 className="text-center text-white text-2xl font-bold mb-4">
-            Sign Up
+            Create new account (Sign Up)
           </h1>
           <form action="" className="space-y-4">
             <div>
