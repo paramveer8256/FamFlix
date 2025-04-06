@@ -7,7 +7,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] =
       React.useState(false);
   
-  const { login } = useAuthUserStore();
+  const { login,isLoggingIn } = useAuthUserStore();
   const handleLogin = (e) => {
     e.preventDefault();
     login({ emailorusername, password });
@@ -75,8 +75,10 @@ const LoginPage = () => {
                 />
               </label>
             </div>
-            <button className="w-full py-2 bg-[#1E90FF] hover:bg-[#1f88e5] active:bg-[#529af1] text-white font-semibold rounded-md">
-              Login
+            <button 
+            disabled={isLoggingIn}
+            className="w-full py-2 bg-[#1E90FF] hover:bg-[#1f88e5] active:bg-[#529af1] text-white font-semibold rounded-md">
+              {isLoggingIn ? "Logging in..." : "Log In"}
             </button>
           </form>
           <div className="text-center text-gray-400 mt-4">

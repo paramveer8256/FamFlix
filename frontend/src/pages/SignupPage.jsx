@@ -12,7 +12,7 @@ const SignupPage = () => {
   const [showPassword, setShowPassword] =
     React.useState(false);
 
-  const { signup } = useAuthUserStore();
+  const { signup,isSigningUp } = useAuthUserStore();
 
   function handleSignUp(e) {
     e.preventDefault();
@@ -100,8 +100,10 @@ const SignupPage = () => {
                 />
               </label>
             </div>
-            <button className="w-full py-2 bg-[#1E90FF] hover:bg-[#1f88e5] active:bg-[#529af1] text-white font-semibold rounded-md">
-              Sign Up
+            <button
+            disabled={isSigningUp}
+             className="w-full py-2 bg-[#1E90FF] hover:bg-[#1f88e5] active:bg-blue-200 text-white font-semibold rounded-md">
+              {isSigningUp ? "Signing up" : "Sign Up"}
             </button>
           </form>
           <div className="text-center text-gray-400 mt-4">

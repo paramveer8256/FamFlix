@@ -8,5 +8,4 @@ export const MOVIE_CATEGORIES = [
   "top_rated",
   // "popular",
   "upcoming",
-  "movie",
 ];
