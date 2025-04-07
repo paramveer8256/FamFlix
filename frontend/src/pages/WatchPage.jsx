@@ -198,7 +198,7 @@ const WatchPage = () => {
 
                 {/* Desktop iframe */}
                 <iframe
-                  src={`https://vidsrc.me/embed/movie?tmdb=${id}`}
+                  src={`https://vidsrc.xyz/embed/movie?tmdb=${id}`}
                   width="100%"
                   height="80%"
                   allowFullScreen
