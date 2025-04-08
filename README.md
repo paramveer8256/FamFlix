@@ -64,13 +64,13 @@ npm run dev
 
 - **Paramveer** – [GitHub](https://github.com/paramveer7267)
 
----
+<!-- ---
 
 ## 📸 Screenshots
 
 > *(Add screenshots of the homepage, watch page, and search functionality here)*
 
----
+--- -->
 
 ## 📄 License
 
