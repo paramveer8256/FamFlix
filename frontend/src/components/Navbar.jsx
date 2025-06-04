@@ -134,11 +134,11 @@ const Navbar = () => {
           </Link>
           <Link
             to="#"
-            className="hover:underline px-2  block text-[#1E90FF] "
+            className=" px-2 text-xl block text-[#1E90FF] "
           >
             Genres List
           </Link>
-          <div className="px-6 py-2 flex flex-wrap text-sm gap-x-5 max-h-35 flex-col">
+          <div className="px-4 py-1 flex flex-wrap text-sm gap-x-5 max-h-35 flex-col">
             {genres.map((genre) => (
               <Link
                 to={`/genre/${genre?.id}/${genre?.name}`}
