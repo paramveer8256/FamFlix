@@ -4,6 +4,7 @@ import axios from "axios";
 
 export const useAuthUserStore = create((set) => ({
   user: null,
+  setUser: (newUser) => set({ user: newUser }),
   isSigningUp: false,
   isCheckingAuth: false,
   isLoggingOut: false,
