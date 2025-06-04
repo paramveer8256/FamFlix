@@ -27,7 +27,7 @@ function formatReleaseDate(date) {
   });
 }
 const WatchPage = () => {
-  const { user } = useAuthUserStore();
+  const { user ,setUser} = useAuthUserStore();
   const { id, category } = useParams(); // Extract movie ID from URL
   const [trailers, setTrailers] = React.useState([]);
   const [currTrailersIdx, setCurrTrailersIdx] =
@@ -57,6 +57,10 @@ const WatchPage = () => {
       if (res.data.success) {
         setIsBookmarked(true);
         toast.success("Added to Watchlist");
+        setUser((prev) => ({
+        ...prev,
+        watchList: [...prev.watchList, { id, type: "movie" }]
+      }));
       }
     } catch (error) {
       console.error("Failed to add to watchlist", error);
