@@ -129,7 +129,6 @@ const WatchPage = () => {
   useEffect(() => {
     const getMovieDetails = async () => {
       setLoading(() => true);
-      setContent(null); // ✅ Reset content too
       try {
         const res = await axios.get(
           `/api/v1/${contentType}/${id}/details`
@@ -137,7 +136,7 @@ const WatchPage = () => {
         setContent(res.data.details);
       } catch (error) {
         if (error.message.includes("404")) {
-          setContent([]);
+          setContent(null);
         }
       } finally {
         setLoading(() => false);
@@ -181,7 +180,7 @@ const WatchPage = () => {
     <div className="bg-black min-h-screen text-white">
       <div className="mx-auto container h-full">
         <Navbar />
-        {trailers.length > 0 &&
+        {trailers?.length > 0 &&
           (category === "upcoming" ? (
             <div className="flex justify-between items-center my-4 px-4">
               <button
@@ -201,7 +200,7 @@ const WatchPage = () => {
               <button
                 className={`bg-gray-500/70 hover:bg-gray-500 text-white py-2 px-4 rounded
               ${
-                currTrailersIdx === trailers.length - 1
+                currTrailersIdx === trailers?.length - 1
                   ? "cursor-not-allowed opacity-50"
                   : "cursor-pointer"
               }
@@ -221,14 +220,16 @@ const WatchPage = () => {
             trailers?.length === 0 ? null : "aspect-video"
           }  mb-8  p-2 sm:px-10 md:px-32 `}
         >
-          {trailers.length > 0 &&
+          {trailers?.length > 0 &&
             (category === "upcoming" ? (
               <ReactPlayer
                 controls={true}
                 width={"100%"}
                 height={"90%"}
                 className="mx-auto overflow-hidden rounded-lg"
-                url={`https://www.youtube.com/embed/${trailers[currTrailersIdx].key}`}
+                url={`https://www.youtube.com/embed/${
+                  trailers[currTrailersIdx]?.key || ""
+                }`}
               />
             ) : (
               <div className="relative w-full h-full mb-4">
