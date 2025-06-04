@@ -168,7 +168,7 @@ const SearchPage = () => {
               <Link
                 to={`/actor/movie/${item?.id}/${item?.name}`}
                 key={item?.id}
-                className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition"
+                className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition hover:scale-105"
               >
                 <div className="flex flex-col items-center">
                   <img
@@ -189,7 +189,7 @@ const SearchPage = () => {
                   item?.name
                 }`}
                 to={`/watch/movie/${item?.id}`}
-                className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition"
+                className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition hover:scale-105"
               >
                 <img
                   src={ORIGINAL_IMG_BASE_URL + imagePath}

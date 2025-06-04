@@ -108,12 +108,12 @@ const WatchList = () => {
             Clear all
           </h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
           {watchList?.map((entry) => (
             <Link
               key={entry?._id}
               to={`/watch/${entry?.type}/${entry?.id}`}
-              className="bg-gray-800 p-4 rounded flex items-start hover:bg-gray-700 transition"
+              className="bg-gray-800 p-4 rounded flex items-start hover:bg-gray-700 transition hover:scale-105"
             >
               <img
                 src={ORIGINAL_IMG_BASE_URL + entry?.image}

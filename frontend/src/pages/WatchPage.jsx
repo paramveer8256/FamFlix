@@ -35,13 +35,12 @@ const WatchPage = () => {
     React.useState(0);
   const [loading, setLoading] = React.useState(true);
   const [content, setContent] = React.useState({});
-  const { contentType } = useContentStore();
+  const { contentType, setContentType } = useContentStore();
   const [similar, setSimilar] = React.useState([]);
   const sliderRef = useRef(null);
   const [isBookmarked, setIsBookmarked] =
     React.useState(false);
 
-  const { setContentType } = useContentStore();
 
   useEffect(() => {
     setContentType(category);

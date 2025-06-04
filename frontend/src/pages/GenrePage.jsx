@@ -6,14 +6,26 @@ import axios from "axios";
 import { ORIGINAL_IMG_BASE_URL } from "../utils/constants.js";
 import { Link } from "react-router-dom";
 import WatchPageSkeleton from "../components/skeletons/WatchPageSkeleton.jsx";
-
+import { EllipsisVertical } from "lucide-react";
+import { useContentStore } from "../store/content.js";
+import {
+  Bookmark,
+  BookmarkCheck,
+  BookmarkPlus,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 const GenrePage = () => {
   const [activeTab, setActiveTab] = useState("movie");
+  const [bookmarkedIds, setBookmarkedIds] = useState(
+    new Set()
+  );
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-
+  const [content, setContent] = useState(null);
+  const { contentType, setContentType } = useContentStore();
   const { id, genreName } = useParams();
 
   const fetchGenreResults = async (currentPage) => {
@@ -67,6 +79,37 @@ const GenrePage = () => {
     return () =>
       window.removeEventListener("scroll", handleScroll);
   }, [page, loading, hasMore, activeTab]);
+
+  // GET MOVIE DETAILS
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setLoading(() => true);
+      try {
+        const res = await axios.get(
+          `/api/v1/${contentType}/${id}/details`
+        );
+        setContent(res.data.details);
+      } catch (error) {
+        if (error.message.includes("404")) {
+          setContent(null);
+        }
+      } finally {
+        setLoading(() => false);
+      }
+    };
+    getMovieDetails();
+  }, [contentType, id]);
+  function handleClickBookmark(id) {
+    setBookmarkedIds((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  }
 
   return (
     <div className="bg-black min-h-screen text-white">
@@ -122,24 +165,55 @@ const GenrePage = () => {
                 </div>
               </div>
             ) : (
-              <Link
-                key={`${item?.id}-${
-                  item?.media_type ||
-                  item?.title ||
-                  item?.name
-                }`}
-                to={`/watch/movie/${item?.id}`}
-                className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition"
-              >
-                <img
-                  src={ORIGINAL_IMG_BASE_URL + imagePath}
-                  alt={nameOrTitle}
-                  className="w-full h-auto rounded"
-                />
-                <h2 className="mt-2 text-sm sm:text-xl font-bold">
-                  {nameOrTitle}
-                </h2>
-              </Link>
+              <div className="relative">
+                <div
+                  key={`${item?.id}-${
+                    item?.media_type ||
+                    item?.title ||
+                    item?.name
+                  }`}
+                  className="absolute top-3 right-3 bg-gray-900 py-1 px-1 rounded z-50"
+                >
+                  <button
+                    onClick={() =>
+                      handleClickBookmark(item?.id)
+                    }
+                    className="group relative"
+                  >
+                    {bookmarkedIds.has(item?.id) ? (
+                      <BookmarkCheck className="text-gray-100 size-7 md:size-9 cursor-pointer" />
+                    ) : (
+                      <BookmarkPlus className="text-gray-100 size-7 md:size-9 cursor-pointer" />
+                    )}
+                    <span className="absolute top-12  -left-19 opacity-0 group-hover:opacity-100 transition bg-gray-900 text-white text-xs px-2 py-1 rounded z-50">
+                      {bookmarkedIds.has(item?.id)
+                        ? "Remove from Watchlist"
+                        : "Add to Watchlist"}
+                    </span>
+                  </button>
+                </div>
+                <Link
+                  key={`${item?.id}-${
+                    item?.media_type ||
+                    item?.title ||
+                    item?.name
+                  }`}
+                  to={`/watch/movie/${item?.id}`}
+                  className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition hover:scale-105"
+                >
+                  <img
+                    src={ORIGINAL_IMG_BASE_URL + imagePath}
+                    alt={nameOrTitle}
+                    className="w-full h-auto rounded "
+                  />
+
+                  <div className="flex justify-between items-center">
+                    <h2 className="mt-2 text-sm sm:text-xl font-bold">
+                      {nameOrTitle}
+                    </h2>
+                  </div>
+                </Link>
+              </div>
             );
           })}
         </div>

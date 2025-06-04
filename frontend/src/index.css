@@ -111,3 +111,48 @@ body {
   max-height: 250px;
   flex-direction: column;
 }
+
+
+/* movie drpdn */
+.dropdownM {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtnM {
+  color: white;
+  text-decoration: none;
+}
+
+.dropdown-contentM {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  top:25px;
+  left: -100px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 6px;
+}
+
+
+
+.dropdown-contentM a:hover {
+  background-color: #ddd;
+  border-radius: 8px;
+}
+
+/* Show the dropdown on hover */
+.dropdownM:hover .dropdown-contentM {
+  display: block;
+}
+
+.movie-container {
+  display: flex;
+  color: #1a202c;
+  flex-wrap: wrap;
+  width: max-content;
+  max-height: 250px;
+  flex-direction: column;
+}

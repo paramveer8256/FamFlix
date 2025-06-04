@@ -120,7 +120,7 @@ const HistoryPage = () => {
                   ? `/watch/movie/${entry?.id}`
                   : `/actor/movie/${entry?.id}/${entry?.title}`
               }
-              className="bg-gray-800 p-4 rounded flex items-start hover:bg-gray-700 transition"
+              className="bg-gray-800 p-4 rounded flex items-start hover:bg-gray-700 transition hover:scale-105"
             >
               <img
                 src={ORIGINAL_IMG_BASE_URL + entry?.image}
