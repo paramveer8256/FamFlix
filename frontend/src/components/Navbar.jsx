@@ -1,17 +1,33 @@
 import { LogOut, Menu, Search } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuthUserStore } from "../store/authUser.js";
 import { useContentStore } from "../store/content.js";
+import axios from "axios";
 
 const Navbar = () => {
   const { user, logout } = useAuthUserStore();
-  const {setContentType } = useContentStore();
-
+  const { setContentType } = useContentStore();
+  const [genres, setGenres] = React.useState([]);
   const [isMobile, setIsMobile] = React.useState(false);
   const handleToggle = () => {
     setIsMobile(!isMobile);
   };
+
+  useEffect(() => {
+    try {
+      // Fetch genres from the API
+      const fetchGenres = async () => {
+        const response = await axios.get(
+          "/api/v1/movie/genre"
+        );
+        setGenres(response.data.genres);
+      };
+      fetchGenres();
+    } catch (error) {
+      console.error("Error fetching genres:", error);
+    }
+  }, []);
   return (
     <header className="  max-w-6xl mx-auto flex flex-wrap justify-between items-center p-4 h-20">
       <div className="flex items-center justify-center gap-10 z-50 ">
@@ -23,7 +39,7 @@ const Navbar = () => {
           />
         </Link>
         {/* desktop navbar items*/}
-        <div className="hidden ml-40 sm:flex gap-20 items-center">
+        <div className="hidden ml-20 sm:flex gap-20 items-center">
           <Link
             to="/"
             className="hover:underline"
@@ -44,6 +60,23 @@ const Navbar = () => {
           <Link to="/watchlist" className="hover:underline">
             Watchlist
           </Link>
+          <div className="dropdown">
+            <Link to="#" className="dropbtn">
+              Genres
+            </Link>
+            <div className="dropdown-content">
+              <div className="genre-container">
+                {genres.map((genre) => (
+                  <Link
+                    to={`/genre/${genre?.id}/${genre?.name}`}
+                    key={genre?.id}
+                  >
+                    {genre?.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -54,7 +87,7 @@ const Navbar = () => {
         <img
           src={user.image}
           alt="Avatar logo"
-          className="h-8 rounded cursor-pointer"
+          className="h-6 rounded cursor-pointer"
         />
         <LogOut
           className="size-6 cursor-pointer"
@@ -99,6 +132,23 @@ const Navbar = () => {
           >
             Watchlist
           </Link>
+          <Link
+            to="#"
+            className="hover:underline px-2  block text-[#1E90FF] "
+          >
+            Genres List
+          </Link>
+          <div className="px-6 py-2 flex flex-wrap text-sm gap-x-5 max-h-35 flex-col">
+            {genres.map((genre) => (
+              <Link
+                to={`/genre/${genre?.id}/${genre?.name}`}
+                key={genre?.id}
+                className="py-0.5"
+              >
+                {genre?.name}
+              </Link>
+            ))}
+          </div>
         </div>
       )}
     </header>

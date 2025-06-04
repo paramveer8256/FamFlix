@@ -3,7 +3,9 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import HomePage from "./pages/home/HomePage";
 import WatchPage from "./pages/WatchPage.jsx";
-import WatchList from "./pages/WatchList.jsx";
+import WatchList from "./pages/watchList.jsx";
+import GenrePage from "./pages/GenrePage.jsx";
+import ActorMovies from "./pages/ActorMovies.jsx";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useAuthUserStore } from "./store/authUser.js";
@@ -81,6 +83,26 @@ function App() {
           element={
             user ? (
               <WatchList />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/genre/:id/:genreName"
+          element={
+            user ? (
+              <GenrePage />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/actor/movie/:id/:name"
+          element={
+            user ? (
+              <ActorMovies />
             ) : (
               <Navigate to={"/login"} />
             )

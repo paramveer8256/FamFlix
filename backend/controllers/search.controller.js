@@ -58,11 +58,12 @@ export async function searchMovie(req, res) {
 
 export async function searchPerson(req, res) {
   const { query } = req.params; // Extract query from request parameters
+  const page = parseInt(req.query.page) || 1;
   try {
     const data = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/search/person?query=${query}&include_adult=false&language=en-US&page=1`
+      `https://api.themoviedb.org/3/search/person?query=${query}&include_adult=false&language=en-US&page=${page}`
     );
-    if (!data) {
+    if (!data || !data.results || data.results.length === 0) {
       return res
         .status(404)
         .json({ message: "Data not found" }); // Return to prevent further execution
@@ -79,9 +80,13 @@ export async function searchPerson(req, res) {
         },
       },
     });
-    res
-      .status(200)
-      .json({ success: true, content: data.results });
+    res.status(200).json({
+      success: true,
+      content: data.results,
+      page: data.page,
+      totalPages: data.total_pages,
+      totalResults: data.total_results,
+    });
   } catch (error) {
     console.error(error);
     res
