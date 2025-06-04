@@ -60,6 +60,7 @@ const HistoryPage = () => {
       setSearchHistory(
         searchHistory.filter((item) => item.id !== entry.id)
       );
+      toast.success("Item deleted successfully");
     } catch (error) {
       error.message;
       toast.error("Failed to delete the item");

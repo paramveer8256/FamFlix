@@ -55,6 +55,8 @@ const SearchPage = () => {
         toast.error(
           "Atleast spell the word properly bruhh 😑"
         );
+        else if (error.response.status === 500)
+        toast.error("Internal Server Error. Please try again later.");  
       setHasMore(false);
     } finally {
       setLoading(false);

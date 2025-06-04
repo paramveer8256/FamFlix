@@ -7,7 +7,9 @@ export async function searchMovie(req, res) {
 
   try {
     const data = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=${page}`
+      `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
+        query
+      )}&include_adult=false&language=en-US&page=${page}`
     );
 
     if (!data || data.results.length === 0) {
@@ -18,28 +20,37 @@ export async function searchMovie(req, res) {
 
     if (page === 1) {
       const firstResult = data.results[0];
-      await User.findByIdAndUpdate(req.user._id, {
-        $push: {
-          searchHistory: {
-            id: firstResult.id,
-            title: firstResult.title,
-            searchType: "movie",
-            image: firstResult.poster_path,
-            created: new Date(),
+      const user = await User.findById(req.user._id);
+
+      const alreadyExists = user.searchHistory.some(
+        (item) => item.id === firstResult.id
+      );
+
+      if (!alreadyExists) {
+        await User.findByIdAndUpdate(req.user._id, {
+          $push: {
+            searchHistory: {
+              id: firstResult.id,
+              title: firstResult.title,
+              searchType: "movie",
+              image: firstResult.poster_path,
+              created: new Date(),
+            },
           },
-        },
-      });
+        });
+      }
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       content: data.results,
       page: data.page,
       totalPages: data.total_pages,
-      totalResults: data.total_results, // optional
+      totalResults: data.total_results,
     });
   } catch (error) {
-    res
+    console.error("Error in searchMovie:", error);
+    return res
       .status(500)
       .json({ message: "Internal Server Error" });
   }
