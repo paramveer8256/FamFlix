@@ -28,6 +28,7 @@ function formatReleaseDate(date) {
 }
 const WatchPage = () => {
   const { user, authCheck } = useAuthUserStore();
+  const [tab, setTab] = React.useState("stream");
   const { id, category } = useParams(); // Extract movie ID from URL
   const [trailers, setTrailers] = React.useState([]);
   const [currTrailersIdx, setCurrTrailersIdx] =
@@ -175,13 +176,38 @@ const WatchPage = () => {
       </div>
     );
   }
-  console.log(user);
+  const handleClick = (newTab) => {
+    setTab(newTab);
+    setCurrTrailersIdx(0); // Reset trailer index when switching tabs
+  };
   return (
     <div className="bg-black min-h-screen text-white">
       <div className="mx-auto container h-full">
         <Navbar />
+        <div className="flex justify-center gap-3 mb-2">
+          <button
+            className={`py-2 px-4 rounded ${
+              tab === "stream"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-800 text-gray-300"
+            } hover:bg-blue-600`}
+            onClick={() => handleClick("stream")}
+          >
+            Stream
+          </button>
+          <button
+            className={`py-2 px-4 rounded ${
+              tab === "trailers"
+                ? "bg-red-500/80 text-white"
+                : "bg-gray-800 text-gray-300"
+            } hover:bg-red-500/90`}
+            onClick={() => handleClick("trailers")}
+          >
+            Trailers
+          </button>
+        </div>
         {trailers?.length > 0 &&
-          (category === "upcoming" ? (
+          (tab === "trailers" ? (
             <div className="flex justify-between items-center my-4 px-4">
               <button
                 className={`bg-gray-500/70 hover:bg-gray-500  text-white py-2 px-4 rounded
@@ -221,7 +247,7 @@ const WatchPage = () => {
           }  mb-8  p-2 sm:px-10 md:px-32 `}
         >
           {trailers?.length > 0 &&
-            (category === "upcoming" ? (
+            (tab === "trailers" ? (
               <ReactPlayer
                 controls={true}
                 width={"100%"}
