@@ -127,7 +127,7 @@ const SearchPage = () => {
               activeTab === "person"
                 ? "bg-red-500/80 text-white"
                 : "bg-gray-800 text-gray-300"
-            } hover:bg-blue-600`}
+            } hover:bg-red-500/90`}
             onClick={() => handleClick("person")}
           >
             Person
