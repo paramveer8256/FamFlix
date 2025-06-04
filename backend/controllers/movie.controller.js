@@ -1,5 +1,6 @@
 import { parse } from "path";
 import { fetchFromTMDB } from "../services/tmdb.service.js";
+import { type } from "os";
 
 export async function getTrendingMovie(req, res) {
   try {
@@ -133,7 +134,7 @@ export async function getGenres(req, res) {
     const data = await fetchFromTMDB(
       "https://api.themoviedb.org/3/genre/movie/list?language=en-US"
     );
-    res.json({ success: true, genres: data.genres });
+    res.json({ success: true, genres: data.genres ,type : "movie"});
   } catch (error) {
     res.status(500).json({
       message:

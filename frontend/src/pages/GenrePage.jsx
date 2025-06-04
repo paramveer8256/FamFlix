@@ -128,7 +128,7 @@ const GenrePage = () => {
                   item?.title ||
                   item?.name
                 }`}
-                to={`/watch/${activeTab}/${item?.id}`}
+                to={`/watch/movie/${item?.id}`}
                 className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition"
               >
                 <img

@@ -7,7 +7,7 @@ import { ORIGINAL_IMG_BASE_URL } from "../utils/constants.js";
 import { Link } from "react-router-dom";
 import WatchPageSkeleton from "../components/skeletons/WatchPageSkeleton.jsx";
 
-const GenrePage = () => {
+const ActorMovies = () => {
   const [activeTab, setActiveTab] = useState("movie");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -151,4 +151,4 @@ const GenrePage = () => {
   );
 };
 
-export default GenrePage;
+export default ActorMovies;

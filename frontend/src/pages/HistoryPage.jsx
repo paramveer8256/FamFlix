@@ -115,7 +115,11 @@ const HistoryPage = () => {
           {searchHistory?.map((entry) => (
             <Link
               key={entry?._id}
-              to={`/watch/${entry?.searchType}/${entry?.id}`}
+              to={
+                entry?.searchType === "movie"
+                  ? `/watch/movie/${entry?.id}`
+                  : `/actor/movie/${entry?.id}/${entry?.title}`
+              }
               className="bg-gray-800 p-4 rounded flex items-start hover:bg-gray-700 transition"
             >
               <img

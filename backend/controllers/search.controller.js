@@ -69,18 +69,30 @@ export async function searchPerson(req, res) {
         .json({ message: "Data not found" }); // Return to prevent further execution
     }
 
-    await User.findByIdAndUpdate(req.user._id, {
-      $push: {
-        searchHistory: {
-          id: data.results[0].id,
-          title: data.results[0].name,
-          searchType: "person",
-          image: data.results[0].profile_path,
-          created: new Date(),
-        },
-      },
-    });
-    res.status(200).json({
+    if (page === 1) {
+      const firstResult = data.results[0];
+      const user = await User.findById(req.user._id);
+
+      const alreadyExists = user.searchHistory.some(
+        (item) => item.id === firstResult.id
+      );
+
+      if (!alreadyExists) {
+        await User.findByIdAndUpdate(req.user._id, {
+          $push: {
+            searchHistory: {
+              id: firstResult.id,
+              title: firstResult.name,
+              searchType: "person",
+              image: firstResult.profile_path,
+              created: new Date(),
+            },
+          },
+        });
+      }
+    }
+
+    return res.status(200).json({
       success: true,
       content: data.results,
       page: data.page,

@@ -32,13 +32,19 @@ const WatchPage = () => {
   const [trailers, setTrailers] = React.useState([]);
   const [currTrailersIdx, setCurrTrailersIdx] =
     React.useState(0);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const [content, setContent] = React.useState({});
   const { contentType } = useContentStore();
   const [similar, setSimilar] = React.useState([]);
   const sliderRef = useRef(null);
   const [isBookmarked, setIsBookmarked] =
     React.useState(false);
+
+  const { setContentType } = useContentStore();
+
+  useEffect(() => {
+    setContentType(category);
+  }, [category, setContentType]);
 
   React.useEffect(() => {
     if (user?.watchList) {
@@ -57,7 +63,6 @@ const WatchPage = () => {
       if (res.data.success) {
         setIsBookmarked(true);
         toast.success("Added to Watchlist");
-        
       }
       authCheck();
     } catch (error) {
@@ -123,19 +128,19 @@ const WatchPage = () => {
   // GET MOVIE DETAILS
   useEffect(() => {
     const getMovieDetails = async () => {
-      setLoading(true);
+      setLoading(() => true);
+      setContent(null); // ✅ Reset content too
       try {
         const res = await axios.get(
           `/api/v1/${contentType}/${id}/details`
         );
-        setLoading(() => false);
         setContent(res.data.details);
       } catch (error) {
         if (error.message.includes("404")) {
           setContent([]);
         }
       } finally {
-        setLoading(false);
+        setLoading(() => false);
       }
     };
     getMovieDetails();

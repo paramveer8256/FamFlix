@@ -125,7 +125,7 @@ const SearchPage = () => {
           <button
             className={`py-2 px-4 rounded ${
               activeTab === "person"
-                ? "bg-blue-500 text-white"
+                ? "bg-red-500/80 text-white"
                 : "bg-gray-800 text-gray-300"
             } hover:bg-blue-600`}
             onClick={() => handleClick("person")}
@@ -188,7 +188,7 @@ const SearchPage = () => {
                   item?.title ||
                   item?.name
                 }`}
-                to={`/watch/${activeTab}/${item?.id}`}
+                to={`/watch/movie/${item?.id}`}
                 className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition"
               >
                 <img
