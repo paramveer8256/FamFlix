@@ -4,9 +4,8 @@ import axios from "axios";
 
 export const useAuthUserStore = create((set) => ({
   user: null,
-  setUser: (newUser) => set({ user: newUser }),
   isSigningUp: false,
-  isCheckingAuth: false,
+  isCheckingAuth: true,
   isLoggingOut: false,
   isLoggingIn: false,
   signup: async (credentials) => {
@@ -67,7 +66,7 @@ export const useAuthUserStore = create((set) => ({
       // toast.error(
       //   error.response.data.message ||
       //     "Something went wrong"
-      // ); we dont add it because we dont want to show error if user is not logged in  
+      // ); we dont add it because we dont want to show error if user is not logged in
     }
   },
 }));

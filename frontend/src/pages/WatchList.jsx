@@ -8,7 +8,7 @@ import {
 } from "../utils/constants";
 import { Trash } from "lucide-react";
 import toast from "react-hot-toast";
-
+import { useAuthUserStore } from "../store/authUser";
 function formatDate(dateString) {
   const date = new Date(dateString);
 
@@ -33,6 +33,7 @@ function formatDate(dateString) {
   return `${day} ${month} ${year}`;
 }
 const WatchList = () => {
+  const { authCheck } = useAuthUserStore();
   const [watchList, setWatchList] = React.useState([]);
   useEffect(() => {
     const getWatchList = async () => {
@@ -59,6 +60,7 @@ const WatchList = () => {
         watchList.filter((item) => item.id !== entry.id)
       );
       toast.success("Item deleted successfully");
+      authCheck();
     } catch (error) {
       error.message;
       toast.error("Failed to delete the item");
