@@ -3,7 +3,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import HomePage from "./pages/home/HomePage";
 import WatchPage from "./pages/WatchPage.jsx";
-import WatchList from "./pages/watchList.jsx";
+import WatchList from "./pages/WatchList.jsx";
 import GenrePage from "./pages/GenrePage.jsx";
 import ActorMovies from "./pages/ActorMovies.jsx";
 import { Routes, Route, Navigate } from "react-router-dom";
