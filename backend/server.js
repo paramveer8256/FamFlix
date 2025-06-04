@@ -7,7 +7,7 @@ import authRoutes from "./routes/auth.route.js";
 import movieRoutes from "./routes/movie.route.js";
 import animeRoutes from "./routes/anime.route.js";
 import searchRoutes from "./routes/search.route.js";
-// import watchRoutes from "./routes/watch.route.js"
+import watchListRoutes from "./routes/watch.route.js"
 
 import { envVars } from "./config/envVars.js";
 import { connectDB } from "./config/db.js";
@@ -37,7 +37,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/anime", protectRoute, animeRoutes);
 app.use("/api/v1/movie", protectRoute, movieRoutes);
 app.use("/api/v1/search", protectRoute, searchRoutes);
-// app.use("/api/v1/watch", protectRoute, watchRoutes);
+app.use("/api/v1/watchlist", protectRoute, watchListRoutes);
 
 if (envVars.NODE_ENV === "production") {
   app.use(

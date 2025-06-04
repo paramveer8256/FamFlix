@@ -32,52 +32,47 @@ function formatDate(dateString) {
   const year = date.getUTCFullYear();
   return `${day} ${month} ${year}`;
 }
-const HistoryPage = () => {
-  const [searchHistory, setSearchHistory] = React.useState(
-    []
-  );
+const WatchList = () => {
+  const [watchList, setWatchList] = React.useState([]);
   useEffect(() => {
-    const getSearchHistory = async () => {
+    const getWatchList = async () => {
       try {
         const res = await axios.get(
-          `/api/v1/search/history`
+          `/api/v1/watchlist/movies`
         );
         console.log(res.data.content);
-        setSearchHistory(res.data.content);
+        setWatchList(res.data.content);
       } catch (error) {
         error.response.data.message;
         console.log(error.response.data.message);
-        setSearchHistory([]);
+        setWatchList([]);
       }
     };
-    getSearchHistory();
+    getWatchList();
   }, []);
   async function handleDelete(entry) {
     try {
       await axios.delete(
-        `/api/v1/search/history/${entry.id}`
+        `/api/v1/watchlist/movie/${entry.id}`
       );
-      setSearchHistory(
-        searchHistory.filter((item) => item.id !== entry.id)
+      setWatchList(
+        watchList.filter((item) => item.id !== entry.id)
       );
     } catch (error) {
       error.message;
       toast.error("Failed to delete the item");
     }
   }
-  if (searchHistory?.length === 0) {
+  if (watchList?.length === 0) {
     return (
       <div className="bg-black min-h-screen text-white">
         <Navbar />
         <div className="max-w-6xl mx-auto px-4 py-8">
           <h1 className=" font-bold text-center mb-8 text-3xl">
-            Search History
+            Watch List
           </h1>
           <div className="flex justify-center items-center h-96">
-            <p className="text-xl">
-              {" "}
-              No Search history found
-            </p>
+            <p className="text-xl"> No Watch list found</p>
           </div>
         </div>
       </div>
@@ -85,12 +80,12 @@ const HistoryPage = () => {
   }
   async function handleClear() {
     try {
-      await axios.delete("/api/v1/search/history/clear"); // Adjust URL if needed
-      setSearchHistory([]); // Clear the local state too
-      toast.success("History Clear Successfully");
+      await axios.delete("/api/v1/watchlist/movies/clear"); // Adjust URL if needed
+      setWatchList([]); // Clear the local state too
+      toast.success("Watch list cleared successfully");
     } catch (error) {
       console.error(
-        "Error clearing history:",
+        "Error clearing watch list:",
         error.response?.data?.message || error.message
       );
     }
@@ -100,7 +95,7 @@ const HistoryPage = () => {
       <Navbar />
       <div className="max-w-6xl mx-auto px-4 py-8">
         <h1 className="font-bold text-center mb-6 text-3xl">
-          Search History
+          WatchList
         </h1>
         <div>
           <h2
@@ -111,10 +106,10 @@ const HistoryPage = () => {
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {searchHistory?.map((entry) => (
+          {watchList?.map((entry) => (
             <Link
               key={entry?._id}
-              to={`/watch/${entry?.searchType}/${entry?.id}`}
+              to={`/watch/${entry?.type}/${entry?.id}`}
               className="bg-gray-800 p-4 rounded flex items-start hover:bg-gray-700 transition"
             >
               <img
@@ -132,15 +127,15 @@ const HistoryPage = () => {
               </div>
               <span
                 className={`py-2 px-3 min-w-20 text-center rounded-full text-sm ml-auto ${
-                  entry?.searchType === "movie"
+                  entry?.type === "movie"
                     ? "bg-blue-600"
-                    : entry?.searchType === "person"
+                    : entry?.type === "person"
                     ? "bg-red-600"
                     : "bg-green-600"
                 }`}
               >
-                {entry?.searchType[0].toUpperCase() +
-                  entry?.searchType.slice(1)}
+                {entry?.type[0].toUpperCase() +
+                  entry?.type.slice(1)}
               </span>
               <Trash
                 className="size-5 ml-4 cursor-pointer hover:fill-red-500 hover:text-gray-100"
@@ -157,4 +152,4 @@ const HistoryPage = () => {
   );
 };
 
-export default HistoryPage;
+export default WatchList;

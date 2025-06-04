@@ -23,7 +23,7 @@ const Navbar = () => {
           />
         </Link>
         {/* desktop navbar items*/}
-        <div className="hidden ml-40 sm:flex gap-30 items-center">
+        <div className="hidden ml-40 sm:flex gap-20 items-center">
           <Link
             to="/"
             className="hover:underline"
@@ -40,6 +40,9 @@ const Navbar = () => {
           </Link>
           <Link to="/history" className="hover:underline">
             Search History
+          </Link>
+          <Link to="/watchlist" className="hover:underline">
+            Watchlist
           </Link>
         </div>
       </div>
@@ -88,6 +91,13 @@ const Navbar = () => {
             onClick={handleToggle}
           >
             Search History
+          </Link>
+          <Link
+            to="/watchlist"
+            className="hover:underline p-2 block"
+            onClick={handleToggle}
+          >
+            Watchlist
           </Link>
         </div>
       )}

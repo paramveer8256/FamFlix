@@ -141,46 +141,47 @@ const SearchPage = () => {
         {/* Results */}
         <div className="grid grid-cols-2  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {searchResults.map((item) => {
-            if (!item.poster_path && !item.profile_path)
+            if (!item?.poster_path && !item?.profile_path)
               return null;
 
-            return (
+            const imagePath =
+              activeTab === "person"
+                ? item?.profile_path
+                : item?.poster_path;
+
+            const nameOrTitle = item?.title || item?.name;
+
+            return activeTab === "person" ? (
               <div
-                key={item.id}
+                key={item?.id}
                 className="bg-gray-800 p-2 rounded"
               >
-                {activeTab === "person" ? (
-                  <div className="flex flex-col items-center">
-                    <img
-                      src={
-                        ORIGINAL_IMG_BASE_URL +
-                        item.profile_path
-                      }
-                      alt={item.name}
-                      className="max-h-96 rounded mx-auto"
-                    />
-                    <h2 className="mt-2 text-xl font-bold">
-                      {item.name}
-                    </h2>
-                  </div>
-                ) : (
-                  <Link
-                    to={`/watch/${activeTab}/${item.id}`}
-                  >
-                    <img
-                      src={
-                        ORIGINAL_IMG_BASE_URL +
-                        item.poster_path
-                      }
-                      alt={item.title || item.name}
-                      className="w-full h-auto rounded"
-                    />
-                    <h2 className="mt-2 text-lg sm:text-xl  sm:font-bold ">
-                      {item.title || item.name}
-                    </h2>
-                  </Link>
-                )}
+                <div className="flex flex-col items-center">
+                  <img
+                    src={ORIGINAL_IMG_BASE_URL + imagePath}
+                    alt={item?.name}
+                    className="max-h-96 rounded mx-auto"
+                  />
+                  <h2 className="mt-2 text-xl font-bold">
+                    {item?.name}
+                  </h2>
+                </div>
               </div>
+            ) : (
+              <Link
+                key={item?.id}
+                to={`/watch/${activeTab}/${item?.id}`}
+                className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition"
+              >
+                <img
+                  src={ORIGINAL_IMG_BASE_URL + imagePath}
+                  alt={nameOrTitle}
+                  className="w-full h-auto rounded"
+                />
+                <h2 className="mt-2 text-lg sm:text-xl font-bold">
+                  {nameOrTitle}
+                </h2>
+              </Link>
             );
           })}
         </div>

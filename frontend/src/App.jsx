@@ -3,6 +3,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import HomePage from "./pages/home/HomePage";
 import WatchPage from "./pages/WatchPage.jsx";
+import WatchList from "./pages/watchList";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useAuthUserStore } from "./store/authUser.js";
@@ -70,6 +71,16 @@ function App() {
           element={
             user ? (
               <HistoryPage />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/watchlist"
+          element={
+            user ? (
+              <WatchList />
             ) : (
               <Navigate to={"/login"} />
             )

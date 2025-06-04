@@ -25,7 +25,7 @@ export async function signup(req, res) {
       return res.status(400).json({
         success: false,
         message:
-          "Password must be at least 8 characters long and contain at least one letter and one number",
+          "Password must be at least 8 characters long and contain at least one special letter and one number",
       });
     }
 

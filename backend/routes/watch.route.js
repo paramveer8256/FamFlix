@@ -1,10 +1,17 @@
-// import express from "express";
-// import {
-//   getMovie
-// } from "../controllers/watch.controller.js";
+import express from "express";
+import {
+  clearWatchList,
+  deleteWatchList,
+  getWatchList,
+  setmovieToWatchList,
+} from "../controllers/watch.controller.js";
 
-// const router = express.Router();
+const router = express.Router();
 
-// router.get("/:category", getMovie);
+router.get("/movies", getWatchList);
+router.get("/movie/:id", setmovieToWatchList);
 
-// export default router;
+router.delete("/movies/clear", clearWatchList);
+router.delete("/movie/:id", deleteWatchList);
+
+export default router;

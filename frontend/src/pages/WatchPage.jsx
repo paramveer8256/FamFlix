@@ -3,13 +3,21 @@ import React, { useEffect, useRef } from "react";
 import { useContentStore } from "../store/content";
 import axios from "axios";
 import Navbar from "../components/Navbar";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Bookmark,
+  BookmarkCheck,
+  BookmarkPlus,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import ReactPlayer from "react-player";
 import {
   ORIGINAL_IMG_BASE_URL,
   SMALL_IMG_BASE_URL,
 } from "../utils/constants";
 import WatchPageSkeleton from "../components/skeletons/WatchPageSkeleton";
+import toast from "react-hot-toast";
+import { useAuthUserStore } from "../store/authUser";
 
 function formatReleaseDate(date) {
   return new Date(date).toLocaleDateString("en-US", {
@@ -19,6 +27,7 @@ function formatReleaseDate(date) {
   });
 }
 const WatchPage = () => {
+  const { user } = useAuthUserStore();
   const { id, category } = useParams(); // Extract movie ID from URL
   const [trailers, setTrailers] = React.useState([]);
   const [currTrailersIdx, setCurrTrailersIdx] =
@@ -28,6 +37,35 @@ const WatchPage = () => {
   const { contentType } = useContentStore();
   const [similar, setSimilar] = React.useState([]);
   const sliderRef = useRef(null);
+  const [isBookmarked, setIsBookmarked] =
+    React.useState(false);
+
+  React.useEffect(() => {
+    if (user?.watchList) {
+      const bookmarked = user.watchList.some(
+        (item) =>
+          String(item.id) === id && item.type === "movie"
+      );
+      setIsBookmarked(bookmarked);
+    }
+  }, [user, id]);
+  const handleAddToWatchlist = async () => {
+    try {
+      const res = await axios.get(
+        `/api/v1/watchlist/movie/${id}`
+      );
+      if (res.data.success) {
+        setIsBookmarked(true);
+        toast.success("Added to Watchlist");
+      }
+    } catch (error) {
+      console.error("Failed to add to watchlist", error);
+      toast.error(
+        error.response?.data?.message ||
+          "Failed to add to watchlist"
+      );
+    }
+  };
 
   const scrollLeft = () => {
     if (sliderRef.current) {
@@ -131,6 +169,7 @@ const WatchPage = () => {
       </div>
     );
   }
+  console.log(user);
   return (
     <div className="bg-black min-h-screen text-white">
       <div className="mx-auto container h-full">
@@ -228,6 +267,17 @@ const WatchPage = () => {
             <h2 className="text-2xl sm:text-5xl font-bold text-balance">
               {content?.title || content?.name}
             </h2>
+            {/* Add the bookmark button here */}
+            <button
+              className=" ml-auto mt-2 sm:mt-4 bg-blue-600 hover:bg-blue-700 text-sm sm:text-2xl text-white px-4 sm:px-8  py-2 rounded"
+              onClick={handleAddToWatchlist}
+            >
+              {isBookmarked ? (
+                <BookmarkCheck className="size-6" />
+              ) : (
+                <BookmarkPlus className="size-6" />
+              )}
+            </button>
             <p className="mt-2 text-lg">
               {formatReleaseDate(
                 content?.release_date ||
