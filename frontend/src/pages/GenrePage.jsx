@@ -172,7 +172,7 @@ const GenrePage = () => {
                     item?.title ||
                     item?.name
                   }`}
-                  className="absolute top-3 right-3 bg-gray-900 py-1 px-1 rounded z-50"
+                  className="absolute top-3 right-3 bg-gray-900 py-1 px-1 rounded z-10"
                 >
                   <button
                     onClick={() =>
@@ -185,7 +185,7 @@ const GenrePage = () => {
                     ) : (
                       <BookmarkPlus className="text-gray-100 size-7 md:size-9 cursor-pointer" />
                     )}
-                    <span className="absolute top-12  -left-19 opacity-0 group-hover:opacity-100 transition bg-gray-900 text-white text-xs px-2 py-1 rounded z-50">
+                    <span className="absolute top-12  -left-19 opacity-0 group-hover:opacity-100 transition bg-gray-900 text-white text-xs px-2 py-1 rounded">
                       {bookmarkedIds.has(item?.id)
                         ? "Remove from Watchlist"
                         : "Add to Watchlist"}

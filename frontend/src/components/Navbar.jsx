@@ -64,8 +64,8 @@ const Navbar = () => {
             <Link to="#" className="dropbtn">
               Genres
             </Link>
-            <div className="dropdown-content">
-              <div className="genre-container">
+            <div className="dropdown-content z-50">
+              <div className="genre-container ">
                 {genres.map((genre) => (
                   <Link
                     to={`/genre/${genre?.id}/${genre?.name}`}
@@ -103,7 +103,7 @@ const Navbar = () => {
 
       {/*mobile nav items */}
       {isMobile && (
-        <div className="sm:hidden z-50 absolute top-20 left-0 w-full bg-black border border-gray-800 rounded-md shadow-lg">
+        <div className="sm:hidden z-90 absolute top-20 left-0 w-full bg-black border border-gray-800 rounded-md shadow-lg">
           <Link
             to="/"
             className="hover:underline p-2 block"
