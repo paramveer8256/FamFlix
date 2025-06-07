@@ -58,7 +58,7 @@ const Navbar = () => {
             Search History
           </Link>
           <Link to="/watchlist" className="hover:underline">
-            Watchlist
+            Watch List
           </Link>
           <div className="dropdown">
             <Link to="#" className="dropbtn">

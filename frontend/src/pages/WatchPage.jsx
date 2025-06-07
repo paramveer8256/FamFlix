@@ -35,12 +35,12 @@ const WatchPage = () => {
     React.useState(0);
   const [loading, setLoading] = React.useState(true);
   const [content, setContent] = React.useState({});
+  const [cast, setCast] = React.useState([]);
   const { contentType, setContentType } = useContentStore();
   const [similar, setSimilar] = React.useState([]);
   const sliderRef = useRef(null);
   const [isBookmarked, setIsBookmarked] =
     React.useState(false);
-
 
   useEffect(() => {
     setContentType(category);
@@ -143,6 +143,26 @@ const WatchPage = () => {
       }
     };
     getMovieDetails();
+  }, [contentType, id]);
+
+  // GET MOVIE Credits
+  useEffect(() => {
+    const getMovieCredits = async () => {
+      setLoading(() => true);
+      try {
+        const res = await axios.get(
+          `/api/v1/${contentType}/credits/${id}`
+        );
+        setCast(res.data.casts);
+      } catch (error) {
+        if (error.message.includes("404")) {
+          setCast([]);
+        }
+      } finally {
+        setLoading(() => false);
+      }
+    };
+    getMovieCredits();
   }, [contentType, id]);
 
   function handleNext() {
@@ -326,6 +346,16 @@ const WatchPage = () => {
                 </span>
               )}{" "}
             </p>
+            <div>
+              <span className=" text-[#1E90FF] text-md font-semibold md:text-xl">
+                Casts:{" "}
+              </span>
+              <span className="text-xs md:text-lg">
+                {cast
+                  ?.map((element) => element?.name)
+                  .join(", ")}
+              </span>
+            </div>
             <p className="mt-4 sm:text-lg text-sm">
               {content?.overview}
             </p>

@@ -65,7 +65,7 @@ const SearchPage = () => {
       } else if (error.response?.status === 500) {
         toast.error(
           error.response.data.message ||
-          "Internal Server Error. Please try again later."
+            "Internal Server Error. Please try again later."
         );
       }
       setHasMore(false);
@@ -197,7 +197,8 @@ const SearchPage = () => {
                   className="w-full h-auto rounded"
                 />
                 <h2 className="mt-2 text-sm sm:text-xl font-bold">
-                  {nameOrTitle}
+                  {nameOrTitle} (
+                  {item?.release_date?.split("-")[0]})
                 </h2>
               </Link>
             );

@@ -72,6 +72,27 @@ export async function getMovieDetails(req, res) {
     });
   }
 }
+export async function getMovieCredits(req, res) {
+  const { id } = req.params;
+  const movieId = parseInt(id);
+  try {
+    const data = await fetchFromTMDB(
+      `https://api.themoviedb.org/3/movie/${movieId}/credits?language=en-US`
+    );
+    res.json({ success: true, casts: data.cast });
+  } catch (error) {
+    if (error.message.includes("404")) {
+      res.status(404).json({
+        message: "Movie not found",
+      });
+    }
+    res.status(500).json({
+      message:
+        "An error occurred while fetching the movie trailers.",
+      error: error.message,
+    });
+  }
+}
 
 export async function getCategory(req, res) {
   const { category } = req.params;

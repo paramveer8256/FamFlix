@@ -4,7 +4,6 @@ import { envVars } from "./envVars.js";
 export const connectDB = async () => {
   try {
     await mongoose.connect(envVars.MONGO_URI, {
-      useNewUrlParser: true,
       useUnifiedTopology: true,
     });
     console.log("MongoDB connected successfully");
