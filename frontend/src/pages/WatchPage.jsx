@@ -281,11 +281,11 @@ const WatchPage = () => {
                 {/* Mobile iframe */}
                 <iframe
                   src={`https://vidsrc.icu/embed/movie/${id}`}
-                  width="100%"
-                  height="100%"
+                  width="95%"
+                  height="90%"
                   referrerPolicy="origin"
                   allowFullScreen
-                  className="block lg:hidden rounded-2xl mt-4"
+                  className="block mx-auto border-2 border-[#1E90FF] lg:hidden rounded mt-4"
                 ></iframe>
 
                 {/* Desktop iframe */}
@@ -320,6 +320,9 @@ const WatchPage = () => {
             <h2 className="text-2xl sm:text-5xl font-bold text-balance">
               {content?.title || content?.name}
             </h2>
+            <p className="text-gray-400 italic">
+              {content?.tagline}
+            </p>
             {/* Add the bookmark button here */}
             <button
               className=" ml-auto mt-2 sm:mt-4 bg-blue-600 hover:bg-blue-700 text-sm sm:text-2xl text-white px-4 sm:px-8  py-2 rounded"
@@ -348,27 +351,51 @@ const WatchPage = () => {
             </p>
             <div>
               <span className=" text-[#1E90FF] text-md font-semibold md:text-xl">
+                Genres:{" "}
+              </span>
+              <span className="text-xs md:text-lg">
+                {content?.genres?.map((element, index) => (
+                  <span key={element.id}>
+                    <Link
+                      to={`/genre/${element?.id}/${element?.name}`}
+                      className="text-gray-400 text-sm md:text-lg hover:underline"
+                    >
+                      {element?.name}
+                    </Link>
+                    {index < content.genres.length - 1 &&
+                      ", "}
+                  </span>
+                ))}
+              </span>
+            </div>
+            <div>
+              <span className=" text-[#1E90FF] text-md font-semibold md:text-xl">
                 Casts:{" "}
               </span>
               <span className="text-xs md:text-lg">
                 {cast
                   ?.map((element) => element?.name)
+                  .slice(0, 10)
                   .join(", ")}
               </span>
             </div>
-            <p className="mt-4 sm:text-lg text-sm">
+            <p className="mt-4 sm:text-xl text-md">
               {content?.overview}
             </p>
           </div>
+        </div>
+        <div className="max-w-6xl mx-auto mt-4 px-4">
+          <p className="text-[#1E90FF] text-xl font-semibold">
+            Poster:
+          </p>
           <img
             src={
               ORIGINAL_IMG_BASE_URL + content?.poster_path
             }
             alt="poster img"
-            className="max-h-[1700px] md:max-h-[700px]  rounded-md overflow-hidden"
+            className=" h-50 w-40 md:h-100 md:w-80  mt-2  md:max-h-[700px] mx-auto rounded "
           />
         </div>
-
         {similar?.length > 0 && (
           <div className="mt-12 max-w-5xl px-4 mx-auto relative">
             <h3 className="text-3xl font-bold mb-4">
@@ -382,7 +409,7 @@ const WatchPage = () => {
                 <Link
                   key={item.id}
                   to={`/watch/${category}/${item?.id}`}
-                  className="w-52 flex-none"
+                  className="w-30 md:w-52 flex-none"
                 >
                   <img
                     src={
@@ -391,7 +418,7 @@ const WatchPage = () => {
                     alt="poster img"
                     className="w-full h-auto rounded-md"
                   />
-                  <h4 className="mt-2 text-lg font-semibold">
+                  <h4 className="mt-2 text-sm md:text-lg font-semibold">
                     {item?.title || item?.name}
                   </h4>
                 </Link>
