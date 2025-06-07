@@ -130,7 +130,7 @@ const Navbar = () => {
             className="hover:underline p-2 block"
             onClick={handleToggle}
           >
-            Watchlist
+            Watch List
           </Link>
           <Link
             to="#"
