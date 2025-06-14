@@ -291,15 +291,15 @@ const WatchPage = () => {
                 {/* Desktop iframe */}
                 <iframe
                   src={`https://vidsrc.xyz/embed/movie?tmdb=${id}`}
-                  width="100%"
+                  width="90%"
                   height="80%"
                   allowFullScreen
-                  className="lg:block hidden rounded-2xl mt-4"
+                  className="lg:block hidden mx-auto rounded-xl mt-4"
                 ></iframe>
-                <p className="px-2 pt-2 text-sm sm:text-xl italic">
+                <p className="md:px-13 px-2 pt-2 text-sm sm:text-xl italic">
                   Use Brave browser for no ads.😎
                 </p>
-                <p className="px-2 text-sm sm:text-lg italic">
+                <p className="md:px-13 px-2 text-sm sm:text-lg italic">
                   Report any broken link.🥲
                 </p>
               </div>
