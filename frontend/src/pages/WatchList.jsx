@@ -132,9 +132,9 @@ const WatchList = () => {
                 className={`py-2 px-3 min-w-20 text-center rounded-full text-sm ml-auto ${
                   entry?.type === "movie"
                     ? "bg-blue-600"
-                    : entry?.type === "person"
-                    ? "bg-red-600"
-                    : "bg-green-600"
+                    : entry?.type === "tv"
+                    ? "bg-green-600"
+                    : "bg-red-600"
                 }`}
               >
                 {entry?.type[0].toUpperCase() +

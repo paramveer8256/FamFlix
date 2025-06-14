@@ -48,6 +48,53 @@ export async function setmovieToWatchList(req, res) {
       .json({ message: "Internal Server Error" });
   }
 }
+export async function settvToWatchList(req, res) {
+  const { id } = req.params;
+
+  try {
+    const data = await fetchFromTMDB(
+      `https://api.themoviedb.org/3/tv/${id}?language=en-US`
+    );
+
+    if (!data) {
+      return res
+        .status(404)
+        .json({ message: "No movie found" });
+    }
+    // Get user and check if movie already in watch list
+    const user = await User.findById(req.user._id);
+
+    const alreadyExists = user.watchList.some(
+      (item) => item.id === data.id
+    );
+
+    if (alreadyExists) {
+      return res
+        .status(409)
+        .json({ message: "TV Show already in watch list" });
+    }
+    await User.findByIdAndUpdate(req.user._id, {
+      $push: {
+        watchList: {
+          id: data.id,
+          title: data.name,
+          type: "tv",
+          image: data.poster_path,
+          created: new Date(),
+        },
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      content: data,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal Server Error" });
+  }
+}
 
 export async function getWatchList(req, res) {
   try {

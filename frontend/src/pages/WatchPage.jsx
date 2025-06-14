@@ -26,23 +26,22 @@ function formatReleaseDate(date) {
     day: "numeric",
   });
 }
+const seasonNumber = 1;
+const episodeNumber = 1;
 const WatchPage = () => {
   const { user, authCheck } = useAuthUserStore();
   const [tab, setTab] = React.useState("stream");
-  const { id } = useParams(); // Extract movie ID from URL
+  const { id, category } = useParams(); // Extract movie ID from URL
   const [trailers, setTrailers] = React.useState([]);
   const [currTrailersIdx, setCurrTrailersIdx] =
     React.useState(0);
   const [loading, setLoading] = React.useState(true);
   const [content, setContent] = React.useState({});
   const [cast, setCast] = React.useState([]);
-  const { contentType } = useContentStore();
   const [similar, setSimilar] = React.useState([]);
   const sliderRef = useRef(null);
   const [isBookmarked, setIsBookmarked] =
     React.useState(false);
-    const [seasonNumber,setSeasonNumber] = React.useState(null);
-    const [episodeNumber,setEpisodeNumber] = React.useState(null);
 
   React.useEffect(() => {
     if (user?.watchList) {
@@ -56,7 +55,7 @@ const WatchPage = () => {
   const handleAddToWatchlist = async () => {
     try {
       const res = await axios.get(
-        `/api/v1/watchlist/movie/${id}`
+        `/api/v1/watchlist/${category}/${id}`
       );
       if (res.data.success) {
         setIsBookmarked(true);
@@ -94,7 +93,7 @@ const WatchPage = () => {
     const getTrailers = async () => {
       try {
         const res = await axios.get(
-          `/api/v1/${contentType}/${id}/trailers`
+          `/api/v1/${category}/${id}/trailers`
         );
         setTrailers(res.data.trailers);
       } catch (error) {
@@ -104,14 +103,14 @@ const WatchPage = () => {
       }
     };
     getTrailers();
-  }, [contentType, id]);
+  }, [category, id]);
 
   // GET SIMILAR MOVIES
   useEffect(() => {
     const getSimilar = async () => {
       try {
         const res = await axios.get(
-          `/api/v1/${contentType}/${id}/similar`
+          `/api/v1/${category}/${id}/similar`
         );
         setSimilar(res.data.content);
       } catch (error) {
@@ -121,7 +120,7 @@ const WatchPage = () => {
       }
     };
     getSimilar();
-  }, [contentType, id]);
+  }, [category, id]);
 
   // GET MOVIE DETAILS
   useEffect(() => {
@@ -129,7 +128,7 @@ const WatchPage = () => {
       setLoading(() => true);
       try {
         const res = await axios.get(
-          `/api/v1/${contentType}/${id}/details`
+          `/api/v1/${category}/${id}/details`
         );
         setContent(res.data.details);
       } catch (error) {
@@ -141,7 +140,7 @@ const WatchPage = () => {
       }
     };
     getMovieDetails();
-  }, [contentType, id]);
+  }, [category, id]);
 
   // GET MOVIE Credits
   useEffect(() => {
@@ -149,7 +148,7 @@ const WatchPage = () => {
       setLoading(() => true);
       try {
         const res = await axios.get(
-          `/api/v1/${contentType}/credits/${id}`
+          `/api/v1/${category}/credits/${id}`
         );
         setCast(res.data.casts);
       } catch (error) {
@@ -161,7 +160,7 @@ const WatchPage = () => {
       }
     };
     getMovieCredits();
-  }, [contentType, id]);
+  }, [category, id]);
 
   function handleNext() {
     if (currTrailersIdx < trailers.length - 1)
@@ -277,7 +276,7 @@ const WatchPage = () => {
             ) : (
               <div className="relative w-full h-full mb-4">
                 {/* Mobile iframe */}
-                {contentType === "movie" ? (
+                {category === "movie" ? (
                   <iframe
                     src={`https://vidsrc.icu/embed/movie/${id}`}
                     width="95%"
@@ -298,7 +297,7 @@ const WatchPage = () => {
                 )}
 
                 {/* Desktop iframe */}
-                {contentType === "movie" ? (
+                {category === "movie" ? (
                   <>
                     <iframe
                       src={`https://vidsrc.xyz/embed/movie?tmdb=${id}`}
@@ -437,7 +436,7 @@ const WatchPage = () => {
               {similar.map((item) => (
                 <Link
                   key={item.id}
-                  to={`/watch/${contentType}/${item?.id}`}
+                  to={`/watch/${category}/${item?.id}`}
                   className="w-30 md:w-52 flex-none"
                 >
                   <img
