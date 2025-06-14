@@ -25,7 +25,7 @@ const GenrePage = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [content, setContent] = useState(null);
-  const { contentType, setContentType } = useContentStore();
+  const { contentType } = useContentStore();
   const { id, genreName } = useParams();
 
   const fetchGenreResults = async (currentPage) => {

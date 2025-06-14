@@ -124,6 +124,16 @@ const SearchPage = () => {
           </button>
           <button
             className={`py-2 px-4 rounded ${
+              activeTab === "tv"
+                ? "bg-green-500 text-white"
+                : "bg-gray-800 text-gray-300"
+            } hover:bg-green-600`}
+            onClick={() => handleClick("tv")}
+          >
+            TV Shows
+          </button>
+          <button
+            className={`py-2 px-4 rounded ${
               activeTab === "person"
                 ? "bg-red-500/80 text-white"
                 : "bg-gray-800 text-gray-300"
@@ -164,44 +174,72 @@ const SearchPage = () => {
 
             const nameOrTitle = item?.title || item?.name;
 
-            return activeTab === "person" ? (
-              <Link
-                to={`/actor/movie/${item?.id}/${item?.name}`}
-                key={item?.id}
-                className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition hover:scale-105"
-              >
-                <div className="flex flex-col items-center">
+            if (activeTab === "person") {
+              return (
+                <Link
+                  to={`/actor/movie/${item?.id}/${item?.name}`}
+                  key={item?.id}
+                  className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition hover:scale-105"
+                >
+                  <div className="flex flex-col items-center">
+                    <img
+                      src={
+                        ORIGINAL_IMG_BASE_URL + imagePath
+                      }
+                      alt={item?.name}
+                      className="max-h-96 rounded mx-auto"
+                    />
+                    <h2 className="mt-2 text-xl font-bold text-center">
+                      {item?.name}
+                    </h2>
+                  </div>
+                </Link>
+              );
+            } else if (activeTab === "movie") {
+              return (
+                <Link
+                  key={`${item?.id}-${
+                    item?.media_type ||
+                    item?.title ||
+                    item?.name
+                  }`}
+                  to={`/watch/movie/${item?.id}`}
+                  className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition hover:scale-105"
+                >
                   <img
                     src={ORIGINAL_IMG_BASE_URL + imagePath}
-                    alt={item?.name}
-                    className="max-h-96 rounded mx-auto"
+                    alt={nameOrTitle}
+                    className="w-full h-auto rounded"
                   />
-                  <h2 className="mt-2 text-xl font-bold text-center">
-                    {item?.name}
+                  <h2 className="mt-2 text-sm sm:text-xl font-bold">
+                    {nameOrTitle} (
+                    {item?.release_date?.split("-")[0]} || NA)
                   </h2>
-                </div>
-              </Link>
-            ) : (
-              <Link
-                key={`${item?.id}-${
-                  item?.media_type ||
-                  item?.title ||
-                  item?.name
-                }`}
-                to={`/watch/movie/${item?.id}`}
-                className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition hover:scale-105"
-              >
-                <img
-                  src={ORIGINAL_IMG_BASE_URL + imagePath}
-                  alt={nameOrTitle}
-                  className="w-full h-auto rounded"
-                />
-                <h2 className="mt-2 text-sm sm:text-xl font-bold">
-                  {nameOrTitle} (
-                  {item?.release_date?.split("-")[0]})
-                </h2>
-              </Link>
-            );
+                </Link>
+              );
+            } else {
+              return (
+                <Link
+                  key={`${item?.id}-${
+                    item?.media_type ||
+                    item?.title ||
+                    item?.name
+                  }`}
+                  to={`/watch/tv/${item?.id}`}
+                  className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition hover:scale-105"
+                >
+                  <img
+                    src={ORIGINAL_IMG_BASE_URL + imagePath}
+                    alt={nameOrTitle}
+                    className="w-full h-auto rounded"
+                  />
+                  <h2 className="mt-2 text-sm sm:text-xl font-bold">
+                    {nameOrTitle} (
+                    {item?.first_air_date?.split("-")[0] || "NA"})
+                  </h2>
+                </Link>
+              );
+            }
           })}
         </div>
 

@@ -5,6 +5,7 @@ import path from "path";
 
 import authRoutes from "./routes/auth.route.js";
 import movieRoutes from "./routes/movie.route.js";
+import tvRoutes from "./routes/tv.route.js";
 import animeRoutes from "./routes/anime.route.js";
 import searchRoutes from "./routes/search.route.js";
 import watchListRoutes from "./routes/watch.route.js"
@@ -36,6 +37,7 @@ app.use(
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/anime", protectRoute, animeRoutes);
 app.use("/api/v1/movie", protectRoute, movieRoutes);
+app.use("/api/v1/tv", protectRoute, tvRoutes);
 app.use("/api/v1/search", protectRoute, searchRoutes);
 app.use("/api/v1/watchlist", protectRoute, watchListRoutes);
 

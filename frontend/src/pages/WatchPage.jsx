@@ -29,22 +29,20 @@ function formatReleaseDate(date) {
 const WatchPage = () => {
   const { user, authCheck } = useAuthUserStore();
   const [tab, setTab] = React.useState("stream");
-  const { id, category } = useParams(); // Extract movie ID from URL
+  const { id } = useParams(); // Extract movie ID from URL
   const [trailers, setTrailers] = React.useState([]);
   const [currTrailersIdx, setCurrTrailersIdx] =
     React.useState(0);
   const [loading, setLoading] = React.useState(true);
   const [content, setContent] = React.useState({});
   const [cast, setCast] = React.useState([]);
-  const { contentType, setContentType } = useContentStore();
+  const { contentType } = useContentStore();
   const [similar, setSimilar] = React.useState([]);
   const sliderRef = useRef(null);
   const [isBookmarked, setIsBookmarked] =
     React.useState(false);
-
-  useEffect(() => {
-    setContentType(category);
-  }, [category, setContentType]);
+    const [seasonNumber,setSeasonNumber] = React.useState(null);
+    const [episodeNumber,setEpisodeNumber] = React.useState(null);
 
   React.useEffect(() => {
     if (user?.watchList) {
@@ -279,29 +277,60 @@ const WatchPage = () => {
             ) : (
               <div className="relative w-full h-full mb-4">
                 {/* Mobile iframe */}
-                <iframe
-                  src={`https://vidsrc.icu/embed/movie/${id}`}
-                  width="95%"
-                  height="90%"
-                  referrerPolicy="origin"
-                  allowFullScreen
-                  className="block mx-auto border-2 border-[#1E90FF] lg:hidden rounded mt-4"
-                ></iframe>
+                {contentType === "movie" ? (
+                  <iframe
+                    src={`https://vidsrc.icu/embed/movie/${id}`}
+                    width="95%"
+                    height="90%"
+                    referrerPolicy="origin"
+                    allowFullScreen
+                    className="block mx-auto border-2 border-[#1E90FF] lg:hidden rounded mt-4"
+                  ></iframe>
+                ) : (
+                  <iframe
+                    src={`https://vidsrc.icu/embed/tv/${id}/${seasonNumber}/${episodeNumber}`}
+                    width="95%"
+                    height="90%"
+                    referrerPolicy="origin"
+                    allowFullScreen
+                    className="block mx-auto border-2 border-[#1E90FF] lg:hidden rounded mt-4"
+                  ></iframe>
+                )}
 
                 {/* Desktop iframe */}
-                <iframe
-                  src={`https://vidsrc.xyz/embed/movie?tmdb=${id}`}
-                  width="90%"
-                  height="80%"
-                  allowFullScreen
-                  className="lg:block hidden mx-auto rounded-xl mt-4"
-                ></iframe>
-                <p className="md:px-13 px-2 pt-2 text-sm sm:text-xl italic">
-                  Use Brave browser for no ads.😎
-                </p>
-                <p className="md:px-13 px-2 text-sm sm:text-lg italic">
-                  Report any broken link.🥲
-                </p>
+                {contentType === "movie" ? (
+                  <>
+                    <iframe
+                      src={`https://vidsrc.xyz/embed/movie?tmdb=${id}`}
+                      width="90%"
+                      height="80%"
+                      allowFullScreen
+                      className="lg:block hidden mx-auto rounded-xl mt-4"
+                    ></iframe>
+                    <p className="md:px-13 px-2 pt-2 text-sm sm:text-xl italic">
+                      Use Brave browser for no ads.😎
+                    </p>
+                    <p className="md:px-13 px-2 text-sm sm:text-lg italic">
+                      Report any broken link.🥲
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <iframe
+                      src={`https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${seasonNumber}&episode=${episodeNumber}`}
+                      width="90%"
+                      height="80%"
+                      allowFullScreen
+                      className="lg:block hidden mx-auto rounded-xl mt-4"
+                    ></iframe>
+                    <p className="md:px-13 px-2 pt-2 text-sm sm:text-xl italic">
+                      Use Brave browser for no ads.😎
+                    </p>
+                    <p className="md:px-13 px-2 text-sm sm:text-lg italic">
+                      Report any broken link.🥲
+                    </p>
+                  </>
+                )}
               </div>
             ))}
           {trailers?.length === 0 && (
@@ -408,7 +437,7 @@ const WatchPage = () => {
               {similar.map((item) => (
                 <Link
                   key={item.id}
-                  to={`/watch/${category}/${item?.id}`}
+                  to={`/watch/${contentType}/${item?.id}`}
                   className="w-30 md:w-52 flex-none"
                 >
                   <img

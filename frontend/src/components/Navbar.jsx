@@ -50,9 +50,9 @@ const Navbar = () => {
           <Link
             to="/"
             className="hover:underline"
-            onClick={() => setContentType("anime")}
+            onClick={() => setContentType("tv")}
           >
-            Animes
+            TV Shows
           </Link>
           <Link to="/history" className="hover:underline">
             Search History
@@ -107,16 +107,22 @@ const Navbar = () => {
           <Link
             to="/"
             className="hover:underline p-2 block"
-            onClick={handleToggle}
+            onClick={() => {
+              handleToggle();
+              setContentType("movie");
+            }}
           >
             Movies
           </Link>
           <Link
             to="/"
             className="hover:underline p-2 block"
-            onClick={handleToggle}
+            onClick={() => {
+              handleToggle();
+              setContentType("tv");
+            }}
           >
-            Animes
+            TV Shows
           </Link>
           <Link
             to="/history"

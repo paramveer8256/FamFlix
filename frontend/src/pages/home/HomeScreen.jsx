@@ -7,6 +7,7 @@ import useGetTrendingContent from "../../hooks/useGetTrendingContent.jsx";
 import {
   ORIGINAL_IMG_BASE_URL,
   MOVIE_CATEGORIES,
+  TV_CATEGORIES,
 } from "../../utils/constants.js";
 import { useContentStore } from "../../store/content.js";
 const HomeScreen = () => {
@@ -24,7 +25,7 @@ const HomeScreen = () => {
       </div>
     );
   }
-  
+
   return (
     <>
       <div className="relative h-screen text-white ">
@@ -84,14 +85,14 @@ const HomeScreen = () => {
           </div>
           <div className="flex mt-8">
             <Link
-              to={`/watch/movie/${trendingContent?.id}`}
+              to={`/watch/${contentType}/${trendingContent?.id}`}
               className="bg-white hover:bg-white/80 text-black font-bold px-4 py-2 rounded  mr-4 flex items-center"
             >
               <Play className="size-6 inline-block mr-2 fill-black" />
               Play
             </Link>
             <Link
-              to={`/watch/upcoming/${trendingContent?.id}`}
+              to={`/watch/${contentType}/${trendingContent?.id}`}
               className="bg-gray-500/70 hover:bg-gray-500 text-white font-bold px-4 py-2 rounded  mr-4 flex items-center"
             >
               <Info className="size-6 inline-block mr-2" />
@@ -101,8 +102,16 @@ const HomeScreen = () => {
         </div>
       </div>
       <div className="flex flex-col gap-10 bg-black py-10">
+        <h2 className="text-2xl md:text-4xl mx-auto text-white px-5 font-bold md:px-20">{contentType.toUpperCase()}{contentType === "tv" ? " Shows" : "S"}</h2>   
         {contentType === "movie"
           ? MOVIE_CATEGORIES.map((category) => (
+              <MovieSlider
+                key={category}
+                category={category}
+              />
+            ))
+          : contentType === "tv"
+          ? TV_CATEGORIES.map((category) => (
               <MovieSlider
                 key={category}
                 category={category}

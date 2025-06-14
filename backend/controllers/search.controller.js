@@ -55,6 +55,60 @@ export async function searchMovie(req, res) {
       .json({ message: "Internal Server Error" });
   }
 }
+export async function searchTV(req, res) {
+  const { query } = req.params;
+  const page = parseInt(req.query.page) || 1;
+
+  try {
+    const data = await fetchFromTMDB(
+      `https://api.themoviedb.org/3/search/tv?query=${encodeURIComponent(
+        query
+      )}&include_adult=false&language=en-US&page=${page}`
+    );
+
+    if (!data || data.results.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No results found" });
+    }
+
+    if (page === 1) {
+      const firstResult = data.results[0];
+      const user = await User.findById(req.user._id);
+
+      const alreadyExists = user.searchHistory.some(
+        (item) => item.id === firstResult.id
+      );
+
+      if (!alreadyExists) {
+        await User.findByIdAndUpdate(req.user._id, {
+          $push: {
+            searchHistory: {
+              id: firstResult.id,
+              title: firstResult.title,
+              searchType: "movie",
+              image: firstResult.poster_path,
+              created: new Date(),
+            },
+          },
+        });
+      }
+    }
+
+    return res.status(200).json({
+      success: true,
+      content: data.results,
+      page: data.page,
+      totalPages: data.total_pages,
+      totalResults: data.total_results,
+    });
+  } catch (error) {
+    console.error("Error in searchMovie:", error);
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error" });
+  }
+}
 
 export async function searchPerson(req, res) {
   const { query } = req.params; // Extract query from request parameters
