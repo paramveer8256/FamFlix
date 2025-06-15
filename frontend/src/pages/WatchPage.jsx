@@ -26,8 +26,7 @@ function formatReleaseDate(date) {
     day: "numeric",
   });
 }
-const seasonNumber = 1;
-const episodeNumber = 1;
+
 const WatchPage = () => {
   const { user, authCheck } = useAuthUserStore();
   const [tab, setTab] = React.useState("stream");
@@ -42,6 +41,9 @@ const WatchPage = () => {
   const sliderRef = useRef(null);
   const [isBookmarked, setIsBookmarked] =
     React.useState(false);
+
+  const seasonNumber = null;
+  const episodeNumber = null;
 
   React.useEffect(() => {
     if (user?.watchList) {
