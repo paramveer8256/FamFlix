@@ -1,6 +1,5 @@
 import { useParams, Link } from "react-router-dom";
 import React, { useEffect, useRef } from "react";
-import { useContentStore } from "../store/content";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import {
@@ -49,7 +48,7 @@ const WatchPage = () => {
     if (user?.watchList) {
       const bookmarked = user.watchList.some(
         (item) =>
-          String(item.id) === id && item.type === "movie"
+          String(item.id) === id && (item.type === "movie" || item.type === "tv")
       );
       setIsBookmarked(bookmarked);
     }
