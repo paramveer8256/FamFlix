@@ -129,7 +129,7 @@ const HistoryPage = () => {
               />
               <div className="flex flex-col">
                 <span className="text-white font-semibold text-sm">
-                  {entry?.title}
+                  {entry?.title || entry?.name}
                 </span>
                 <span className="text-gray-400 text-sm">
                   {formatDate(entry?.created)}

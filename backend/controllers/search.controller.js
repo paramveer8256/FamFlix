@@ -85,8 +85,8 @@ export async function searchTV(req, res) {
           $push: {
             searchHistory: {
               id: firstResult.id,
-              title: firstResult.title,
-              searchType: "movie",
+              title: firstResult.name,
+              searchType: "tv",
               image: firstResult.poster_path,
               created: new Date(),
             },

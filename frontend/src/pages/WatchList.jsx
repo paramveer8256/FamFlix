@@ -108,7 +108,7 @@ const WatchList = () => {
             Clear all
           </h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {watchList?.map((entry) => (
             <Link
               key={entry?._id}
@@ -118,9 +118,9 @@ const WatchList = () => {
               <img
                 src={ORIGINAL_IMG_BASE_URL + entry?.image}
                 alt="poster image"
-                className="size-10 md:size-16 rounded object-cover mr-4"
+                className="size-10 md:size-16 rounded object-cover mr-4 flex-shrink-0"
               />
-              <div className="flex flex-col">
+              <div className="flex flex-col flex-grow">
                 <span className="text-white font-semibold text-sm">
                   {entry?.title}
                 </span>
@@ -129,7 +129,7 @@ const WatchList = () => {
                 </span>
               </div>
               <span
-                className={`py-2 px-3 min-w-20 text-center rounded-full text-sm ml-auto ${
+                className={`py-2 px-3 min-w-20 text-center rounded-full text-sm ${
                   entry?.type === "movie"
                     ? "bg-blue-600"
                     : entry?.type === "tv"
@@ -141,9 +141,9 @@ const WatchList = () => {
                   entry?.type.slice(1)}
               </span>
               <Trash
-                className="size-5 ml-4 cursor-pointer hover:fill-red-500 hover:text-gray-100"
+                className="size-5 ml-4 flex-shrink-0 cursor-pointer hover:fill-red-500 hover:text-gray-100"
                 onClick={(e) => {
-                  e.preventDefault(); // Prevent navigation when deleting
+                  e.preventDefault();
                   handleDelete(entry);
                 }}
               />

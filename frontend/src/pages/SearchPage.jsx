@@ -213,7 +213,7 @@ const SearchPage = () => {
                   />
                   <h2 className="mt-2 text-sm sm:text-xl font-bold">
                     {nameOrTitle} (
-                    {item?.release_date?.split("-")[0]} || NA)
+                    {item?.release_date?.split("-")[0] || "NA"})
                   </h2>
                 </Link>
               );
