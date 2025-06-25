@@ -16,7 +16,7 @@ const Footer = () => {
           </a>
           . The Source code is available on{" "}
           <a
-            href="https://github.com/paramveer7267"
+            href="https://github.com/paramveer7267/FAMFLIX"
             target="_blank"
             rel="noreferrer"
             className="font-medium underline underline-offset-4"

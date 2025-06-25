@@ -10,7 +10,9 @@ import {
   TV_CATEGORIES,
 } from "../../utils/constants.js";
 import { useContentStore } from "../../store/content.js";
+import { useNavigate } from "react-router-dom";
 const HomeScreen = () => {
+  const navigate = useNavigate();
   const { trendingContent } = useGetTrendingContent();
   const { contentType } = useContentStore();
   const [imgLoading, setImgLoading] = React.useState(true);
@@ -25,6 +27,11 @@ const HomeScreen = () => {
       </div>
     );
   }
+  const handleToggle = (e) => {
+    if (e.target.checked) {
+      navigate("/anime");
+    }
+  };
 
   return (
     <>
@@ -102,7 +109,10 @@ const HomeScreen = () => {
         </div>
       </div>
       <div className="flex flex-col gap-10 bg-black py-10">
-        <h2 className="text-2xl md:text-4xl mx-auto text-white px-5 font-bold md:px-20">{contentType.toUpperCase()}{contentType === "tv" ? " Shows" : "S"}</h2>   
+        <h2 className="text-2xl md:text-4xl mx-auto text-white px-5 font-bold md:px-20">
+          {contentType.toUpperCase()}
+          {contentType === "tv" ? " Shows" : "S"}
+        </h2>
         {contentType === "movie"
           ? MOVIE_CATEGORIES.map((category) => (
               <MovieSlider
@@ -118,6 +128,19 @@ const HomeScreen = () => {
               />
             ))
           : null}
+        <div
+          className="flex flex-col
+        items-center justify-center  font-semibold "
+        >
+          <h2 className="mb-2 text-white text-lg lg:text-2xl font-serif">Switch to Anime World</h2>
+          <label class="switch">
+            <input
+              type="checkbox"
+              onChange={handleToggle}
+            />
+            <span class="slider round"></span>
+          </label>
+        </div>
       </div>
     </>
   );

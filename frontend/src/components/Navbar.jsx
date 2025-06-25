@@ -29,8 +29,8 @@ const Navbar = () => {
     }
   }, []);
   return (
-    <header className="  max-w-6xl mx-auto flex flex-wrap justify-between items-center p-4 h-20">
-      <div className="flex items-center justify-center gap-10 z-50 ">
+    <header className="  max-w-7xl mx-auto flex flex-wrap justify-between items-center p-4 h-20">
+      <div className="flex items-center justify-center gap-25 z-50 ">
         <Link to="/">
           <img
             src="/famflix logo wobg.png"
@@ -39,7 +39,7 @@ const Navbar = () => {
           />
         </Link>
         {/* desktop navbar items*/}
-        <div className="hidden ml-20 sm:flex gap-20 items-center">
+        <div className="hidden sm:flex gap-20 items-center">
           <Link
             to="/"
             className="hover:underline"
@@ -53,6 +53,13 @@ const Navbar = () => {
             onClick={() => setContentType("tv")}
           >
             TV Shows
+          </Link>
+          <Link
+            to="/anime"
+            className="hover:underline"
+            
+          >
+            Animes
           </Link>
           <Link to="/history" className="hover:underline">
             Search History

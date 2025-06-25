@@ -5,6 +5,7 @@ import HomePage from "./pages/home/HomePage";
 import WatchPage from "./pages/WatchPage.jsx";
 import WatchList from "./pages/WatchList.jsx";
 import GenrePage from "./pages/GenrePage.jsx";
+import AnimeHomePage from "./pages/home/AnimeHomePage.jsx";
 import ActorMovies from "./pages/ActorMovies.jsx";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
@@ -14,6 +15,9 @@ import { Loader } from "lucide-react";
 import SearchPage from "./pages/SearchPage.jsx";
 import HistoryPage from "./pages/HistoryPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
+import { AnimeWatchPage } from "./pages/AnimeWatchPage.jsx";
+import PageSwitcher from "./components/PageSwitcher.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 
 function App() {
   const { user, isCheckingAuth, authCheck } =
@@ -83,6 +87,26 @@ function App() {
           element={
             user ? (
               <WatchList />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/anime"
+          element={
+            user ? (
+              <AnimeHomePage />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/anime/watch/:id"
+          element={
+            user ? (
+              <AnimeWatchPage />
             ) : (
               <Navigate to={"/login"} />
             )

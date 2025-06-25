@@ -3,6 +3,6 @@ import { getAnime } from "../controllers/anime.controller.js";
 
 const router = express.Router();
 
-router.get("/images/:category", getAnime);
+router.get("/info", getAnime);
 
 export default router;

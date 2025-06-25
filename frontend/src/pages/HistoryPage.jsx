@@ -125,9 +125,9 @@ const HistoryPage = () => {
               <img
                 src={ORIGINAL_IMG_BASE_URL + entry?.image}
                 alt="poster image"
-                className="size-10 md:size-16 rounded object-cover mr-4"
+                className="size-10 md:size-16 rounded object-cover mr-4 flex-shrink-0"
               />
-              <div className="flex flex-col">
+              <div className="flex flex-col flex-grow">
                 <span className="text-white font-semibold text-sm">
                   {entry?.title || entry?.name}
                 </span>
@@ -148,7 +148,7 @@ const HistoryPage = () => {
                   entry?.searchType.slice(1)}
               </span>
               <Trash
-                className="size-5 ml-4 cursor-pointer hover:fill-red-500 hover:text-gray-100"
+                className="size-5 ml-4 cursor-pointer hover:fill-red-500 hover:text-gray-100 flex-shrink-0"
                 onClick={(e) => {
                   e.preventDefault(); // Prevent navigation when deleting
                   handleDelete(entry);

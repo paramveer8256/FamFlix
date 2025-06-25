@@ -31,14 +31,14 @@ export const fetchFromTMDB = async (url) => {
 };
 
 export const fetchAnimeData = async (url) => {
-  const options = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+  // const options = {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // };
 
   try {
-    const response = await axios.get(url, options); // Pass only headers as options
+    const response = await axios.get(url); // Pass only headers as options
     return response.data; // Return the data directly
   } catch (error) {
     console.error("Error fetching anime data:", error);
@@ -46,7 +46,8 @@ export const fetchAnimeData = async (url) => {
   }
 };
 
-// export const fetchMovieData = async (url) => {
+
+// export const fetchAnimeData = async (url) => {
 //   const options = {
 //     headers: {
 //       "Content-Type": "application/json",
@@ -55,9 +56,11 @@ export const fetchAnimeData = async (url) => {
 
 //   try {
 //     const response = await axios.get(url, options); // Pass only headers as options
-//     return response; // Return the data directly
+//     return response.data; // Return the data directly
 //   } catch (error) {
 //     console.error("Error fetching anime data:", error);
 //     return null; // Return null to indicate failure
 //   }
 // };
+
+

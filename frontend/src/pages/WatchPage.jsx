@@ -48,7 +48,8 @@ const WatchPage = () => {
     if (user?.watchList) {
       const bookmarked = user.watchList.some(
         (item) =>
-          String(item.id) === id && (item.type === "movie" || item.type === "tv")
+          String(item.id) === id &&
+          (item.type === "movie" || item.type === "tv")
       );
       setIsBookmarked(bookmarked);
     }
@@ -286,7 +287,7 @@ const WatchPage = () => {
                     allowFullScreen
                     className="block mx-auto border-2 border-[#1E90FF] lg:hidden rounded mt-4"
                   ></iframe>
-                ) : (
+                ) : category === "tv" ? (
                   <iframe
                     src={`https://vidsrc.icu/embed/tv/${id}/${seasonNumber}/${episodeNumber}`}
                     width="95%"
@@ -295,7 +296,7 @@ const WatchPage = () => {
                     allowFullScreen
                     className="block mx-auto border-2 border-[#1E90FF] lg:hidden rounded mt-4"
                   ></iframe>
-                )}
+                ) : null}
 
                 {/* Desktop iframe */}
                 {category === "movie" ? (
