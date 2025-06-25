@@ -132,13 +132,15 @@ const HomeScreen = () => {
           className="flex flex-col
         items-center justify-center  font-semibold "
         >
-          <h2 className="mb-2 text-white text-lg lg:text-2xl font-serif">Switch to Anime World</h2>
-          <label class="switch">
+          <h2 className="mb-2 text-white text-lg lg:text-2xl font-serif">
+            Switch to Anime World
+          </h2>
+          <label className="switch">
             <input
               type="checkbox"
               onChange={handleToggle}
             />
-            <span class="slider round"></span>
+            <span className="slider round"></span>
           </label>
         </div>
       </div>

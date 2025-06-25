@@ -5,7 +5,7 @@ import { useAuthUserStore } from "../store/authUser.js";
 import { useContentStore } from "../store/content.js";
 import axios from "axios";
 
-const Navbar = () => {
+const AnimeNav = () => {
   const { user, logout } = useAuthUserStore();
   const { setContentType } = useContentStore();
   const [genres, setGenres] = React.useState([]);
@@ -19,7 +19,7 @@ const Navbar = () => {
       // Fetch genres from the API
       const fetchGenres = async () => {
         const response = await axios.get(
-          "/api/v1/movie/genre"
+          "/api/v1/anime/genre"
         );
         setGenres(response.data.genres);
       };
@@ -31,9 +31,9 @@ const Navbar = () => {
   return (
     <header className="  max-w-6xl mx-auto flex flex-wrap justify-between items-center p-4 h-20">
       <div className="flex items-center justify-center gap-25 z-50 ">
-        <Link to="/">
+        <Link to="/anime ">
           <img
-            src="/famflix logo wobg.png"
+            src="/anime-logo.png"
             alt="Logo"
             className="w-32 sm:w-40 "
           />
@@ -41,18 +41,18 @@ const Navbar = () => {
         {/* desktop navbar items*/}
         <div className="hidden sm:flex gap-20 items-center">
           <Link
-            to="/"
+            to="/anime"
             className="hover:underline"
             onClick={() => setContentType("movie")}
           >
-            Movies
+            Home
           </Link>
           <Link
-            to="/"
+            to="/anime/news"
             className="hover:underline"
             onClick={() => setContentType("tv")}
           >
-            TV Shows
+            Anime News
           </Link>
           <Link to="/history" className="hover:underline">
             History
@@ -65,12 +65,12 @@ const Navbar = () => {
               Genres
             </Link>
             <div className="dropdown-content z-50">
-              <div className="genre-container max-h-63">
+              <div className="genre-container max-h-120">
                 {genres.map((genre) => (
                   <Link
-                    to={`/genre/${genre?.id}/${genre?.name}`}
+                    to={`/anime/genre/${genre?.id}/${genre?.name}`}
                     key={genre?.id}
-                    className="py-2.5 px-2.5"
+                    className="px-2"
                   >
                     {genre?.name}
                   </Link>
@@ -106,31 +106,23 @@ const Navbar = () => {
       {isMobile && (
         <div className="sm:hidden z-90 absolute top-20 left-0 w-full bg-black border border-gray-800 rounded-md shadow-lg">
           <Link
-            to="/"
+            to="/anime"
             className="hover:underline p-2 block"
-            onClick={() => {
-              handleToggle();
-              setContentType("movie");
-            }}
           >
-            Movies
+            Home
           </Link>
           <Link
-            to="/"
+            to="/anime/news"
             className="hover:underline p-2 block"
-            onClick={() => {
-              handleToggle();
-              setContentType("tv");
-            }}
           >
-            TV Shows
+            Anime News
           </Link>
           <Link
             to="/history"
             className="hover:underline p-2 block"
             onClick={handleToggle}
           >
-            Search History
+            History
           </Link>
           <Link
             to="/watchlist"
@@ -141,16 +133,16 @@ const Navbar = () => {
           </Link>
           <Link
             to="#"
-            className=" px-2 text-xl block text-[#1E90FF] "
+            className=" px-2 text-xl block text-red-500 "
           >
             Genres List
           </Link>
-          <div className="px-4 py-1 flex flex-wrap text-sm gap-x-5 max-h-35 flex-col">
+          <div className="px-4 py-1 flex flex-wrap text-xs gap-x-5 max-h-145 flex-col">
             {genres.map((genre) => (
               <Link
-                to={`/genre/${genre?.id}/${genre?.name}`}
+                to={`/anime/genre/${genre?.id}/${genre?.name}`}
                 key={genre?.id}
-                className="py-0.5"
+                className="py-0.5 px-0.5"
               >
                 {genre?.name}
               </Link>
@@ -162,4 +154,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default AnimeNav;

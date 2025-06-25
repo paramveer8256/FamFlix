@@ -81,7 +81,7 @@ body {
   background-color: white;
   min-width: 160px;
   top:25px;
-  left: -200px;
+  left: -100px;
   box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
   z-index: 1;
   border-radius: 6px;
@@ -89,7 +89,6 @@ body {
 
 .dropdown-content a {
   color: black;
-  padding: 10px 16px;
   display: block;
   text-decoration: none;
 }
@@ -108,7 +107,6 @@ body {
   display: flex;
   flex-wrap: wrap;
   width: max-content;
-  max-height: 250px;
   flex-direction: column;
 }
 

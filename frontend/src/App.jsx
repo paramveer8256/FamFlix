@@ -15,9 +15,8 @@ import { Loader } from "lucide-react";
 import SearchPage from "./pages/SearchPage.jsx";
 import HistoryPage from "./pages/HistoryPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
-import { AnimeWatchPage } from "./pages/AnimeWatchPage.jsx";
-import PageSwitcher from "./components/PageSwitcher.jsx";
-import ScrollToTop from "./components/ScrollToTop.jsx";
+import AnimeWatchPage  from "./pages/ANIFLIX/AnimeWatchPage.jsx";
+
 
 function App() {
   const { user, isCheckingAuth, authCheck } =

@@ -101,7 +101,7 @@ const HistoryPage = () => {
       <Navbar />
       <div className="max-w-6xl mx-auto px-4 py-8">
         <h1 className="font-bold text-center mb-6 text-3xl">
-          Search History
+          History
         </h1>
         <div>
           <h2
@@ -118,6 +118,8 @@ const HistoryPage = () => {
               to={
                 entry?.searchType === "movie"
                   ? `/watch/movie/${entry?.id}`
+                  : entry?.searchType === "tv"
+                  ? `/watch/tv/${entry?.id}`
                   : `/actor/movie/${entry?.id}/${entry?.title}`
               }
               className="bg-gray-800 p-4 rounded flex items-start hover:bg-gray-700 transition hover:scale-105"
