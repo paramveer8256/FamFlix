@@ -130,7 +130,7 @@ const Navbar = () => {
             className="hover:underline p-2 block"
             onClick={handleToggle}
           >
-            Search History
+            History
           </Link>
           <Link
             to="/watchlist"

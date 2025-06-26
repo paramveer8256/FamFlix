@@ -215,17 +215,17 @@ const WatchPage = () => {
           </button>
           <button
             className={`py-2 px-4 rounded ${
-              tab === "trailers"
+              tab === "trailer"
                 ? "bg-red-500/80 text-white"
                 : "bg-gray-800 text-gray-300"
             } hover:bg-red-500/90`}
-            onClick={() => handleClick("trailers")}
+            onClick={() => handleClick("trailer")}
           >
             Trailers
           </button>
         </div>
         {trailers?.length > 0 &&
-          (tab === "trailers" ? (
+          (tab === "trailer" ? (
             <div className="flex justify-between items-center my-4 px-4">
               <button
                 className={`bg-gray-500/70 hover:bg-gray-500  text-white py-2 px-4 rounded
@@ -260,82 +260,82 @@ const WatchPage = () => {
           ) : null)}
 
         <div
-          className={` ${
-            trailers?.length === 0 ? null : "aspect-video"
-          }  mb-8  p-2 sm:px-10 md:px-32 `}
+          className={`aspect-video mb-8  p-2 sm:px-10 md:px-32 `}
         >
-          (tab === "trailers" ? (
-          <ReactPlayer
-            controls={true}
-            width={"100%"}
-            height={"90%"}
-            className="mx-auto overflow-hidden rounded-lg"
-            url={`https://www.youtube.com/embed/${
-              trailers[currTrailersIdx]?.key || ""
-            }`}
-          />
+          {tab === "trailer" ? (
+            trailers.length === 0 ? null : (
+              <ReactPlayer
+                controls={true}
+                width={"100%"}
+                height={"90%"}
+                className="mx-auto overflow-hidden rounded-lg"
+                url={`https://www.youtube.com/embed/${
+                  trailers[currTrailersIdx]?.key || ""
+                }`}
+              />
+            )
           ) : (
-          <div className="relative w-full h-full mb-4">
-            {/* Mobile iframe */}
-            {category === "movie" ? (
-              <iframe
-                src={`https://vidsrc.icu/embed/movie/${id}`}
-                width="95%"
-                height="90%"
-                referrerPolicy="origin"
-                allowFullScreen
-                className="block mx-auto border-2 border-[#1E90FF] lg:hidden rounded mt-4"
-              ></iframe>
-            ) : category === "tv" ? (
-              <iframe
-                src={`https://vidsrc.icu/embed/tv/${id}/${seasonNumber}/${episodeNumber}`}
-                width="95%"
-                height="90%"
-                referrerPolicy="origin"
-                allowFullScreen
-                className="block mx-auto border-2 border-[#1E90FF] lg:hidden rounded mt-4"
-              ></iframe>
-            ) : null}
+            <div className="relative w-full h-full mb-4">
+              {/* Mobile iframe */}
+              {category === "movie" ? (
+                <iframe
+                  src={`https://vidsrc.icu/embed/movie/${id}`}
+                  width="95%"
+                  height="90%"
+                  referrerPolicy="origin"
+                  allowFullScreen
+                  className="block mx-auto border-2 border-[#1E90FF] lg:hidden rounded mt-4"
+                ></iframe>
+              ) : category === "tv" ? (
+                <iframe
+                  src={`https://vidsrc.icu/embed/tv/${id}/${seasonNumber}/${episodeNumber}`}
+                  width="95%"
+                  height="90%"
+                  referrerPolicy="origin"
+                  allowFullScreen
+                  className="block mx-auto border-2 border-[#1E90FF] lg:hidden rounded mt-4"
+                ></iframe>
+              ) : null}
 
-            {/* Desktop iframe */}
-            {category === "movie" ? (
-              <>
-                <iframe
-                  src={`https://vidsrc.xyz/embed/movie?tmdb=${id}`}
-                  width="90%"
-                  height="80%"
-                  allowFullScreen
-                  className="lg:block hidden mx-auto rounded-xl mt-4 border-2 border-[#1E90FF]"
-                ></iframe>
-                <p className="md:px-13 px-2 pt-2 text-sm sm:text-xl italic ">
-                  Use Brave browser for no ads.😎
-                </p>
-                <p className="md:px-13 px-2 text-sm sm:text-lg italic">
-                  Report any broken link.🥲
-                </p>
-              </>
-            ) : (
-              <>
-                <iframe
-                  src={`https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${seasonNumber}&episode=${episodeNumber}`}
-                  width="90%"
-                  height="80%"
-                  allowFullScreen
-                  className="lg:block hidden mx-auto rounded-xl mt-4 border-2 border-[#1E90FF]"
-                ></iframe>
-                <p className="md:px-13 px-2 pt-2 text-sm sm:text-xl italic">
-                  Use Brave browser for no ads.😎
-                </p>
-                <p className="md:px-13 px-2 text-sm sm:text-lg italic">
-                  Report any broken link.🥲
-                </p>
-              </>
-            )}
-          </div>
-          ))
-          {trailers?.length === 0 && (
+              {/* Desktop iframe */}
+              {category === "movie" ? (
+                <>
+                  <iframe
+                    src={`https://vidsrc.xyz/embed/movie?tmdb=${id}`}
+                    width="90%"
+                    height="80%"
+                    allowFullScreen
+                    className="lg:block hidden mx-auto rounded-xl mt-4 border-2 border-[#1E90FF]"
+                  ></iframe>
+                  <p className="md:px-13 px-2 pt-2 text-sm sm:text-xl italic ">
+                    Use Brave browser for no ads.😎
+                  </p>
+                  <p className="md:px-13 px-2 text-sm sm:text-lg italic">
+                    Report any broken link.🥲
+                  </p>
+                </>
+              ) : (
+                <>
+                  <iframe
+                    src={`https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${seasonNumber}&episode=${episodeNumber}`}
+                    width="90%"
+                    height="80%"
+                    allowFullScreen
+                    className="lg:block hidden mx-auto rounded-xl mt-4 border-2 border-[#1E90FF]"
+                  ></iframe>
+                  <p className="md:px-13 px-2 pt-2 text-sm sm:text-xl italic">
+                    Use Brave browser for no ads.😎
+                  </p>
+                  <p className="md:px-13 px-2 text-sm sm:text-lg italic">
+                    Report any broken link.🥲
+                  </p>
+                </>
+              )}
+            </div>
+          )}
+          {trailers?.length === 0 && tab === "trailer" && (
             <h2 className="text-xl text-center mt-4">
-              No trailers or media available for{" "}
+              No trailers available for{" "}
               <span className="font-bold text-[#1E90FF]">
                 {content?.title || content?.name}
               </span>

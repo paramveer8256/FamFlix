@@ -72,7 +72,7 @@ const HistoryPage = () => {
         <Navbar />
         <div className="max-w-6xl mx-auto px-4 py-8">
           <h1 className=" font-bold text-center mb-8 text-3xl">
-            Search History
+            History
           </h1>
           <div className="flex justify-center items-center h-96">
             <p className="text-xl">
