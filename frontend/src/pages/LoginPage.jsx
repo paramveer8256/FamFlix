@@ -2,12 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuthUserStore } from "../store/authUser";
 const LoginPage = () => {
-  const [emailorusername, setemailorusername] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const { searchParams } = new URL(document.location);
+  const emailParam = searchParams.get("email");
+  const passwordParam = searchParams.get("password");
+  const [emailorusername, setemailorusername] =
+    React.useState(emailParam || "");
+  const [password, setPassword] = React.useState(passwordParam || "");
   const [showPassword, setShowPassword] =
-      React.useState(false);
-  
-  const { login,isLoggingIn } = useAuthUserStore();
+    React.useState(false);
+
+  const { login, isLoggingIn } = useAuthUserStore();
   const handleLogin = (e) => {
     e.preventDefault();
     login({ emailorusername, password });
@@ -45,7 +49,9 @@ const LoginPage = () => {
                 className="w-full px-3 py-2 rounded-md border border-gray-700 text-white bg-transparent focus:outline-none focus:ring"
                 placeholder="Enter Email or Username"
                 value={emailorusername}
-                onChange={(e) => setemailorusername(e.target.value)}
+                onChange={(e) =>
+                  setemailorusername(e.target.value)
+                }
               />
             </div>
 
@@ -75,9 +81,10 @@ const LoginPage = () => {
                 />
               </label>
             </div>
-            <button 
-            disabled={isLoggingIn}
-            className="w-full py-2 bg-[#1E90FF] hover:bg-[#1f88e5] active:bg-[#529af1] text-white font-semibold rounded-md">
+            <button
+              disabled={isLoggingIn}
+              className="w-full py-2 bg-[#1E90FF] hover:bg-[#1f88e5] active:bg-[#529af1] text-white font-semibold rounded-md"
+            >
               {isLoggingIn ? "Logging in..." : "Log In"}
             </button>
           </form>
