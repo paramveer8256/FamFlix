@@ -386,7 +386,7 @@ const WatchPage = () => {
                 {content?.genres?.map((element, index) => (
                   <span key={element.id}>
                     <Link
-                      to={`/genre/${element?.id}/${element?.name}`}
+                      to={`/genre/${category}/${element?.id}/${element?.name}`}
                       className="text-gray-400 text-sm md:text-lg hover:underline"
                     >
                       {element?.name}

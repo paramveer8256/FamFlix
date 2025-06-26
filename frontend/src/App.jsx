@@ -112,7 +112,7 @@ function App() {
           }
         />
         <Route
-          path="/genre/:id/:genreName"
+          path="/genre/:category/:id/:genreName"
           element={
             user ? (
               <GenrePage />
