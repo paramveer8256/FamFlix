@@ -1,5 +1,5 @@
 import { LogOut, Menu, Search } from "lucide-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthUserStore } from "../store/authUser.js";
 import { useContentStore } from "../store/content.js";
@@ -7,7 +7,7 @@ import axios from "axios";
 
 const Navbar = () => {
   const { user, logout } = useAuthUserStore();
-  const { setContentType } = useContentStore();
+  const { contentType, setContentType } = useContentStore();
   const [genres, setGenres] = React.useState([]);
   const [isMobile, setIsMobile] = React.useState(false);
   const handleToggle = () => {
@@ -19,7 +19,7 @@ const Navbar = () => {
       // Fetch genres from the API
       const fetchGenres = async () => {
         const response = await axios.get(
-          "/api/v1/movie/genre"
+          `/api/v1/${contentType}/genre`
         );
         setGenres(response.data.genres);
       };
@@ -27,7 +27,7 @@ const Navbar = () => {
     } catch (error) {
       console.error("Error fetching genres:", error);
     }
-  }, []);
+  }, [contentType]);
   return (
     <header className="  max-w-6xl mx-auto flex flex-wrap justify-between items-center p-4 h-20">
       <div className="flex items-center justify-center gap-25 z-50 ">
@@ -68,7 +68,7 @@ const Navbar = () => {
               <div className="genre-container max-h-63">
                 {genres.map((genre) => (
                   <Link
-                    to={`/genre/${genre?.id}/${genre?.name}`}
+                    to={`/genre/${contentType}/${genre?.id}/${genre?.name}`}
                     key={genre?.id}
                     className="py-2.5 px-2.5"
                   >
@@ -145,10 +145,10 @@ const Navbar = () => {
           >
             Genres List
           </Link>
-          <div className="px-4 py-1 flex flex-wrap text-sm gap-x-5 max-h-35 flex-col">
+          <div className="px-4 py-1 flex flex-wrap text-sm gap-x-2 max-h-35 flex-col">
             {genres.map((genre) => (
               <Link
-                to={`/genre/${genre?.id}/${genre?.name}`}
+                to={`/genre/${contentType}/${genre?.id}/${genre?.name}`}
                 key={genre?.id}
                 className="py-0.5"
               >
