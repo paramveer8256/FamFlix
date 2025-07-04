@@ -42,7 +42,7 @@ const SearchPage = () => {
         newResults.forEach((item) => {
           if (
             item.profile_path &&
-      !uniqueByName[item.name]
+            !uniqueByName[item.name]
           ) {
             uniqueByName[item.name] = item;
           }
@@ -105,24 +105,29 @@ const SearchPage = () => {
       <div className="container mx-auto px-4 py-4">
         {/* Tab Switcher */}
         <div className="flex justify-center gap-3 mb-4">
-          {/* {["movie", "tv", "person"].map((tab) => (
-            <button
-              key={tab}
-              className={`py-2 px-4 rounded ${
-                activeTab === tab
-                  ? tab === "movie"
-                    ? "bg-blue-500"
-                    : tab === "tv"
-                    ? "bg-green-500"
-                    : tab === "person"
-                    ? "bg-red-500"
-                  : "bg-gray-800 text-gray-300"
-              } text-white hover:scale-105 transition`}
-              onClick={() => handleClick(tab)}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))} */}
+          {["movie", "tv", "person"].map((tab) => {
+            const isActive = activeTab === tab;
+            const activeColor =
+              tab === "movie"
+                ? "bg-blue-500"
+                : tab === "tv"
+                ? "bg-green-500"
+                : "bg-red-500";
+
+            return (
+              <button
+                key={tab}
+                className={`py-2 px-4 rounded ${
+                  isActive
+                    ? activeColor
+                    : "bg-gray-800 text-gray-300"
+                } text-white hover:scale-105 transition`}
+                onClick={() => handleClick(tab)}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </button>
+            );
+          })}
         </div>
 
         {/* Search Bar */}
