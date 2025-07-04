@@ -15,11 +15,9 @@ const SearchPage = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const { setContentType } = useContentStore();
 
   const handleClick = (tab) => {
     setActiveTab(tab);
-    setContentType(tab);
     setSearchResults([]);
     setPage(1);
     setHasMore(true);
@@ -36,20 +34,20 @@ const SearchPage = () => {
 
       let newResults = res.data?.content || [];
 
-      // if (activeTab === "person") {
-      //   const uniqueByName = {};
-      //   newResults.forEach((item) => {
-      //     if (
-      //       item?.profile_path &&
-      //       !uniqueByName[item?.name]
-      //     ) {
-      //       uniqueByName[item.name] = item;
-      //     }
-      //   });
-      //   newResults = Object.values(uniqueByName)
-      //     .sort((a, b) => b.popularity - a.popularity)
-      //     .slice(0, 12);
-      // }
+      if (activeTab === "person") {
+        const uniqueByName = {};
+        newResults.forEach((item) => {
+          if (
+            item?.profile_path &&
+            !uniqueByName[item?.name]
+          ) {
+            uniqueByName[item.name] = item;
+          }
+        });
+        newResults = Object.values(uniqueByName)
+          .sort((a, b) => b.popularity - a.popularity)
+          .slice(0, 12);
+      }
 
       setSearchResults((prev) => [...prev, ...newResults]);
       setPage((prev) => prev + 1);
