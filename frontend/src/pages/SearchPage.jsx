@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import SearchSkeleton from "../components/skeletons/SearchSkeleton.jsx";
 
 const SearchPage = () => {
-  const [activeTab, setActiveTab] = useState("movie");
+  const [activeTab, setActiveTab] = useState("person");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -112,7 +112,9 @@ const SearchPage = () => {
                 ? "bg-blue-500"
                 : tab === "tv"
                 ? "bg-green-500"
-                : "bg-red-500";
+                : tab === "person"
+                ? "bg-red-500"
+                : "bg-gray-800 text-gray-300";
 
             return (
               <button
