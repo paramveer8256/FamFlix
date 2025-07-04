@@ -105,7 +105,7 @@ const SearchPage = () => {
       <div className="container mx-auto px-4 py-4">
         {/* Tab Switcher */}
         <div className="flex justify-center gap-3 mb-4">
-          {["movie", "tv", "person"].map((tab) => (
+          {/* {["movie", "tv", "person"].map((tab) => (
             <button
               key={tab}
               className={`py-2 px-4 rounded ${
@@ -122,7 +122,7 @@ const SearchPage = () => {
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
-          ))}
+          ))} */}
         </div>
 
         {/* Search Bar */}
