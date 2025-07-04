@@ -34,12 +34,13 @@ const SearchPage = () => {
 
       let newResults = res.data?.content || [];
 
+      // Filter duplicates and people without images
       if (activeTab === "person") {
         const uniqueByName = {};
         newResults.forEach((item) => {
           if (
-            item?.profile_path &&
-            !uniqueByName[item?.name]
+            item.profile_path &&
+            !uniqueByName[item.name]
           ) {
             uniqueByName[item.name] = item;
           }
@@ -58,7 +59,7 @@ const SearchPage = () => {
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          "Failed to fetch results"
+          "Error fetching results. Please try again."
       );
       setHasMore(false);
     } finally {
@@ -88,13 +89,13 @@ const SearchPage = () => {
     window.addEventListener("scroll", handleScroll);
     return () =>
       window.removeEventListener("scroll", handleScroll);
-  }, [page, loading, hasMore, searchQuery, activeTab]);
+  }, [page, loading, hasMore]);
 
   useEffect(() => {
     setSearchResults([]);
     setPage(1);
     setHasMore(true);
-  }, [searchQuery, activeTab]);
+  }, [searchQuery]);
 
   return (
     <div className="bg-black min-h-screen text-white">
@@ -104,21 +105,24 @@ const SearchPage = () => {
         <div className="flex justify-center gap-3 mb-4">
           {["movie", "tv", "person"].map((tab) => {
             const isActive = activeTab === tab;
-            const tabColor = {
-              movie: "bg-blue-500",
-              tv: "bg-green-500",
-              person: "bg-red-500",
-            }[tab];
+            const activeColor =
+              tab === "movie"
+                ? "bg-blue-500"
+                : tab === "tv"
+                ? "bg-green-500"
+                : tab === "person"
+                ? "bg-red-500"
+                : "bg-gray-800 text-gray-300";
 
             return (
               <button
                 key={tab}
-                onClick={() => handleClick(tab)}
                 className={`py-2 px-4 rounded ${
                   isActive
-                    ? `${tabColor} text-white`
+                    ? activeColor
                     : "bg-gray-800 text-gray-300"
-                } hover:scale-105 transition`}
+                } text-white hover:scale-105 transition`}
+                onClick={() => handleClick(tab)}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
               </button>
@@ -144,55 +148,53 @@ const SearchPage = () => {
         </form>
 
         {/* Results */}
-        {/* <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {Array.isArray(searchResults) &&
-            searchResults.map((item) => {
-              if (!item) return null;
-              const imagePath =
-                activeTab === "person"
-                  ? item?.profile_path
-                  : item?.poster_path;
-              const nameOrTitle = item?.title || item?.name;
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {searchResults.map((item) => {
+            const imagePath =
+              activeTab === "person"
+                ? item?.profile_path
+                : item?.poster_path;
+            const nameOrTitle = item?.title || item?.name;
 
-              if (!imagePath) return null;
+            if (!imagePath) return null;
 
-              const linkTo =
-                activeTab === "person"
-                  ? `/actor/movie/${item?.id}/${item?.name}`
-                  : `/watch/${activeTab}/${item?.id}`;
+            const linkTo =
+              activeTab === "person"
+                ? `/actor/movie/${item?.id}/${item?.name}`
+                : `/watch/${activeTab}/${item?.id}`;
 
-              const year =
-                activeTab === "movie"
-                  ? item?.release_date?.split("-")[0]
-                  : item?.first_air_date?.split("-")[0];
+            const year =
+              activeTab === "movie"
+                ? item?.release_date?.split("-")[0]
+                : item?.first_air_date?.split("-")[0];
 
-              return (
-                <Link
-                  to={linkTo}
-                  key={item?.id}
-                  className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition hover:scale-105"
-                >
-                  <img
-                    src={ORIGINAL_IMG_BASE_URL + imagePath}
-                    alt={nameOrTitle}
-                    className="w-full h-auto rounded"
-                  />
-                  <h2 className="mt-2 text-sm sm:text-xl font-bold text-center">
-                    {nameOrTitle} {year ? `(${year})` : ""}
-                  </h2>
-                </Link>
-              );
-            })}
-        </div> */}
+            return (
+              <Link
+                to={linkTo}
+                key={item?.id}
+                className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition hover:scale-105"
+              >
+                <img
+                  src={ORIGINAL_IMG_BASE_URL + imagePath}
+                  alt={nameOrTitle}
+                  className="w-full h-auto rounded"
+                />
+                <h2 className="mt-2 text-sm sm:text-xl font-bold text-center">
+                  {nameOrTitle} {year && `(${year})`}
+                </h2>
+              </Link>
+            );
+          })}
+        </div>
 
-        {/* No results */}
+        {/* No Results Found
         {!loading &&
-          searchQuery &&
-          searchResults.length === 0 && (
+          searchResults.length === 0 &&
+          searchQuery.trim() && (
             <p className="text-center text-gray-400 mt-10 text-xl">
               No results found for "{searchQuery}"
             </p>
-          )}
+          )} */}
 
         {/* Loading Skeleton */}
         {loading && (
