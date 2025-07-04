@@ -146,7 +146,7 @@ const SearchPage = () => {
         </form>
 
         {/* Results */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {/* <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {Array.isArray(searchResults) &&
             searchResults.map((item) => {
               if (!item) return null;
@@ -185,7 +185,7 @@ const SearchPage = () => {
                 </Link>
               );
             })}
-        </div>
+        </div> */}
 
         {/* No results */}
         {!loading &&
