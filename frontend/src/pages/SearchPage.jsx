@@ -41,18 +41,22 @@ const SearchPage = () => {
         const uniqueByName = {};
         newResults.forEach((item) => {
           if (
-            item.profile_path &&
-            !uniqueByName[item.name]
+            item?.profile_path &&
+            !uniqueByName[item?.name]
           ) {
             uniqueByName[item.name] = item;
           }
         });
-        newResults = Object.values(uniqueByName)
-          .sort((a, b) => b.popularity - a.popularity)
-          .slice(0, 12);
+        newResults =
+          Object.values(uniqueByName)
+            .sort((a, b) => b.popularity - a.popularity)
+            .slice(0, 12) || [];
       }
 
-      setSearchResults((prev) => [...prev, ...newResults]);
+      setSearchResults((prev) => [
+        ...prev,
+        ...(newResults || []),
+      ]);
       setPage((prev) => prev + 1);
 
       if (currentPage >= res.data.totalPages) {
