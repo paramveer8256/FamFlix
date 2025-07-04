@@ -148,7 +148,7 @@ const HistoryPage = () => {
               className="bg-gray-800 p-4 rounded flex items-center justify-between hover:bg-gray-700 transition hover:scale-105"
             >
               <Link
-                to={`/watch/${entry?.type}/${entry?.id}`}
+                to={`/watch/${entry?.searchType}/${entry?.id}`}
                 className="flex flex-grow items-start gap-4"
               >
                 <img

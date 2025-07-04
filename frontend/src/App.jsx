@@ -15,8 +15,8 @@ import { Loader } from "lucide-react";
 import SearchPage from "./pages/SearchPage.jsx";
 import HistoryPage from "./pages/HistoryPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
-import AnimeWatchPage  from "./pages/ANIFLIX/AnimeWatchPage.jsx";
-
+import AnimeWatchPage from "./pages/ANIFLIX/AnimeWatchPage.jsx";
+import ProfilePage from "./pages/Profile/ProfilePage.jsx";
 
 function App() {
   const { user, isCheckingAuth, authCheck } =
@@ -131,11 +131,20 @@ function App() {
             )
           }
         />
+        <Route
+          path="/profile/:username"
+          element={
+            user ? (
+              <ProfilePage />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
-      <Toaster 
-        position="top-center"/>
+      <Toaster position="top-center" />
     </>
   );
 }

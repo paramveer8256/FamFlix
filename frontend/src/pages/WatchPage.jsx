@@ -45,6 +45,16 @@ const WatchPage = () => {
   const episodeNumber = null;
 
   React.useEffect(() => {
+    async function watchHistory() {
+      await axios.post(`/api/v1/watchhistory/setcontent`, {
+        id,
+        category,
+      });
+    }
+    watchHistory();
+  }, [id, category]);
+
+  React.useEffect(() => {
     if (user?.watchList) {
       const bookmarked = user.watchList.some(
         (item) =>
@@ -54,8 +64,9 @@ const WatchPage = () => {
       setIsBookmarked(bookmarked);
     }
   }, [user, id]);
+
   const handleAddToWatchlist = async () => {
-    const promise = axios.get(
+    const promise = axios.post(
       `/api/v1/watchlist/${category}/${id}`
     );
 

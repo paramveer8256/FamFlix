@@ -9,6 +9,7 @@ import tvRoutes from "./routes/tv.route.js";
 import animeRoutes from "./routes/anime.route.js";
 import searchRoutes from "./routes/search.route.js";
 import watchListRoutes from "./routes/watch.route.js"
+import watchHistoryRoutes from "./routes/watchHistory.route.js";
 
 import { envVars } from "./config/envVars.js";
 import { connectDB } from "./config/db.js";
@@ -40,6 +41,8 @@ app.use("/api/v1/movie", protectRoute, movieRoutes);
 app.use("/api/v1/tv", protectRoute, tvRoutes);
 app.use("/api/v1/search", protectRoute, searchRoutes);
 app.use("/api/v1/watchlist", protectRoute, watchListRoutes);
+app.use("/api/v1/watchhistory", protectRoute, watchHistoryRoutes);
+
 
 if (envVars.NODE_ENV === "production") {
   app.use(

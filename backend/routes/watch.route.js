@@ -9,9 +9,10 @@ import {
 
 const router = express.Router();
 
+router.post("/movie/:id", setmovieToWatchList);
+router.post("/tv/:id", settvToWatchList);
+
 router.get("/movies", getWatchList);
-router.get("/movie/:id", setmovieToWatchList);
-router.get("/tv/:id", settvToWatchList);
 
 router.delete("/movies/clear", clearWatchList);
 router.delete("/movie/:id", deleteWatchList);

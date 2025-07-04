@@ -1,10 +1,10 @@
 import { LogOut, Menu, Search } from "lucide-react";
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuthUserStore } from "../store/authUser.js";
 import { useContentStore } from "../store/content.js";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const { user, logout } = useAuthUserStore();
   const { contentType, setContentType } = useContentStore();
@@ -13,6 +13,7 @@ const Navbar = () => {
   const handleToggle = () => {
     setIsMobile(!isMobile);
   };
+  const navigate = useNavigate();
 
   useEffect(() => {
     try {
@@ -81,7 +82,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="flex gap-2 items-center z-50">
+      <div className="flex gap-3 items-center z-50">
         <Link to="/search">
           <Search className="size-6 cursor-pointer" />
         </Link>
@@ -89,6 +90,9 @@ const Navbar = () => {
           src={user.image}
           alt="Avatar logo"
           className="h-6 rounded cursor-pointer"
+          onClick={() => {
+            navigate(`/profile/${user.username}`);
+          }}
         />
         <LogOut
           className="size-6 cursor-pointer"
