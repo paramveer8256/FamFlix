@@ -37,20 +37,20 @@ const SearchPage = () => {
       let newResults = res.data?.content || [];
 
       // Filter duplicates and people without images
-      // if (activeTab === "person") {
-      //   const uniqueByName = {};
-      //   newResults.forEach((item) => {
-      //     if (
-      //       item.profile_path &&
-      // !uniqueByName[item.name]
-      //     ) {
-      //       uniqueByName[item.name] = item;
-      //     }
-      //   });
-      //   newResults = Object.values(uniqueByName)
-      //     .sort((a, b) => b.popularity - a.popularity)
-      //     .slice(0, 12);
-      // }
+      if (activeTab === "person") {
+        const uniqueByName = {};
+        newResults.forEach((item) => {
+          if (
+            item.profile_path &&
+      !uniqueByName[item.name]
+          ) {
+            uniqueByName[item.name] = item;
+          }
+        });
+        newResults = Object.values(uniqueByName)
+          .sort((a, b) => b.popularity - a.popularity)
+          .slice(0, 12);
+      }
 
       setSearchResults((prev) => [...prev, ...newResults]);
       setPage((prev) => prev + 1);
@@ -114,7 +114,8 @@ const SearchPage = () => {
                     ? "bg-blue-500"
                     : tab === "tv"
                     ? "bg-green-500"
-                    : "bg-red-500/80"
+                    : tab === "person"
+                    ? "bg-red-500"
                   : "bg-gray-800 text-gray-300"
               } text-white hover:scale-105 transition`}
               onClick={() => handleClick(tab)}
