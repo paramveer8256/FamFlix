@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import SearchSkeleton from "../components/skeletons/SearchSkeleton.jsx";
 
 const SearchPage = () => {
-  const [activeTab, setActiveTab] = useState("person");
+  const [activeTab, setActiveTab] = useState("movie");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,6 @@ const SearchPage = () => {
 
       let newResults = res.data?.content || [];
 
-      // Filter duplicates and people without images
       if (activeTab === "person") {
         const uniqueByName = {};
         newResults.forEach((item) => {
@@ -47,16 +46,12 @@ const SearchPage = () => {
             uniqueByName[item.name] = item;
           }
         });
-        newResults =
-          Object.values(uniqueByName)
-            .sort((a, b) => b.popularity - a.popularity)
-            .slice(0, 12) || [];
+        newResults = Object.values(uniqueByName)
+          .sort((a, b) => b.popularity - a.popularity)
+          .slice(0, 12);
       }
 
-      setSearchResults((prev) => [
-        ...prev,
-        ...(newResults || []),
-      ]);
+      setSearchResults((prev) => [...prev, ...newResults]);
       setPage((prev) => prev + 1);
 
       if (currentPage >= res.data.totalPages) {
@@ -65,7 +60,7 @@ const SearchPage = () => {
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          "Error fetching results. Please try again."
+          "Failed to fetch results"
       );
       setHasMore(false);
     } finally {
@@ -95,13 +90,13 @@ const SearchPage = () => {
     window.addEventListener("scroll", handleScroll);
     return () =>
       window.removeEventListener("scroll", handleScroll);
-  }, [page, loading, hasMore]);
+  }, [page, loading, hasMore, searchQuery, activeTab]);
 
   useEffect(() => {
     setSearchResults([]);
     setPage(1);
     setHasMore(true);
-  }, [searchQuery]);
+  }, [searchQuery, activeTab]);
 
   return (
     <div className="bg-black min-h-screen text-white">
@@ -111,24 +106,21 @@ const SearchPage = () => {
         <div className="flex justify-center gap-3 mb-4">
           {["movie", "tv", "person"].map((tab) => {
             const isActive = activeTab === tab;
-            const activeColor =
-              tab === "movie"
-                ? "bg-blue-500"
-                : tab === "tv"
-                ? "bg-green-500"
-                : tab === "person"
-                ? "bg-red-500"
-                : "bg-gray-800 text-gray-300";
+            const tabColor = {
+              movie: "bg-blue-500",
+              tv: "bg-green-500",
+              person: "bg-red-500",
+            }[tab];
 
             return (
               <button
                 key={tab}
+                onClick={() => handleClick(tab)}
                 className={`py-2 px-4 rounded ${
                   isActive
-                    ? activeColor
+                    ? `${tabColor} text-white`
                     : "bg-gray-800 text-gray-300"
-                } text-white hover:scale-105 transition`}
-                onClick={() => handleClick(tab)}
+                } hover:scale-105 transition`}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
               </button>
@@ -188,21 +180,21 @@ const SearchPage = () => {
                     className="w-full h-auto rounded"
                   />
                   <h2 className="mt-2 text-sm sm:text-xl font-bold text-center">
-                    {nameOrTitle} {year && `(${year})`}
+                    {nameOrTitle} {year ? `(${year})` : ""}
                   </h2>
                 </Link>
               );
             })}
         </div>
 
-        {/* No Results Found
+        {/* No results */}
         {!loading &&
-          searchResults.length === 0 &&
-          searchQuery.trim() && (
+          searchQuery &&
+          searchResults.length === 0 && (
             <p className="text-center text-gray-400 mt-10 text-xl">
               No results found for "{searchQuery}"
             </p>
-          )} */}
+          )}
 
         {/* Loading Skeleton */}
         {loading && (
