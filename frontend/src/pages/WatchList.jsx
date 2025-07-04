@@ -73,7 +73,7 @@ const WatchList = () => {
         prev.filter((item) => item.id !== entry.id)
       );
       toast.success("Item deleted successfully");
-      authCheck();
+
       closeModal();
     } catch (error) {
       toast.error("Failed to delete the item");
@@ -130,9 +130,9 @@ const WatchList = () => {
           Watch List
         </h1>
 
-        <div>
+        <div className="flex justify-between items-center">
           <h2
-            className="text-red-500 font-semibold text-lg cursor-pointer px-2 mb-4"
+            className="text-red-500 inline font-semibold text-lg cursor-pointer px-2 mb-4"
             onClick={() => {
               openModal("Clear all Watchlist");
               setDeleteItemId("clear-history");

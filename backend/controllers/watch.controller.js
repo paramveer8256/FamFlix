@@ -29,11 +29,16 @@ export async function setmovieToWatchList(req, res) {
     await User.findByIdAndUpdate(req.user._id, {
       $push: {
         watchList: {
-          id: data.id,
-          title: data.title,
-          type: "movie",
-          image: data.poster_path,
-          created: new Date(),
+          $each: [
+            {
+              id: data.id,
+              title: data.title,
+              type: "movie",
+              image: data.poster_path,
+              created: new Date(),
+            },
+          ],
+          $position: 0,
         },
       },
     });
@@ -76,11 +81,16 @@ export async function settvToWatchList(req, res) {
     await User.findByIdAndUpdate(req.user._id, {
       $push: {
         watchList: {
-          id: data.id,
-          title: data.name,
-          type: "tv",
-          image: data.poster_path,
-          created: new Date(),
+          $each: [
+            {
+              id: data.id,
+              title: data.name,
+              type: "tv",
+              image: data.poster_path,
+              created: new Date(),
+            },
+          ],
+          $position: 0,
         },
       },
     });

@@ -64,9 +64,15 @@ export const useAuthUserStore = create((set) => ({
     } catch {
       set({ user: null, isCheckingAuth: false });
       // toast.error(
-      //   error.response.data.message ||
-      //     "Something went wrong"
+      //   error.response.data.message || "Something went wrong"
       // ); we dont add it because we dont want to show error if user is not logged in
     }
   },
+  updateWatchList: (newItem) =>
+    set((state) => ({
+      user: {
+        ...state.user,
+        watchList: [...(state.user?.watchList || []), newItem],
+      },
+    })),
 }));

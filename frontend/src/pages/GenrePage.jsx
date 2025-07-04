@@ -4,9 +4,9 @@ import Navbar from "../components/Navbar";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { ORIGINAL_IMG_BASE_URL } from "../utils/constants.js";
-import WatchPageSkeleton from "../components/skeletons/WatchPageSkeleton.jsx";
 import { BookmarkCheck, BookmarkPlus } from "lucide-react";
 import { useContentStore } from "../store/content.js";
+import SearchSkeleton from "../components/skeletons/SearchSkeleton.jsx";
 
 const GenrePage = () => {
   const { category, id, genreName } = useParams();
@@ -180,7 +180,7 @@ const GenrePage = () => {
         {/* Skeleton Loader */}
         {loading && (
           <div className="mt-8">
-            <WatchPageSkeleton />
+            <SearchSkeleton />
           </div>
         )}
       </div>

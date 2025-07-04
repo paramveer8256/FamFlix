@@ -130,7 +130,7 @@ const HistoryPage = () => {
         <h1 className="font-bold text-center mb-6 text-3xl">
           History
         </h1>
-        <div>
+        <div className="flex justify-between items-center">
           <h2
             className="text-red-500 font-semibold text-lg cursor-pointer px-2 mb-2"
             onClick={() => {
