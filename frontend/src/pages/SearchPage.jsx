@@ -155,42 +155,44 @@ const SearchPage = () => {
 
         {/* Results */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {searchResults.map((item) => {
-            const imagePath =
-              activeTab === "person"
-                ? item?.profile_path
-                : item?.poster_path;
-            const nameOrTitle = item?.title || item?.name;
+          {Array.isArray(searchResults) &&
+            searchResults.map((item) => {
+              if (!item) return null;
+              const imagePath =
+                activeTab === "person"
+                  ? item?.profile_path
+                  : item?.poster_path;
+              const nameOrTitle = item?.title || item?.name;
 
-            if (!imagePath) return null;
+              if (!imagePath) return null;
 
-            const linkTo =
-              activeTab === "person"
-                ? `/actor/movie/${item?.id}/${item?.name}`
-                : `/watch/${activeTab}/${item?.id}`;
+              const linkTo =
+                activeTab === "person"
+                  ? `/actor/movie/${item?.id}/${item?.name}`
+                  : `/watch/${activeTab}/${item?.id}`;
 
-            const year =
-              activeTab === "movie"
-                ? item?.release_date?.split("-")[0]
-                : item?.first_air_date?.split("-")[0];
+              const year =
+                activeTab === "movie"
+                  ? item?.release_date?.split("-")[0]
+                  : item?.first_air_date?.split("-")[0];
 
-            return (
-              <Link
-                to={linkTo}
-                key={item?.id}
-                className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition hover:scale-105"
-              >
-                <img
-                  src={ORIGINAL_IMG_BASE_URL + imagePath}
-                  alt={nameOrTitle}
-                  className="w-full h-auto rounded"
-                />
-                <h2 className="mt-2 text-sm sm:text-xl font-bold text-center">
-                  {nameOrTitle} {year && `(${year})`}
-                </h2>
-              </Link>
-            );
-          })}
+              return (
+                <Link
+                  to={linkTo}
+                  key={item?.id}
+                  className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition hover:scale-105"
+                >
+                  <img
+                    src={ORIGINAL_IMG_BASE_URL + imagePath}
+                    alt={nameOrTitle}
+                    className="w-full h-auto rounded"
+                  />
+                  <h2 className="mt-2 text-sm sm:text-xl font-bold text-center">
+                    {nameOrTitle} {year && `(${year})`}
+                  </h2>
+                </Link>
+              );
+            })}
         </div>
 
         {/* No Results Found
