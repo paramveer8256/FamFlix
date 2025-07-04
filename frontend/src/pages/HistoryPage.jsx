@@ -197,7 +197,7 @@ const HistoryPage = () => {
           isOpen={isModalOpen}
           onClose={closeModal}
           onConfirm={() => handleDelete(selectedItem)}
-          title="Delete from Watchlist"
+          title="Delete from History"
           message={`Are you sure you want to remove "${selectedItem?.title}"?`}
         />
       )}
