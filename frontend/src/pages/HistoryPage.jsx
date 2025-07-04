@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import { ORIGINAL_IMG_BASE_URL } from "../utils/constants";
 import { Trash } from "lucide-react";
 import toast from "react-hot-toast";
+import DeleteConfirmationModal from "../components/DeleteModal";
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -31,7 +32,19 @@ function formatDate(dateString) {
 const HistoryPage = () => {
   const [searchHistory, setSearchHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deleteItemId, setDeleteItemId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
+  const openModal = (item) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedItem(null);
+  };
   useEffect(() => {
     const getSearchHistory = async () => {
       try {
@@ -58,6 +71,7 @@ const HistoryPage = () => {
         prev.filter((item) => item.id !== entry.id)
       );
       toast.success("Item deleted successfully");
+      closeModal();
     } catch (error) {
       toast.error("Failed to delete the item");
     }
@@ -82,7 +96,9 @@ const HistoryPage = () => {
       <div className="bg-black min-h-screen text-white">
         <Navbar />
         <div className="max-w-6xl mx-auto px-4 py-8 text-center">
-          <h1 className="text-2xl font-bold">Loading history...</h1>
+          <h1 className="text-2xl font-bold">
+            Loading history...
+          </h1>
         </div>
       </div>
     );
@@ -117,60 +133,83 @@ const HistoryPage = () => {
         <div>
           <h2
             className="text-red-500 font-semibold text-lg cursor-pointer px-2 mb-2"
-            onClick={handleClear}
+            onClick={() => {
+              openModal("Clear all History");
+              setDeleteItemId("clear-history");
+            }}
           >
             Clear all
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {searchHistory.map((entry) => (
-            <Link
+            <div
               key={entry?._id}
-              to={
-                entry?.searchType === "movie"
-                  ? `/watch/movie/${entry?.id}`
-                  : entry?.searchType === "tv"
-                  ? `/watch/tv/${entry?.id}`
-                  : `/actor/movie/${entry?.id}/${entry?.title}`
-              }
-              className="bg-gray-800 p-4 rounded flex items-start hover:bg-gray-700 transition hover:scale-105"
+              className="bg-gray-800 p-4 rounded flex items-center justify-between hover:bg-gray-700 transition hover:scale-105"
             >
-              <img
-                src={ORIGINAL_IMG_BASE_URL + entry?.image}
-                alt="poster"
-                className="size-10 md:size-16 rounded object-cover mr-4 flex-shrink-0"
-              />
-              <div className="flex flex-col flex-grow">
-                <span className="text-white font-semibold text-sm">
-                  {entry?.title || entry?.name}
-                </span>
-                <span className="text-gray-400 text-sm">
-                  {formatDate(entry?.created)}
-                </span>
-              </div>
-              <span
-                className={`py-2 px-3 min-w-20 text-center rounded-full text-sm ml-auto ${
-                  entry?.searchType === "movie"
-                    ? "bg-blue-600"
-                    : entry?.searchType === "person"
-                    ? "bg-red-600"
-                    : "bg-green-600"
-                }`}
+              <Link
+                to={`/watch/${entry?.type}/${entry?.id}`}
+                className="flex flex-grow items-start gap-4"
               >
-                {entry?.searchType[0].toUpperCase() +
-                  entry?.searchType.slice(1)}
-              </span>
-              <Trash
-                className="size-5 ml-4 cursor-pointer hover:fill-red-500 hover:text-gray-100 flex-shrink-0"
-                onClick={(e) => {
-                  e.preventDefault(); // Prevent link navigation
-                  handleDelete(entry);
-                }}
-              />
-            </Link>
+                <img
+                  src={ORIGINAL_IMG_BASE_URL + entry?.image}
+                  alt={entry?.title}
+                  className="size-10 md:size-16 rounded object-cover flex-shrink-0"
+                />
+                <div className="flex flex-col">
+                  <span className="text-white font-semibold text-sm">
+                    {entry?.title}
+                  </span>
+                  <span className="text-gray-400 text-sm">
+                    {formatDate(entry?.created)}
+                  </span>
+                </div>
+              </Link>
+
+              <div className="flex items-center gap-2 ml-4">
+                <span
+                  className={`py-2 px-3 min-w-20 text-center rounded-full text-sm ${
+                    entry?.searchType === "movie"
+                      ? "bg-blue-600"
+                      : entry?.searchType === "tv"
+                      ? "bg-green-600"
+                      : "bg-red-600"
+                  }`}
+                >
+                  {entry?.searchType[0].toUpperCase() +
+                    entry?.searchType.slice(1)}
+                </span>
+                <Trash
+                  id="delete-item"
+                  className="size-5 cursor-pointer hover:fill-red-500 hover:text-gray-100"
+                  onClick={() => {
+                    openModal(entry);
+                    setDeleteItemId("delete-item");
+                  }}
+                />
+              </div>
+            </div>
           ))}
         </div>
       </div>
+      {deleteItemId === "delete-item" && (
+        <DeleteConfirmationModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onConfirm={() => handleDelete(selectedItem)}
+          title="Delete from Watchlist"
+          message={`Are you sure you want to remove "${selectedItem?.title}"?`}
+        />
+      )}
+      {deleteItemId === "clear-history" && (
+        <DeleteConfirmationModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onConfirm={() => handleClear(selectedItem)}
+          title="Clear Search History"
+          message={`Are you sure you want to clear all search history?`}
+        />
+      )}
     </div>
   );
 };
