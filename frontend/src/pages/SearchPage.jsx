@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { ORIGINAL_IMG_BASE_URL } from "../utils/constants.js";
 import { Link } from "react-router-dom";
-import WatchPageSkeleton from "../components/skeletons/WatchPageSkeleton.jsx";
+import SearchSkeleton from "../components/skeletons/SearchSkeleton.jsx";
 
 const SearchPage = () => {
   const [activeTab, setActiveTab] = useState("movie");
@@ -213,7 +213,9 @@ const SearchPage = () => {
                   />
                   <h2 className="mt-2 text-sm sm:text-xl font-bold">
                     {nameOrTitle} (
-                    {item?.release_date?.split("-")[0] || "NA"})
+                    {item?.release_date?.split("-")[0] ||
+                      "NA"}
+                    )
                   </h2>
                 </Link>
               );
@@ -235,7 +237,9 @@ const SearchPage = () => {
                   />
                   <h2 className="mt-2 text-sm sm:text-xl font-bold">
                     {nameOrTitle} (
-                    {item?.first_air_date?.split("-")[0] || "NA"})
+                    {item?.first_air_date?.split("-")[0] ||
+                      "NA"}
+                    )
                   </h2>
                 </Link>
               );
@@ -245,8 +249,8 @@ const SearchPage = () => {
 
         {/* Loading Skeleton */}
         {loading && (
-          <div className="mt-8">
-            <WatchPageSkeleton />
+          <div>
+            <SearchSkeleton />
           </div>
         )}
       </div>

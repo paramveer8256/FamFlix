@@ -55,21 +55,26 @@ const WatchPage = () => {
     }
   }, [user, id]);
   const handleAddToWatchlist = async () => {
+    const promise = axios.get(
+      `/api/v1/watchlist/${category}/${id}`
+    );
+
+    toast.promise(promise, {
+      loading: "Adding...",
+      success: "Added to watchlist!",
+      error: "Could not add to watchlist.",
+    });
+
     try {
-      const res = await axios.get(
-        `/api/v1/watchlist/${category}/${id}`
-      );
+      const res = await promise;
+
       if (res.data.success) {
         setIsBookmarked(true);
-        toast.success("Added to Watchlist");
       }
+
       authCheck();
     } catch (error) {
       console.error("Failed to add to watchlist", error);
-      toast.error(
-        error.response?.data?.message ||
-          "Failed to add to watchlist"
-      );
     }
   };
 

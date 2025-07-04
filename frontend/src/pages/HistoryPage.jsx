@@ -1,17 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
-import {
-  ORIGINAL_IMG_BASE_URL,
-  SMALL_IMG_BASE_URL,
-} from "../utils/constants";
+import { ORIGINAL_IMG_BASE_URL } from "../utils/constants";
 import { Trash } from "lucide-react";
 import toast from "react-hot-toast";
 
 function formatDate(dateString) {
   const date = new Date(dateString);
-
   const monthNames = [
     "Jan",
     "Feb",
@@ -26,46 +22,73 @@ function formatDate(dateString) {
     "Nov",
     "Dec",
   ];
-
   const month = monthNames[date.getUTCMonth()];
   const day = date.getUTCDate();
   const year = date.getUTCFullYear();
   return `${day} ${month} ${year}`;
 }
+
 const HistoryPage = () => {
-  const [searchHistory, setSearchHistory] = React.useState(
-    []
-  );
+  const [searchHistory, setSearchHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const getSearchHistory = async () => {
       try {
         const res = await axios.get(
           `/api/v1/search/history`
         );
-        console.log(res.data.content);
         setSearchHistory(res.data.content);
       } catch (error) {
-        error.response.data.message;
-        console.log(error.response.data.message);
+        console.log(error.response?.data?.message);
         setSearchHistory([]);
+      } finally {
+        setLoading(false); // ✅ Done loading
       }
     };
     getSearchHistory();
   }, []);
+
   async function handleDelete(entry) {
     try {
       await axios.delete(
         `/api/v1/search/history/${entry.id}`
       );
-      setSearchHistory(
-        searchHistory.filter((item) => item.id !== entry.id)
+      setSearchHistory((prev) =>
+        prev.filter((item) => item.id !== entry.id)
       );
       toast.success("Item deleted successfully");
     } catch (error) {
-      error.message;
       toast.error("Failed to delete the item");
     }
   }
+
+  async function handleClear() {
+    try {
+      await axios.delete("/api/v1/search/history/clear");
+      setSearchHistory([]);
+      toast.success("History cleared successfully");
+    } catch (error) {
+      console.error(
+        "Error clearing history:",
+        error.message
+      );
+    }
+  }
+
+  // ✅ Show loading
+  if (loading) {
+    return (
+      <div className="bg-black min-h-screen text-white">
+        <Navbar />
+        <div className="max-w-6xl mx-auto px-4 py-8 text-center">
+          <h1 className="text-2xl font-bold">Loading history...</h1>
+        </div>
+      </div>
+    );
+  }
+
+  // ✅ Only show "No history" after loading
   if (searchHistory?.length === 0) {
     return (
       <div className="bg-black min-h-screen text-white">
@@ -76,7 +99,6 @@ const HistoryPage = () => {
           </h1>
           <div className="flex justify-center items-center h-96">
             <p className="text-xl">
-              {" "}
               No Search history found
             </p>
           </div>
@@ -84,18 +106,7 @@ const HistoryPage = () => {
       </div>
     );
   }
-  async function handleClear() {
-    try {
-      await axios.delete("/api/v1/search/history/clear"); // Adjust URL if needed
-      setSearchHistory([]); // Clear the local state too
-      toast.success("History Clear Successfully");
-    } catch (error) {
-      console.error(
-        "Error clearing history:",
-        error.response?.data?.message || error.message
-      );
-    }
-  }
+
   return (
     <div className="bg-black text-white min-h-screen">
       <Navbar />
@@ -112,7 +123,7 @@ const HistoryPage = () => {
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {searchHistory?.map((entry) => (
+          {searchHistory.map((entry) => (
             <Link
               key={entry?._id}
               to={
@@ -126,7 +137,7 @@ const HistoryPage = () => {
             >
               <img
                 src={ORIGINAL_IMG_BASE_URL + entry?.image}
-                alt="poster image"
+                alt="poster"
                 className="size-10 md:size-16 rounded object-cover mr-4 flex-shrink-0"
               />
               <div className="flex flex-col flex-grow">
@@ -152,7 +163,7 @@ const HistoryPage = () => {
               <Trash
                 className="size-5 ml-4 cursor-pointer hover:fill-red-500 hover:text-gray-100 flex-shrink-0"
                 onClick={(e) => {
-                  e.preventDefault(); // Prevent navigation when deleting
+                  e.preventDefault(); // Prevent link navigation
                   handleDelete(entry);
                 }}
               />

@@ -1,17 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
-import {
-  ORIGINAL_IMG_BASE_URL,
-  SMALL_IMG_BASE_URL,
-} from "../utils/constants";
+import { ORIGINAL_IMG_BASE_URL } from "../utils/constants";
 import { Trash } from "lucide-react";
 import toast from "react-hot-toast";
 import { useAuthUserStore } from "../store/authUser";
+
 function formatDate(dateString) {
   const date = new Date(dateString);
-
   const monthNames = [
     "Jan",
     "Feb",
@@ -26,46 +23,75 @@ function formatDate(dateString) {
     "Nov",
     "Dec",
   ];
-
   const month = monthNames[date.getUTCMonth()];
   const day = date.getUTCDate();
   const year = date.getUTCFullYear();
   return `${day} ${month} ${year}`;
 }
+
 const WatchList = () => {
   const { authCheck } = useAuthUserStore();
-  const [watchList, setWatchList] = React.useState([]);
+  const [watchList, setWatchList] = useState([]);
+  const [loading, setLoading] = useState(true); // ✅ loading flag
+
   useEffect(() => {
     const getWatchList = async () => {
       try {
         const res = await axios.get(
           `/api/v1/watchlist/movies`
         );
-        console.log(res.data.content);
         setWatchList(res.data.content);
       } catch (error) {
-        error.response.data.message;
-        console.log(error.response.data.message);
+        console.log(error.response?.data?.message);
         setWatchList([]);
+      } finally {
+        setLoading(false); // ✅ hide loader
       }
     };
     getWatchList();
   }, []);
+
   async function handleDelete(entry) {
     try {
       await axios.delete(
         `/api/v1/watchlist/movie/${entry.id}`
       );
-      setWatchList(
-        watchList.filter((item) => item.id !== entry.id)
+      setWatchList((prev) =>
+        prev.filter((item) => item.id !== entry.id)
       );
       toast.success("Item deleted successfully");
       authCheck();
     } catch (error) {
-      error.message;
       toast.error("Failed to delete the item");
     }
   }
+
+  async function handleClear() {
+    try {
+      await axios.delete("/api/v1/watchlist/movies/clear");
+      setWatchList([]);
+      toast.success("Watch list cleared successfully");
+    } catch (error) {
+      console.error(
+        "Error clearing watch list:",
+        error.message
+      );
+    }
+  }
+
+  // ✅ Show loading state
+  if (loading) {
+    return (
+      <div className="bg-black min-h-screen text-white">
+        <Navbar />
+        <div className="max-w-6xl mx-auto px-4 py-8 text-center">
+          <h1 className="text-2xl font-bold">Loading Watchlist...</h1>
+        </div>
+      </div>
+    );
+  }
+
+  // ✅ Show empty state only after loading
   if (watchList?.length === 0) {
     return (
       <div className="bg-black min-h-screen text-white">
@@ -75,24 +101,13 @@ const WatchList = () => {
             Watch List
           </h1>
           <div className="flex justify-center items-center h-96">
-            <p className="text-xl"> No Watch list found</p>
+            <p className="text-xl">No Watch list found</p>
           </div>
         </div>
       </div>
     );
   }
-  async function handleClear() {
-    try {
-      await axios.delete("/api/v1/watchlist/movies/clear"); // Adjust URL if needed
-      setWatchList([]); // Clear the local state too
-      toast.success("Watch list cleared successfully");
-    } catch (error) {
-      console.error(
-        "Error clearing watch list:",
-        error.response?.data?.message || error.message
-      );
-    }
-  }
+
   return (
     <div className="bg-black text-white min-h-screen">
       <Navbar />
@@ -109,7 +124,7 @@ const WatchList = () => {
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {watchList?.map((entry) => (
+          {watchList.map((entry) => (
             <Link
               key={entry?._id}
               to={`/watch/${entry?.type}/${entry?.id}`}
