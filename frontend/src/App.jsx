@@ -18,12 +18,13 @@ import NotFoundPage from "./pages/NotFoundPage.jsx";
 import AnimeWatchPage from "./pages/ANIFLIX/AnimeWatchPage.jsx";
 import ProfilePage from "./pages/Profile/ProfilePage.jsx";
 import AvatarSelector from "./components/AvatarSelector.jsx";
-import { ToastContainer} from 'react-toastify';
-// import  useUserStore  from "./store/userActions.js";
+import { ToastContainer } from "react-toastify";
+import { useLocation } from "react-router-dom";
 
 function App() {
   const { user, isCheckingAuth, authCheck } =
     useAuthUserStore();
+  const location = useLocation();
 
   useEffect(() => {
     authCheck();
@@ -156,9 +157,11 @@ function App() {
         />
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>
-      <Footer />
+      {!location.pathname.startsWith("/edit-profile") && (
+        <Footer />
+      )}
       <Toaster position="top-center" />
-      <ToastContainer  />
+      <ToastContainer />
     </>
   );
 }

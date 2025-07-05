@@ -128,7 +128,7 @@ const HistoryPage = () => {
   return (
     <div className="bg-black text-white min-h-screen">
       <Navbar />
-      <div className="max-w-6xl mx-auto px-4 pt-2 pb-8">
+      <div className="max-w-6xl mx-auto px-4 md:py-8 py-4">
         <ArrowLeftIcon
           onClick={() => navigate(-1)}
           className="size-8 cursor-pointer"
