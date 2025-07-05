@@ -35,6 +35,12 @@ const Navbar = () => {
       console.error("Error fetching genres:", error);
     }
   }, [contentType]);
+
+  function handlelogout() {
+    logout();
+    navigate("/login");
+  }
+
   return (
     <header className="max-w-6xl mx-auto flex flex-wrap justify-between items-center p-4 h-15">
       <div className="flex items-center justify-center gap-25 z-50 ">
@@ -180,19 +186,9 @@ const Navbar = () => {
           <div className=" m-2 flex items-center gap-1 hover:bg-gray-800 cursor-pointer">
             <LogOut
               className="size-5 mx-2"
-              onClick={() => {
-                logout();
-                navigate("/login");
-              }}
+              onClick={handlelogout}
             />
-            <p
-              onClick={() => {
-                logout();
-                navigate("/login");
-              }}
-            >
-              Logout
-            </p>
+            <p onClick={handlelogout}>Logout</p>
           </div>
           <Link
             to="#"
