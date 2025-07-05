@@ -10,14 +10,14 @@ import {
   TV_CATEGORIES,
 } from "../../utils/constants.js";
 import { useContentStore } from "../../store/content.js";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 // import { toast } from "react-hot-toast";
 import { toast as toastify } from "react-toastify";
 
 // const AVATAR_TOAST_KEY = "avatarToast-v1";
 
 const HomeScreen = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { trendingContent } = useGetTrendingContent();
   const { contentType } = useContentStore();
   const [imgLoading, setImgLoading] = React.useState(true);
@@ -51,11 +51,11 @@ const HomeScreen = () => {
       </div>
     );
   }
-  const handleToggle = (e) => {
-    if (e.target.checked) {
-      navigate("/anime");
-    }
-  };
+  // const handleToggle = (e) => {
+  //   if (e.target.checked) {
+  //     navigate("/anime");
+  //   }
+  // };
 
   return (
     <>
@@ -152,7 +152,7 @@ const HomeScreen = () => {
               />
             ))
           : null}
-        <div
+        {/* <div
           className="flex flex-col
         items-center justify-center  font-semibold "
         >
@@ -166,7 +166,7 @@ const HomeScreen = () => {
             />
             <span className="slider round"></span>
           </label>
-        </div>
+        </div> */}
       </div>
     </>
   );
