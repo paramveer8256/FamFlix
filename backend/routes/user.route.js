@@ -1,7 +1,7 @@
 import express from "express";
-import { setAvatar } from "../controllers/user.controller.js";
+import { setInfo } from "../controllers/user.controller.js";
 const router = express.Router();
 
-router.post("/updateAvatar", setAvatar);
+router.post("/updateInfo", setInfo);
 
 export default router;

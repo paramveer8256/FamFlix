@@ -1,18 +1,18 @@
 import User from "../models/user.model.js";
 
-export async function setAvatar(req, res) {
-  const { avatar } = req.body;
-  if (!avatar) {
+export async function setInfo(req, res) {
+  const { avatar, username, email } = req.body;
+  if (!avatar && !username && !email) {
     return res.status(400).json({
       success: false,
-      message: "Avatar is required",
+      message: "At least one field is required",
     });
   }
 
   try {
     const user = await User.findByIdAndUpdate(
       req.user._id,
-      { image: avatar },
+      { username, email, image: avatar },
       { new: true }
     );
 
@@ -25,7 +25,7 @@ export async function setAvatar(req, res) {
 
     res.status(200).json({
       success: true,
-      message: "Avatar updated successfully",
+      message: "Profile updated successfully",
       user: {
         ...user._doc,
         password: "",
@@ -33,6 +33,8 @@ export async function setAvatar(req, res) {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res
+      .status(500)
+      .json({ message: "Internal Server Error" });
   }
 }

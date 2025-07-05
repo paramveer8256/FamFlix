@@ -89,7 +89,7 @@ const Navbar = () => {
         <img
           src={user.image}
           alt="Avatar logo"
-          className="h-6 rounded cursor-pointer"
+          className="h-10 w-10 rounded cursor-pointer"
           onClick={() => {
             navigate(`/profile/${user.username}`);
           }}

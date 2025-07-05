@@ -67,25 +67,37 @@ export const useAuthUserStore = create((set) => ({
       },
     })),
 
-  updateAvatar: async (avatar) => {
+  updateInfo: async ({ avatar, username, email }) => {
+    const promise = axios.post("/api/v1/user/updateInfo", {
+      avatar,
+      username,
+      email,
+    });
+
+    toast.promise(promise, {
+      loading: "Updating profile...",
+      success: "Profile updated successfully",
+      error: "Failed to update profile",
+    });
+
     try {
-      await axios.post("/api/v1/user/updateAvatar", {
-        avatar,
-      });
+      await promise;
       set((state) => ({
         user: {
           ...state.user,
           image: avatar,
+          username,
+          email,
         },
       }));
-      toast.success("Avatar updated successfully");
     } catch (error) {
       toast.error(
-        error.response.data.message ||
+        error.response?.data?.message ||
           "Something went wrong"
       );
     }
   },
+
   authCheck: async () => {
     set({ isCheckingAuth: true });
     try {

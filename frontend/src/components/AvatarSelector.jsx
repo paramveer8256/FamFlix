@@ -32,7 +32,7 @@ const avatarCategories = {
 };
 
 const AvatarSelector = () => {
-  const { user, updateAvatar } = useAuthUserStore();
+  const { user, updateInfo } = useAuthUserStore();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
@@ -53,7 +53,7 @@ const AvatarSelector = () => {
   };
 
   const handleSave = () => {
-    updateAvatar(selected);
+    updateInfo({ username, email, avatar: selected });
     navigate(`/profile/${user.username}`);
   };
 
@@ -144,7 +144,9 @@ const AvatarSelector = () => {
             <PencilIcon
               size={16}
               className="cursor-pointer"
-              onClick={() => setEditingUsername(prev => !prev)}
+              onClick={() =>
+                setEditingUsername((prev) => !prev)
+              }
             />
           </div>
 
@@ -170,7 +172,9 @@ const AvatarSelector = () => {
             <PencilIcon
               size={16}
               className="cursor-pointer"
-              onClick={() => setEditingEmail(prev => !prev)}
+              onClick={() =>
+                setEditingEmail((prev) => !prev)
+              }
             />
           </div>
         </div>
