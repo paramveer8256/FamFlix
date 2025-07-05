@@ -30,7 +30,7 @@ const Navbar = () => {
     }
   }, [contentType]);
   return (
-    <header className="  max-w-6xl mx-auto flex flex-wrap justify-between items-center p-4 h-20">
+    <header className="max-w-6xl mx-auto flex flex-wrap justify-between items-center p-4 h-20">
       <div className="flex items-center justify-center gap-25 z-50 ">
         <Link to="/">
           <img

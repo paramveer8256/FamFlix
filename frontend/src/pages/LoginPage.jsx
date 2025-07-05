@@ -7,13 +7,16 @@ const LoginPage = () => {
   const passwordParam = searchParams.get("password");
   const [emailorusername, setemailorusername] =
     React.useState(emailParam || "");
-  const [password, setPassword] = React.useState(passwordParam || "");
+  const [password, setPassword] = React.useState(
+    passwordParam || ""
+  );
   const [showPassword, setShowPassword] =
     React.useState(false);
 
   const { login, isLoggingIn } = useAuthUserStore();
   const handleLogin = (e) => {
     e.preventDefault();
+    localStorage.setItem("justLoggedIn", "true");
     login({ emailorusername, password });
   };
   return (

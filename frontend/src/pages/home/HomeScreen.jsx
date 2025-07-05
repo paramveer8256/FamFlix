@@ -11,11 +11,38 @@ import {
 } from "../../utils/constants.js";
 import { useContentStore } from "../../store/content.js";
 import { useNavigate } from "react-router-dom";
+// import { toast } from "react-hot-toast";
+import { toast as toastify } from "react-toastify";
+
+const AVATAR_TOAST_KEY = "avatarToast-v3";
+
 const HomeScreen = () => {
   const navigate = useNavigate();
   const { trendingContent } = useGetTrendingContent();
   const { contentType } = useContentStore();
   const [imgLoading, setImgLoading] = React.useState(true);
+  React.useEffect(() => {
+    const justLoggedIn =
+      localStorage.getItem("justLoggedIn");
+    const hasSeenToast = localStorage.getItem(
+      AVATAR_TOAST_KEY
+    );
+
+    if (justLoggedIn && !hasSeenToast) {
+      toastify("🎉 New avatars have been added!", {
+        position: "bottom-left",
+        theme: "dark",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      localStorage.setItem(AVATAR_TOAST_KEY, "true");
+      localStorage.removeItem("justLoggedIn");
+    }
+  }, []);
   if (!trendingContent) {
     return (
       <div className="h-screen text-white relative">

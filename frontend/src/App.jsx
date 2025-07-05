@@ -18,6 +18,7 @@ import NotFoundPage from "./pages/NotFoundPage.jsx";
 import AnimeWatchPage from "./pages/ANIFLIX/AnimeWatchPage.jsx";
 import ProfilePage from "./pages/Profile/ProfilePage.jsx";
 import AvatarSelector from "./components/AvatarSelector.jsx";
+import { ToastContainer} from 'react-toastify';
 // import  useUserStore  from "./store/userActions.js";
 
 function App() {
@@ -157,6 +158,7 @@ function App() {
       </Routes>
       <Footer />
       <Toaster position="top-center" />
+      <ToastContainer  />
     </>
   );
 }

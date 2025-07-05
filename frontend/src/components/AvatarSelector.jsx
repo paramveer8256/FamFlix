@@ -1,8 +1,8 @@
-// AvatarSelector.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuthUserStore } from "../store/authUser";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeftIcon } from "lucide-react";
+import { ArrowLeftIcon, PencilIcon } from "lucide-react";
+
 const avatarCategories = {
   Classic: [
     "classic-1.png",
@@ -32,31 +32,64 @@ const avatarCategories = {
 };
 
 const AvatarSelector = () => {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-
   const { user, updateAvatar } = useAuthUserStore();
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(true);
+  const [editingUsername, setEditingUsername] =
+    useState(false);
+  const [editingEmail, setEditingEmail] = useState(false);
+  const [username, setUsername] = useState(user.username);
+  const [email, setEmail] = useState(user.email);
   const [selected, setSelected] = useState(
     user.image || "/avatars/classic/classic-1.png"
   );
+
+  const usernameRef = useRef(null);
+  const emailRef = useRef(null);
 
   const handleSelect = (category, avatar) => {
     setSelected(`/avatars/${category}/${avatar}`);
   };
 
   const handleSave = () => {
-    updateAvatar(selected); // Pass selected image URL
+    updateAvatar(selected);
     navigate(`/profile/${user.username}`);
   };
 
+  // Dismiss edit mode on outside click
   useEffect(() => {
-    // Simulate a 2-second loading delay
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    const handleClickOutside = (event) => {
+      if (
+        usernameRef.current &&
+        !usernameRef.current.contains(event.target)
+      ) {
+        setEditingUsername(false);
+      }
+      if (
+        emailRef.current &&
+        !emailRef.current.contains(event.target)
+      ) {
+        setEditingEmail(false);
+      }
+    };
 
-    return () => clearTimeout(timer); // Cleanup on unmount
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
+    return () =>
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
   }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   if (loading)
     return (
       <div className="bg-black text-white p-4 min-h-screen">
@@ -65,16 +98,19 @@ const AvatarSelector = () => {
         </div>
       </div>
     );
+
   return (
-    <div className="bg-black text-white min-h-screen  p-4">
+    <div className="bg-black text-white min-h-screen p-4">
       <div className="max-w-6xl mx-auto p-4">
         <div>
           <ArrowLeftIcon
             onClick={() => navigate(-1)}
-            className="size-8"
+            className="size-8 cursor-pointer"
           />
         </div>
-        <div className="text-center mb-4">
+
+        {/* Avatar preview and editable fields */}
+        <div className="text-center mb-6">
           <h2 className="text-xl font-semibold">
             Edit Avatar
           </h2>
@@ -83,9 +119,63 @@ const AvatarSelector = () => {
             alt="Selected Avatar"
             className="size-24 rounded-full mx-auto mt-4"
           />
-          <p className="mt-2">{user.username}</p>
+
+          {/* Username */}
+          <div
+            ref={usernameRef}
+            className="mt-2 flex justify-center items-center gap-2 min-h-[30px]"
+          >
+            {editingUsername ? (
+              <input
+                type="text"
+                className="bg-gray-800 border border-gray-600 px-2 py-1 h-6 rounded text-center text-white"
+                value={username}
+                onChange={(e) =>
+                  setUsername(e.target.value)
+                }
+                onKeyDown={(e) =>
+                  e.key === "Enter" &&
+                  setEditingUsername(false)
+                }
+              />
+            ) : (
+              <p className="h-6 leading-6">{username}</p>
+            )}
+            <PencilIcon
+              size={16}
+              className="cursor-pointer"
+              onClick={(prev) => setEditingUsername(prev => !prev)}
+            />
+          </div>
+
+          {/* Email */}
+          <div
+            ref={emailRef}
+            className="mt-1 mb-4 max-w-xs mx-auto flex justify-center items-center gap-2 min-h-[30px]"
+          >
+            {editingEmail ? (
+              <input
+                type="email"
+                className="bg-gray-800 border border-gray-600 px-2 py-1 h-6 w-full rounded text-center text-white"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onKeyDown={(e) =>
+                  e.key === "Enter" &&
+                  setEditingEmail(false)
+                }
+              />
+            ) : (
+              <p className="h-6 leading-6">{email}</p>
+            )}
+            <PencilIcon
+              size={16}
+              className="cursor-pointer"
+              onClick={(prev) => setEditingEmail(prev => !prev)}
+            />
+          </div>
         </div>
 
+        {/* Avatar categories */}
         {Object.entries(avatarCategories).map(
           ([category, avatars]) => (
             <div key={category} className="mb-6">
@@ -123,6 +213,7 @@ const AvatarSelector = () => {
           )
         )}
 
+        {/* Save button */}
         <div className="text-center mt-8">
           <button
             className="bg-blue-500 text-white px-6 py-2 rounded-full cursor-pointer"
@@ -138,22 +229,19 @@ const AvatarSelector = () => {
 
 export default AvatarSelector;
 
+// Skeleton Loader
 const AvatarSelectorSkeleton = () => {
   return (
     <div className="bg-black text-white min-h-screen animate-pulse">
-      {/* Top bar with back arrow */}
-      <div className="flex items-center mb-6">
+      <div className="flex items-center">
         <div className="size-8 bg-gray-700 rounded-full" />
       </div>
-
-      {/* Avatar preview */}
-      <div className="text-center mb-6">
+      <div className="text-center">
+        <div className="h-8 w-24 mb-4 bg-gray-600 mx-auto rounded" />
         <div className="size-24 bg-gray-700 rounded-full mx-auto mb-2" />
-        <div className="h-4 w-24 bg-gray-600 mx-auto rounded" />
-        <div className="h-4 w-16 bg-gray-600 mx-auto mt-2 rounded" />
+        <div className="h-4 w-24 mb-6 bg-gray-600 mx-auto rounded" />
+        <div className="h-4 w-50 mb-8 bg-gray-600 mx-auto mt-2 rounded" />
       </div>
-
-      {/* Categories Skeleton */}
       {["Classic", "Funky", "Insane", "Old"].map(
         (category) => (
           <div key={category} className="mb-6">
