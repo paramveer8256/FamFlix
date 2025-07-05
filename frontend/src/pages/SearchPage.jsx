@@ -1,20 +1,71 @@
 import React, { useState, useEffect } from "react";
-import { useContentStore } from "../store/content.js";
 import Navbar from "../components/Navbar";
-import { Search } from "lucide-react";
+import {
+  Search,
+  BookmarkCheck,
+  BookmarkPlus,
+} from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { ORIGINAL_IMG_BASE_URL } from "../utils/constants.js";
 import { Link } from "react-router-dom";
 import SearchSkeleton from "../components/skeletons/SearchSkeleton.jsx";
+import { useAuthUserStore } from "../store/authUser.js";
 
 const SearchPage = () => {
   const [activeTab, setActiveTab] = useState("movie");
+  const [bookmarkedIds, setBookmarkedIds] = useState(
+    new Set()
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+
+  const { user, updateWatchList } = useAuthUserStore();
+
+  useEffect(() => {
+    if (user?.watchList) {
+      const ids = new Set(
+        user.watchList.map((item) => item.id)
+      );
+      setBookmarkedIds(ids);
+    }
+  }, [user]);
+
+  const handleAddToWatchlist = async (
+    itemId,
+    title,
+    posterPath
+  ) => {
+    const promise = axios.post(
+      `/api/v1/watchlist/${activeTab}/${itemId}`
+    );
+    toast.promise(promise, {
+      loading: "Adding...",
+      success: "Added to watchlist!",
+      error: "Error in adding to watchlist.",
+    });
+
+    try {
+      const res = await promise;
+      if (res.data.success) {
+        setBookmarkedIds((prev) =>
+          new Set(prev).add(itemId)
+        );
+        updateWatchList({
+          id: itemId,
+          type: activeTab,
+          title,
+          image: posterPath,
+          addedAt: new Date(),
+        });
+      }
+    } catch (error) {
+      console.error("Failed to add to watchlist", error);
+    }
+  };
 
   const handleClick = (tab) => {
     setActiveTab(tab);
@@ -25,16 +76,13 @@ const SearchPage = () => {
 
   const fetchSearchResults = async (currentPage) => {
     if (loading || !hasMore || !searchQuery.trim()) return;
-
     setLoading(true);
     try {
       const res = await axios.get(
         `/api/v1/search/${activeTab}/${searchQuery}?page=${currentPage}`
       );
-
       let newResults = res.data?.content || [];
 
-      // Filter duplicates and people without images
       if (activeTab === "person") {
         const uniqueByName = {};
         newResults.forEach((item) => {
@@ -52,14 +100,12 @@ const SearchPage = () => {
 
       setSearchResults((prev) => [...prev, ...newResults]);
       setPage((prev) => prev + 1);
-
-      if (currentPage >= res.data.totalPages) {
+      if (currentPage >= res.data.totalPages)
         setHasMore(false);
-      }
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          "Error fetching results. Please try again."
+          "Error fetching results."
       );
       setHasMore(false);
     } finally {
@@ -85,23 +131,15 @@ const SearchPage = () => {
         fetchSearchResults(page);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () =>
       window.removeEventListener("scroll", handleScroll);
   }, [page, loading, hasMore]);
 
-  useEffect(() => {
-    setSearchResults([]);
-    setPage(1);
-    setHasMore(true);
-  }, [searchQuery]);
-
   return (
     <div className="bg-black min-h-screen text-white">
       <Navbar />
       <div className="container mx-auto px-4 py-8">
-        {/* Tab Switcher */}
         <div className="flex justify-center gap-3 mb-4">
           {["movie", "tv", "person"].map((tab) => {
             const isActive = activeTab === tab;
@@ -110,10 +148,7 @@ const SearchPage = () => {
                 ? "bg-blue-500"
                 : tab === "tv"
                 ? "bg-green-500"
-                : tab === "person"
-                ? "bg-red-500"
-                : "bg-gray-800 text-gray-300";
-
+                : "bg-red-500";
             return (
               <button
                 key={tab}
@@ -130,7 +165,6 @@ const SearchPage = () => {
           })}
         </div>
 
-        {/* Search Bar */}
         <form
           onSubmit={handleSearch}
           className="flex gap-2 items-stretch mb-8 max-w-2xl mx-auto"
@@ -147,7 +181,6 @@ const SearchPage = () => {
           </button>
         </form>
 
-        {/* Results */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {searchResults.map((item) => {
             const imagePath =
@@ -155,53 +188,78 @@ const SearchPage = () => {
                 ? item?.profile_path
                 : item?.poster_path;
             const nameOrTitle = item?.title || item?.name;
-
             if (!imagePath) return null;
-
             const linkTo =
               activeTab === "person"
                 ? `/actor/movie/${item?.id}/${item?.name}`
                 : `/watch/${activeTab}/${item?.id}`;
-
             const year =
               activeTab === "movie"
                 ? item?.release_date?.split("-")[0]
                 : item?.first_air_date?.split("-")[0];
+            const isBookmarked = bookmarkedIds.has(
+              item?.id
+            );
 
             return (
-              <Link
-                to={linkTo}
+              <div
                 key={item?.id}
-                className="bg-gray-800 p-2 rounded block hover:bg-gray-700 transition hover:scale-105"
+                className="relative transform transition-transform duration-300 hover:scale-105"
               >
-                <img
-                  src={ORIGINAL_IMG_BASE_URL + imagePath}
-                  alt={nameOrTitle}
-                  className="w-full h-auto rounded"
-                />
-                <h2 className="mt-2 text-sm sm:text-xl font-bold text-center">
-                  {nameOrTitle} {year && `(${year})`}
-                </h2>
-              </Link>
+                <Link
+                  to={linkTo}
+                  className="bg-gray-800 p-2 rounded block hover:bg-gray-700"
+                >
+                  <div className="relative">
+                    <img
+                      src={
+                        ORIGINAL_IMG_BASE_URL + imagePath
+                      }
+                      alt={nameOrTitle}
+                      className="w-full h-auto rounded"
+                    />
+                    {activeTab !== "person" && (
+                      <button
+                        disabled={isBookmarked}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (!isBookmarked) {
+                            handleAddToWatchlist(
+                              item?.id,
+                              nameOrTitle,
+                              item?.poster_path
+                            );
+                          }
+                        }}
+                        className={`absolute top-2 right-2 group ${
+                          isBookmarked
+                            ? "opacity-70 cursor-not-allowed"
+                            : ""
+                        } p-2 rounded-2xl bg-black/70 backdrop-blur-lg shadow-[0_0_8px_8px_rgba(0,0,0,0.7)] transition duration-300`}
+                      >
+                        {isBookmarked ? (
+                          <BookmarkCheck className="text-white size-7 md:size-9" />
+                        ) : (
+                          <BookmarkPlus className="text-white size-7 md:size-9" />
+                        )}
+                        <span className="absolute top-10 -left-16 opacity-0 group-hover:opacity-100 transition bg-gray-900 text-white text-xs px-2 py-1 rounded">
+                          {isBookmarked
+                            ? "Already in Watchlist"
+                            : "Add to Watchlist"}
+                        </span>
+                      </button>
+                    )}
+                  </div>
+                  <h2 className="mt-2 text-sm sm:text-xl font-bold text-center">
+                    {nameOrTitle} {year && `(${year})`}
+                  </h2>
+                </Link>
+              </div>
             );
           })}
         </div>
 
-        {/* No Results Found
-        {!loading &&
-          searchResults.length === 0 &&
-          searchQuery.trim() && (
-            <p className="text-center text-gray-400 mt-10 text-xl">
-              No results found for "{searchQuery}"
-            </p>
-          )} */}
-
-        {/* Loading Skeleton */}
-        {loading && (
-          <div>
-            <SearchSkeleton />
-          </div>
-        )}
+        {loading && <SearchSkeleton />}
       </div>
     </div>
   );

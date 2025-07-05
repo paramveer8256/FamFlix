@@ -192,7 +192,7 @@ const AvatarSelector = () => {
               <h3 className="text-md font-bold mb-2">
                 {category}
               </h3>
-              <div className="flex gap-3 overflow-x-auto">
+              <div className="flex gap-3 overflow-x-auto scrollbar-hide">
                 {avatars.map((avatar) => {
                   const imgPath = `/avatars/${category
                     .toLowerCase()
@@ -211,7 +211,7 @@ const AvatarSelector = () => {
                           avatar
                         )
                       }
-                      className={`size-18 rounded-full cursor-pointer border-4 ${
+                      className={`size-20 rounded-full cursor-pointer border-4 ${
                         selected === imgPath
                           ? "border-blue-500"
                           : "border-transparent"
@@ -264,14 +264,14 @@ const AvatarSelectorSkeleton = () => {
         (category) => (
           <div key={category} className="mb-6">
             <div className="h-4 w-24 bg-gray-600 mb-3 rounded" />
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto scrollbar-hide">
               <div className="flex gap-3 min-w-max">
                 {Array(6)
                   .fill(0)
                   .map((_, i) => (
                     <div
                       key={i}
-                      className="size-18 bg-gray-600 rounded-full"
+                      className="size-20 bg-gray-600 rounded-full"
                     />
                   ))}
               </div>

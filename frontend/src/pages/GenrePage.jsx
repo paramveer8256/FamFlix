@@ -36,7 +36,7 @@ const GenrePage = () => {
       if (currentPage >= res.data.totalPages)
         setHasMore(false);
     } catch (error) {
-      toast.error("Error loading data.");
+      toast.error("Error loading data.", error?.message);
       setHasMore(false);
     } finally {
       setLoading(false);

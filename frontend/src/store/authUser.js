@@ -66,7 +66,16 @@ export const useAuthUserStore = create((set) => ({
         ],
       },
     })),
-
+  removeFromWatchList: (itemId) =>
+    set((state) => ({
+      user: {
+        ...state.user,
+        watchList:
+          state.user?.watchList.filter(
+            (item) => item.id !== itemId
+          ) || [],
+      },
+    })),
   updateInfo: async ({ avatar, username, email }) => {
     const promise = axios.post("/api/v1/user/updateInfo", {
       avatar,

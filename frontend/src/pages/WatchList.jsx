@@ -7,6 +7,7 @@ import { Trash, ArrowLeftIcon } from "lucide-react";
 import toast from "react-hot-toast";
 import DeleteConfirmationModal from "../components/DeleteModal";
 import { useNavigate } from "react-router-dom";
+import { useAuthUserStore } from "../store/authUser";
 function formatDate(dateString) {
   const date = new Date(dateString);
   const monthNames = [
@@ -29,6 +30,7 @@ function formatDate(dateString) {
 }
 
 const WatchList = () => {
+  const { removeFromWatchList } = useAuthUserStore();
   const navigate = useNavigate();
   const [watchList, setWatchList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -71,11 +73,15 @@ const WatchList = () => {
       setWatchList((prev) =>
         prev.filter((item) => item.id !== entry.id)
       );
+      removeFromWatchList(entry.id);
       toast.success("Item deleted successfully");
 
       closeModal();
     } catch (error) {
-      toast.error("Failed to delete the item", error.message);
+      toast.error(
+        "Failed to delete the item",
+        error.message
+      );
     }
   }
 
