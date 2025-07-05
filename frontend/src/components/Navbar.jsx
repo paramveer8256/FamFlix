@@ -89,15 +89,12 @@ const Navbar = () => {
         <img
           src={user.image}
           alt="Avatar logo"
-          className="h-10 w-10 rounded cursor-pointer"
+          className="h-10 w-10 rounded-full cursor-pointer"
           onClick={() => {
             navigate(`/profile/${user.username}`);
           }}
         />
-        <LogOut
-          className="size-6 cursor-pointer"
-          onClick={logout}
-        />
+      
         <div className="sm:hidden">
           <Menu
             className="size-6 cursor-pointer"
