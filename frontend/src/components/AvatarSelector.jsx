@@ -196,6 +196,7 @@ const AvatarSelector = () => {
                       key={avatar}
                       src={imgPath}
                       alt={avatar}
+                      loading="lazy"
                       onClick={() =>
                         handleSelect(
                           category
