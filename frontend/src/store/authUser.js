@@ -56,6 +56,36 @@ export const useAuthUserStore = create((set) => ({
       );
     }
   },
+  updateWatchList: (newItem) =>
+    set((state) => ({
+      user: {
+        ...state.user,
+        watchList: [
+          ...(state.user?.watchList || []),
+          newItem,
+        ],
+      },
+    })),
+
+  updateAvatar: async (avatar) => {
+    try {
+      await axios.post("/api/v1/user/updateAvatar", {
+        avatar,
+      });
+      set((state) => ({
+        user: {
+          ...state.user,
+          image: avatar,
+        },
+      }));
+      toast.success("Avatar updated successfully");
+    } catch (error) {
+      toast.error(
+        error.response.data.message ||
+          "Something went wrong"
+      );
+    }
+  },
   authCheck: async () => {
     set({ isCheckingAuth: true });
     try {
@@ -68,11 +98,4 @@ export const useAuthUserStore = create((set) => ({
       // ); we dont add it because we dont want to show error if user is not logged in
     }
   },
-  updateWatchList: (newItem) =>
-    set((state) => ({
-      user: {
-        ...state.user,
-        watchList: [...(state.user?.watchList || []), newItem],
-      },
-    })),
 }));

@@ -17,6 +17,8 @@ import HistoryPage from "./pages/HistoryPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import AnimeWatchPage from "./pages/ANIFLIX/AnimeWatchPage.jsx";
 import ProfilePage from "./pages/Profile/ProfilePage.jsx";
+import AvatarSelector from "./components/AvatarSelector.jsx";
+// import  useUserStore  from "./store/userActions.js";
 
 function App() {
   const { user, isCheckingAuth, authCheck } =
@@ -136,6 +138,16 @@ function App() {
           element={
             user ? (
               <ProfilePage />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/edit-profile"
+          element={
+            user ? (
+              <AvatarSelector />
             ) : (
               <Navigate to={"/login"} />
             )

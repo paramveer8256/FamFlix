@@ -46,9 +46,9 @@ export async function signup(req, res) {
       salt
     );
     const PROFILE_PICS = [
-      "/avatar1.png",
-      "/avatar2.png",
-      "/avatar3.png",
+      "/avatars/old/avatar1.png",
+      "/avatars/old/avatar2.png",
+      "/avatars/old/avatar3.png",
     ];
     const randomIndex = Math.floor(
       Math.random() * PROFILE_PICS.length

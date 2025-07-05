@@ -17,6 +17,7 @@ import {
 import WatchPageSkeleton from "../components/skeletons/WatchPageSkeleton";
 import toast from "react-hot-toast";
 import { useAuthUserStore } from "../store/authUser";
+// import useUserStore from "../store/userActions";
 
 function formatReleaseDate(date) {
   return new Date(date).toLocaleDateString("en-US", {
@@ -27,7 +28,8 @@ function formatReleaseDate(date) {
 }
 
 const WatchPage = () => {
-  const { user, updateWatchList } = useAuthUserStore();
+  const { user,updateWatchList } = useAuthUserStore();
+  // const {  } = useUserStore();
   const [tab, setTab] = React.useState("stream");
   const { id, category } = useParams(); // Extract movie ID from URL
   const [trailers, setTrailers] = React.useState([]);

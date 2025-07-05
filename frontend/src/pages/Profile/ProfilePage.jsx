@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React from "react";
 import {
   LogOut,
   Pencil,
@@ -11,7 +11,6 @@ import { useAuthUserStore } from "../../store/authUser";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ORIGINAL_IMG_BASE_URL } from "../../utils/constants";
-import { Trash } from "lucide-react";
 import { Link } from "react-router-dom";
 
 function formatDate(dateString) {
@@ -36,7 +35,7 @@ function formatDate(dateString) {
 }
 
 const ProfilePage = () => {
-  const { user, logout, authCheck } = useAuthUserStore();
+  const { user, logout } = useAuthUserStore();
   const [watchHistory, setWatchHistory] = React.useState(
     []
   );
@@ -80,7 +79,10 @@ const ProfilePage = () => {
               </p>
             </div>
           </div>
-          <button className="mt-4 sm:mt-0 bg-gray-700 px-4 py-2 rounded hover:bg-gray-600 transition flex items-center gap-2">
+          <button
+            onClick={() => navigate("/edit-profile")}
+            className="mt-4 sm:mt-0 bg-gray-700 px-4 py-2 rounded hover:bg-gray-600 transition flex items-center gap-2"
+          >
             <Pencil className="size-4" />
             Edit Profile
           </button>
