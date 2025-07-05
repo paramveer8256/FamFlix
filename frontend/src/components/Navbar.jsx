@@ -180,9 +180,19 @@ const Navbar = () => {
           <div className=" m-2 flex items-center gap-1 hover:bg-gray-800 cursor-pointer">
             <LogOut
               className="size-5 mx-2"
-              onClick={logout}
+              onClick={() => {
+                logout();
+                navigate("/login");
+              }}
             />
-            <p onClick={logout}>Logout</p>
+            <p
+              onClick={() => {
+                logout();
+                navigate("/login");
+              }}
+            >
+              Logout
+            </p>
           </div>
           <Link
             to="#"

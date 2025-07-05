@@ -12,7 +12,7 @@ const SignupPage = () => {
   const [showPassword, setShowPassword] =
     React.useState(false);
 
-  const { signup,isSigningUp } = useAuthUserStore();
+  const { signup, isSigningUp } = useAuthUserStore();
 
   function handleSignUp(e) {
     e.preventDefault();
@@ -29,7 +29,9 @@ const SignupPage = () => {
           <img
             src="/famflix logo wobg.png"
             alt="Logo"
-            className="w-40 pt-2"
+            width="160"
+            height="40"
+            className="w-40 pt-2 object-contain"
           />
         </Link>
       </header>
@@ -42,7 +44,7 @@ const SignupPage = () => {
             <div>
               <label
                 htmlFor="email"
-                className="text-gray-300 font-medium block text-sm"
+                className="text-gray-300 font-medium block"
               >
                 Email
               </label>
@@ -58,7 +60,7 @@ const SignupPage = () => {
             <div>
               <label
                 htmlFor="username"
-                className="text-gray-300 font-medium block text-sm"
+                className="text-gray-300 font-medium block"
               >
                 Username
               </label>
@@ -74,35 +76,36 @@ const SignupPage = () => {
               />
             </div>
             <div>
-              <label
-                htmlFor="password"
-                className="text-gray-300 font-medium block text-sm"
-              >
+              <label className="text-gray-300 font-medium block">
                 Password
               </label>
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                className="w-full px-3 py-2 mb-1 rounded-md border border-gray-700 text-white bg-transparent focus:outline-none focus:ring"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) =>
-                  setPassword(e.target.value)
-                }
-              />
-               
-              <label className="text-gray-300 pl-0.5 font-semibold  cursor-pointer">
+              <div className="relative">
                 <input
-                  type="checkbox"
-                  onChange={() =>
-                    setShowPassword(!showPassword)
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  required
+                  value={password}
+                  onChange={(e) =>
+                    setPassword(e.target.value)
                   }
+                  placeholder="Enter the Password"
+                  className="w-full px-3 py-2 rounded-md border border-gray-700 text-white bg-transparent focus:outline-none focus:ring"
                 />
-              </label>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setShowPassword((prev) => !prev)
+                  }
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-semibold text-gray-400"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
             </div>
             <button
-            disabled={isSigningUp}
-             className="w-full py-2 bg-[#1E90FF] hover:bg-[#1f88e5] active:bg-blue-200 text-white font-semibold rounded-md">
+              disabled={isSigningUp}
+              className="w-full py-2 bg-[#1E90FF] hover:bg-[#1f88e5] active:bg-blue-200 text-white font-semibold rounded-md"
+            >
               {isSigningUp ? "Signing up" : "Sign Up"}
             </button>
           </form>

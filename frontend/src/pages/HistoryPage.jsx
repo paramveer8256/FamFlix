@@ -75,7 +75,10 @@ const HistoryPage = () => {
       toast.success("Item deleted successfully");
       closeModal();
     } catch (error) {
-      toast.error("Failed to delete the item");
+      toast.error(
+        "Failed to delete the item",
+        error.message
+      );
     }
   }
 
