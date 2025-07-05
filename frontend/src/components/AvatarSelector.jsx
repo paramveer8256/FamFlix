@@ -144,7 +144,7 @@ const AvatarSelector = () => {
             <PencilIcon
               size={16}
               className="cursor-pointer"
-              onClick={(prev) => setEditingUsername(prev => !prev)}
+              onClick={() => setEditingUsername(prev => !prev)}
             />
           </div>
 
@@ -170,7 +170,7 @@ const AvatarSelector = () => {
             <PencilIcon
               size={16}
               className="cursor-pointer"
-              onClick={(prev) => setEditingEmail(prev => !prev)}
+              onClick={() => setEditingEmail(prev => !prev)}
             />
           </div>
         </div>
@@ -202,7 +202,7 @@ const AvatarSelector = () => {
                       }
                       className={`size-18 rounded-full cursor-pointer border-4 ${
                         selected === imgPath
-                          ? "border-orange-500"
+                          ? "border-blue-500"
                           : "border-transparent"
                       }`}
                     />
