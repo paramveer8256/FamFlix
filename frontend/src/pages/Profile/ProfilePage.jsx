@@ -5,6 +5,7 @@ import {
   Film,
   Heart,
   Settings,
+  SearchIcon as Search,
 } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import { useAuthUserStore } from "../../store/authUser";
@@ -91,8 +92,8 @@ const ProfilePage = () => {
         {/* Quick Links */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           <ProfileCard
-            icon={<Film />}
-            label="Watch History"
+            icon={<Search />}
+            label="Search History"
             onClick={() => navigate("/history")}
           />
           <ProfileCard
