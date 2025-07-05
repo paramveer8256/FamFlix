@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useAuthUserStore } from "../store/authUser";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeftIcon, PencilIcon } from "lucide-react";
+import DeleteConfirmationModal from "./DeleteModal";
 
 const avatarCategories = {
   Classic: [
@@ -34,13 +35,13 @@ const avatarCategories = {
 const AvatarSelector = () => {
   const { user, updateInfo } = useAuthUserStore();
   const navigate = useNavigate();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [editingUsername, setEditingUsername] =
     useState(false);
-  const [editingEmail, setEditingEmail] = useState(false);
+  // const [editingEmail, setEditingEmail] = useState(false);
   const [username, setUsername] = useState(user.username);
-  const [email, setEmail] = useState(user.email);
+  const [email] = useState(user.email);
   const [selected, setSelected] = useState(
     user.image || "/avatars/classic/classic-1.png"
   );
@@ -66,12 +67,12 @@ const AvatarSelector = () => {
       ) {
         setEditingUsername(false);
       }
-      if (
-        emailRef.current &&
-        !emailRef.current.contains(event.target)
-      ) {
-        setEditingEmail(false);
-      }
+      // if (
+      //   emailRef.current &&
+      //   !emailRef.current.contains(event.target)
+      // ) {
+      //   setEditingEmail(false);
+      // }
     };
 
     document.addEventListener(
@@ -98,7 +99,13 @@ const AvatarSelector = () => {
         </div>
       </div>
     );
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div className="bg-black text-white min-h-screen p-4">
       <div className="max-w-6xl mx-auto p-4">
@@ -155,7 +162,7 @@ const AvatarSelector = () => {
             ref={emailRef}
             className="mt-1 mb-4 max-w-xs mx-auto flex justify-center items-center gap-2 min-h-[30px]"
           >
-            {editingEmail ? (
+            {/* {editingEmail ? (
               <input
                 type="email"
                 className="bg-gray-800 border border-gray-600 px-2 py-1 h-6 w-full rounded text-center text-white"
@@ -166,16 +173,15 @@ const AvatarSelector = () => {
                   setEditingEmail(false)
                 }
               />
-            ) : (
-              <p className="h-6 leading-6">{email}</p>
-            )}
-            <PencilIcon
+            ) : null} */}
+            <p className="h-6 leading-6">{email}</p>
+            {/* <PencilIcon
               size={16}
               className="cursor-pointer"
               onClick={() =>
                 setEditingEmail((prev) => !prev)
               }
-            />
+            /> */}
           </div>
         </div>
 
@@ -222,12 +228,19 @@ const AvatarSelector = () => {
         <div className="text-center mt-8">
           <button
             className="bg-blue-500 text-white px-6 py-2 rounded-full cursor-pointer"
-            onClick={handleSave}
+            onClick={openModal}
           >
             Done
           </button>
         </div>
       </div>
+      <DeleteConfirmationModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onConfirm={() => handleSave()}
+        title="Update Profile"
+        message={`Are you sure you want to update your Profile?`}
+      />
     </div>
   );
 };

@@ -5,6 +5,12 @@ import { useAuthUserStore } from "../store/authUser.js";
 import { useContentStore } from "../store/content.js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {
+  Film as MovieIcon,
+  Video,
+  History,
+  ListCheck,
+} from "lucide-react";
 const Navbar = () => {
   const { user, logout } = useAuthUserStore();
   const { contentType, setContentType } = useContentStore();
@@ -66,12 +72,12 @@ const Navbar = () => {
               Genres
             </Link>
             <div className="dropdown-content z-50">
-              <div className="genre-container max-h-63">
+              <div className="flex flex-col gap-1 max-h-60 overflow-y-auto pr-2 ">
                 {genres.map((genre) => (
                   <Link
                     to={`/genre/${contentType}/${genre?.id}/${genre?.name}`}
                     key={genre?.id}
-                    className="py-2.5 px-2.5"
+                    className="py-1 px-2.5"
                   >
                     {genre?.name}
                   </Link>
@@ -89,12 +95,12 @@ const Navbar = () => {
         <img
           src={user.image}
           alt="Avatar logo"
-          className="h-10 w-10 rounded-full cursor-pointer"
+          className="size-12 md:size-14 rounded-full cursor-pointer"
           onClick={() => {
             navigate(`/profile/${user.username}`);
           }}
         />
-      
+
         <div className="sm:hidden">
           <Menu
             className="size-6 cursor-pointer"
@@ -105,48 +111,86 @@ const Navbar = () => {
 
       {/*mobile nav items */}
       {isMobile && (
-        <div className="sm:hidden z-90 absolute top-20 left-0 w-full bg-black border border-gray-800 rounded-md shadow-lg">
+        <div className="md:hidden z-90 absolute top-20 left-0 w-full bg-black border border-gray-800 rounded-md shadow-lg">
           <Link
             to="/"
-            className="hover:underline p-2 block"
+            className="hover:underline block"
             onClick={() => {
               handleToggle();
               setContentType("movie");
             }}
           >
-            Movies
+            <div className=" mx-2 mt-4 flex items-center gap-1 hover:bg-gray-800 cursor-pointer">
+              <MovieIcon
+                className="size-5 mx-2"
+                onClick={() => {
+                  handleToggle();
+                  setContentType("tv");
+                }}
+              />
+              Movies
+            </div>
           </Link>
           <Link
             to="/"
-            className="hover:underline p-2 block"
+            className="hover:underline block"
             onClick={() => {
               handleToggle();
               setContentType("tv");
             }}
           >
-            TV Shows
+            <div className=" m-2 flex items-center gap-1 hover:bg-gray-800 cursor-pointer">
+              <Video
+                className="size-5 mx-2"
+                onClick={() => {
+                  handleToggle();
+                  setContentType("tv");
+                }}
+              />
+              TV Shows
+            </div>
           </Link>
+
           <Link
             to="/history"
-            className="hover:underline p-2 block"
+            className="hover:underline block"
             onClick={handleToggle}
           >
-            History
+            <div className=" m-2 flex items-center gap-1 hover:bg-gray-800 cursor-pointer">
+              <History
+                className="size-5 mx-2"
+                onClick={handleToggle}
+              />
+              History
+            </div>
           </Link>
           <Link
             to="/watchlist"
-            className="hover:underline p-2 block"
+            className="hover:underline block"
             onClick={handleToggle}
           >
-            Watch List
+            <div className=" m-2 flex items-center gap-1 hover:bg-gray-800 cursor-pointer">
+              <ListCheck
+                className="size-5 mx-2"
+                onClick={handleToggle}
+              />
+              Watch List
+            </div>
           </Link>
+          <div className=" m-2 flex items-center gap-1 hover:bg-gray-800 cursor-pointer">
+            <LogOut
+              className="size-5 mx-2"
+              onClick={logout}
+            />
+            <p onClick={logout}>Logout</p>
+          </div>
           <Link
             to="#"
             className=" px-2 text-xl block text-[#1E90FF] "
           >
             Genres List
           </Link>
-          <div className="px-4 py-1 flex flex-wrap text-sm gap-x-2 max-h-35 flex-col">
+          <div className="px-4 pt-1 pb-4 flex flex-wrap text-sm gap-x-2 max-h-35 flex-col">
             {genres.map((genre) => (
               <Link
                 to={`/genre/${contentType}/${genre?.id}/${genre?.name}`}

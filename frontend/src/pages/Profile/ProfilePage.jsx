@@ -65,7 +65,7 @@ const ProfilePage = () => {
             <img
               src={user.image}
               alt="Avatar"
-              className="w-20 h-20 rounded-full"
+              className="size-24 md:size-28 rounded-full"
             />
             <div>
               <h1 className="text-2xl font-bold">
@@ -74,7 +74,7 @@ const ProfilePage = () => {
               <p className="text-gray-400 text-sm">
                 {user.email}
               </p>
-              <p className="text-sm text-blue-500 font-medium">
+              <p className="text-sm text-blue-500 font-semibold">
                 Plan: Basic • Member since{" "}
                 {formatDate(user.createdAt)}
               </p>

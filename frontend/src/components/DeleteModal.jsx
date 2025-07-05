@@ -34,7 +34,13 @@ const DeleteConfirmationModal = ({
             </button>
 
             {/* Title */}
-            <h2 className="text-xl font-bold mb-2 text-red-500">
+            <h2
+              className={`text-xl font-bold mb-2 ${
+                title === "Update Profile"
+                  ? "text-blue-500"
+                  : "text-red-500"
+              }`}
+            >
               {title}
             </h2>
 
@@ -56,9 +62,15 @@ const DeleteConfirmationModal = ({
                   onConfirm();
                   onClose();
                 }}
-                className="px-4 py-2 rounded bg-red-600 hover:bg-red-700 transition text-sm font-semibold"
+                className={`px-4 py-2 rounded ${
+                  title === "Update Profile"
+                    ? "bg-blue-500 hover:bg-blue-700"
+                    : "bg-red-600 hover:bg-red-700"
+                } transition text-sm font-semibold`}
               >
-                Delete
+                {title === "Update Profile"
+                  ? "Update"
+                  : "Delete"}
               </button>
             </div>
           </motion.div>

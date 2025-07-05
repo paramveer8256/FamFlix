@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import { ORIGINAL_IMG_BASE_URL } from "../utils/constants";
-import { Trash } from "lucide-react";
+import { Trash, ArrowLeftIcon } from "lucide-react";
 import toast from "react-hot-toast";
 import DeleteConfirmationModal from "../components/DeleteModal";
+import { useNavigate } from "react-router-dom";
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -30,6 +31,7 @@ function formatDate(dateString) {
 }
 
 const HistoryPage = () => {
+  const navigate = useNavigate();
   const [searchHistory, setSearchHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deleteItemId, setDeleteItemId] = useState(null);
@@ -126,7 +128,11 @@ const HistoryPage = () => {
   return (
     <div className="bg-black text-white min-h-screen">
       <Navbar />
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-4 pt-2 pb-8">
+        <ArrowLeftIcon
+          onClick={() => navigate(-1)}
+          className="size-8 cursor-pointer"
+        />
         <h1 className="font-bold text-center mb-6 text-3xl">
           History
         </h1>
