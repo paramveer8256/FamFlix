@@ -227,7 +227,7 @@ const WatchPage = () => {
     <div className="bg-black min-h-screen text-white">
       <div className="mx-auto container h-full">
         <Navbar />
-        <div className="flex justify-center gap-3 mb-2">
+        <div className="flex justify-center gap-3 mb-2 mt-8">
           <button
             className={`py-2 px-4 rounded ${
               tab === "stream"
@@ -285,7 +285,7 @@ const WatchPage = () => {
           ) : null)}
 
         <div
-          className={`aspect-video mb-8  p-2 sm:px-10 md:px-32 `}
+          className={`aspect-video mb-8 p-2 sm:px-10 md:px-32 `}
         >
           {tab === "trailer" ? (
             trailers.length === 0 ? null : (

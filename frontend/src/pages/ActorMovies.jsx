@@ -6,6 +6,7 @@ import axios from "axios";
 import { ORIGINAL_IMG_BASE_URL } from "../utils/constants.js";
 import { Link } from "react-router-dom";
 import WatchPageSkeleton from "../components/skeletons/WatchPageSkeleton.jsx";
+import SearchSkeleton from "../components/skeletons/SearchSkeleton.jsx";
 
 const ActorMovies = () => {
   const [activeTab, setActiveTab] = useState("movie");
@@ -67,7 +68,7 @@ const ActorMovies = () => {
   return (
     <div className="bg-black min-h-screen text-white">
       <Navbar />
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-8">
         {/* Tab Switcher */}
         <div className="flex justify-center items-center gap-3 mb-4">
           <div className="text-2xl font-semibold text-gray-300">
@@ -142,8 +143,8 @@ const ActorMovies = () => {
 
         {/* Loading Skeleton */}
         {loading && (
-          <div className="mt-8">
-            <WatchPageSkeleton />
+          <div>
+            <SearchSkeleton />
           </div>
         )}
       </div>
