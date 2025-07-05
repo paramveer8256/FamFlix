@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 // import { toast } from "react-hot-toast";
 import { toast as toastify } from "react-toastify";
 
-const AVATAR_TOAST_KEY = "avatarToast-v1";
+// const AVATAR_TOAST_KEY = "avatarToast-v1";
 
 const HomeScreen = () => {
   const navigate = useNavigate();
@@ -24,11 +24,8 @@ const HomeScreen = () => {
   React.useEffect(() => {
     const justLoggedIn =
       localStorage.getItem("justLoggedIn");
-    const hasSeenToast = localStorage.getItem(
-      AVATAR_TOAST_KEY
-    );
 
-    if (justLoggedIn && !hasSeenToast) {
+    if (justLoggedIn) {
       toastify("🎉 New avatars have been added!", {
         position: "bottom-left",
         theme: "dark",
@@ -39,8 +36,8 @@ const HomeScreen = () => {
         draggable: true,
         progress: undefined,
       });
-      localStorage.setItem(AVATAR_TOAST_KEY, "true");
-      localStorage.removeItem("justLoggedIn");
+
+      localStorage.removeItem("justLoggedIn"); // Show toast only once *per login*
     }
   }, []);
   if (!trendingContent) {
