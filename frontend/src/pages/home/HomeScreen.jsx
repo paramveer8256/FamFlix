@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 // import { toast } from "react-hot-toast";
 import { toast as toastify } from "react-toastify";
 
-const AVATAR_TOAST_KEY = "avatarToast-v3";
+const AVATAR_TOAST_KEY = "avatarToast-v1";
 
 const HomeScreen = () => {
   const navigate = useNavigate();
