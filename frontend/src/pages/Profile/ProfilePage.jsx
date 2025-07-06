@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   LogOut,
   Pencil,
@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ORIGINAL_IMG_BASE_URL } from "../../utils/constants";
 import { Link } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -37,6 +38,8 @@ function formatDate(dateString) {
 
 const ProfilePage = () => {
   const { user, logout } = useAuthUserStore();
+  const [isClicked, setIsClicked] = useState(false);
+
   const [watchHistory, setWatchHistory] = React.useState(
     []
   );
@@ -55,6 +58,9 @@ const ProfilePage = () => {
     fetchWatchHistory();
   }, []);
 
+  function handleClick() {
+    setIsClicked(!isClicked);
+  }
   return (
     <div className="bg-black min-h-screen text-white">
       <Navbar />
@@ -62,10 +68,37 @@ const ProfilePage = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between mb-6">
           <div className="flex items-center gap-4">
+            <AnimatePresence>
+              {isClicked && (
+                <motion.div
+                  className="fixed inset-0 z-50 bg-black/60 backdrop-blur-lg flex items-center justify-center"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={handleClick}
+                >
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.5 }}
+                    transition={{ duration: 0.25 }}
+                    className=" flex items-center justify-center"
+                  >
+                    <img
+                      src={user.image}
+                      alt="Selected Avatar"
+                      className="size-70 md:size-100 rounded-full cursor-pointer"
+                    />
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
             <img
               src={user.image}
               alt="Avatar"
               className="size-24 md:size-28 rounded-full"
+              onClick={handleClick}
+              style={{ cursor: "pointer" }}
             />
             <div>
               <h1 className="text-2xl font-bold">

@@ -20,12 +20,24 @@ import ProfilePage from "./pages/Profile/ProfilePage.jsx";
 import AvatarSelector from "./components/AvatarSelector.jsx";
 import { ToastContainer } from "react-toastify";
 import { useLocation } from "react-router-dom";
+import { io } from "socket.io-client";
 
 function App() {
   const { user, isCheckingAuth, authCheck } =
     useAuthUserStore();
   const location = useLocation();
+  const socket = io("http://localhost:5000", {
+    query: { userId: user ? user._id : null },
+  });
 
+  // Listen for events
+  socket.on("user-online", (id) => {
+    console.log("User online:", id);
+  });
+
+  socket.on("user-offline", (id) => {
+    console.log("User offline:", id);
+  });
   useEffect(() => {
     authCheck();
   }, [authCheck]);

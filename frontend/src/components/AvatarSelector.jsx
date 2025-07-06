@@ -3,7 +3,7 @@ import { useAuthUserStore } from "../store/authUser";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeftIcon, PencilIcon } from "lucide-react";
 import DeleteConfirmationModal from "./DeleteModal";
-
+import { motion, AnimatePresence } from "framer-motion";
 const avatarCategories = {
   Classic: [
     "classic-1.png",
@@ -12,14 +12,21 @@ const avatarCategories = {
     "classic-4.png",
     "classic-5.png",
     "classic-6.jpg",
-  ],
-  Funky: [
-    "funky-1.png",
-    "funky-2.jpg",
-    "funky-3.jpg",
-    "funky-4.jpg",
-    "funky-5.jpg",
-    "funky-6.png",
+    "classic-7.jpg",
+    "classic-8.jpg",
+    "classic-9.jpg",
+    "classic-10.jpg",
+    "classic-11.jpg",
+    "classic-12.jpg",
+    // "classic-13.jpg",
+    // "classic-14.jpg",
+    // "classic-15.jpg",
+    // "classic-16.jpg",
+    // "classic-17.jpg",
+    // "classic-18.jpg",
+    // "classic-19.jpg",
+    // "classic-20.jpg",
+    // "classic-21.jpg",
   ],
   Insane: [
     "insane-1.jpg",
@@ -28,6 +35,64 @@ const avatarCategories = {
     "insane-4.jpg",
     "insane-5.jpg",
     "insane-6.jpg",
+    "insane-7.jpg",
+    "insane-8.jpg",
+    "insane-9.jpg",
+    "insane-10.jpg",
+    "insane-11.jpg",
+    "insane-12.jpg",
+    "insane-13.jpg",
+    "insane-14.jpg",
+    "insane-15.jpg",
+    // "insane-16.jpg",
+    // "insane-17.jpg",
+    // "insane-18.jpg",
+    // "insane-19.jpg",
+    // "insane-20.jpg",
+  ],
+  Anime: [
+    "anime-1.jpg",
+    "anime-2.jpg",
+    "anime-3.jpg",
+    "anime-4.jpg",
+    "anime-5.jpg",
+    "anime-6.jpg",
+    "anime-7.jpg",
+    "anime-8.jpg",
+    "anime-9.jpg",
+    "anime-10.jpg",
+    "anime-11.jpg",
+    "anime-12.jpg",
+    // "anime-13.jpg",
+    // "anime-14.jpg",
+    // "anime-15.jpg",
+    // "anime-16.jpg",
+    // "anime-17.jpg",
+    // "anime-18.jpg",
+    // "anime-19.jpg",
+    // "anime-20.jpg",
+  ],
+  Funky: [
+    "funky-1.png",
+    "funky-2.jpg",
+    "funky-3.jpg",
+    "funky-4.jpg",
+    "funky-5.jpg",
+    "funky-6.png",
+    "funky-7.jpg",
+    "funky-8.jpg",
+    "funky-9.jpg",
+    "funky-10.jpg",
+    "funky-11.jpg",
+    "funky-12.jpg",
+    // "funky-13.jpg",
+    // "funky-14.jpg",
+    // "funky-15.jpg",
+    // "funky-16.jpg",
+    // "funky-17.jpg",
+    // "funky-18.jpg",
+    // "funky-19.jpg",
+    // "funky-20.jpg",
   ],
   Old: ["avatar1.png", "avatar2.png", "avatar3.png"],
 };
@@ -37,6 +102,7 @@ const AvatarSelector = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isClicked, setIsClicked] = useState(false);
   const [editingUsername, setEditingUsername] =
     useState(false);
   // const [editingEmail, setEditingEmail] = useState(false);
@@ -106,6 +172,10 @@ const AvatarSelector = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  function handleClick() {
+    setIsClicked(!isClicked);
+  }
   return (
     <div className="bg-black text-white min-h-screen p-4">
       <div className="max-w-6xl mx-auto p-4">
@@ -121,10 +191,37 @@ const AvatarSelector = () => {
           <h2 className="text-xl font-semibold">
             Edit Avatar
           </h2>
+          <AnimatePresence>
+            {isClicked && (
+              <motion.div
+                className="fixed inset-0 z-50 bg-black/60 backdrop-blur-lg flex items-center justify-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={handleClick}
+              >
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.25 }}
+                  className=" flex items-center justify-center"
+                >
+                  <img
+                    src={selected}
+                    alt="Selected Avatar"
+                    className="size-70 md:size-100 rounded-full cursor-pointer"
+                  />
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <img
             src={selected}
             alt="Selected Avatar"
-            className="size-24 rounded-full mx-auto mt-4"
+            className="size-24 rounded-full mx-auto mt-4 cursor-pointer"
+            onClick={handleClick}
           />
 
           {/* Username */}
@@ -188,11 +285,11 @@ const AvatarSelector = () => {
         {/* Avatar categories */}
         {Object.entries(avatarCategories).map(
           ([category, avatars]) => (
-            <div key={category} className="mb-6">
+            <div key={category} className="mb-4">
               <h3 className="text-md font-bold mb-2">
                 {category}
               </h3>
-              <div className="flex gap-3 overflow-x-auto scrollbar-hide">
+              <div className="flex gap-3 overflow-x-auto scrollbar-hide ">
                 {avatars.map((avatar) => {
                   const imgPath = `/avatars/${category
                     .toLowerCase()
@@ -211,7 +308,7 @@ const AvatarSelector = () => {
                           avatar
                         )
                       }
-                      className={`size-20 rounded-full cursor-pointer border-4 ${
+                      className={`size-22 rounded-full cursor-pointer border-4 ${
                         selected === imgPath
                           ? "border-blue-500"
                           : "border-transparent"
@@ -225,7 +322,7 @@ const AvatarSelector = () => {
         )}
 
         {/* Save button */}
-        <div className="text-center mt-8">
+        <div className="text-center mt-6">
           <button
             className="bg-blue-500 text-white px-6 py-2 rounded-full cursor-pointer"
             onClick={openModal}
@@ -260,18 +357,18 @@ const AvatarSelectorSkeleton = () => {
         <div className="h-4 w-24 mb-6 bg-gray-600 mx-auto rounded" />
         <div className="h-4 w-50 mb-8 bg-gray-600 mx-auto mt-2 rounded" />
       </div>
-      {["Classic", "Funky", "Insane", "Old"].map(
+      {["Classic", "Anime", "Funky", "Insane", "Old"].map(
         (category) => (
           <div key={category} className="mb-6">
             <div className="h-4 w-24 bg-gray-600 mb-3 rounded" />
             <div className="overflow-x-auto scrollbar-hide">
               <div className="flex gap-3 min-w-max">
-                {Array(6)
+                {Array(12)
                   .fill(0)
                   .map((_, i) => (
                     <div
                       key={i}
-                      className="size-20 bg-gray-600 rounded-full"
+                      className="size-22 bg-gray-600 rounded-full"
                     />
                   ))}
               </div>

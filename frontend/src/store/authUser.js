@@ -8,6 +8,7 @@ export const useAuthUserStore = create((set) => ({
   isCheckingAuth: true,
   isLoggingOut: false,
   isLoggingIn: false,
+  online: false,
   signup: async (credentials) => {
     set({ isSigningUp: true });
     try {
@@ -112,6 +113,7 @@ export const useAuthUserStore = create((set) => ({
     try {
       const res = await axios.get("/api/v1/auth/authCheck");
       set({ user: res.data.user, isCheckingAuth: false });
+      set({ online: true });
     } catch {
       set({ user: null, isCheckingAuth: false });
       // toast.error(
