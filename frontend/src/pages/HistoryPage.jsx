@@ -65,14 +65,19 @@ const HistoryPage = () => {
   }, []);
 
   async function handleDelete(entry) {
+    const promise = axios.delete(
+      `/api/v1/search/history/${entry.id}`
+    );
+    toast.promise(promise, {
+      loading: "Deleteing...",
+      success: "Deleted from History!",
+      error: "Can't delete from History",
+    });
     try {
-      await axios.delete(
-        `/api/v1/search/history/${entry.id}`
-      );
+      await promise;
       setSearchHistory((prev) =>
         prev.filter((item) => item.id !== entry.id)
       );
-      toast.success("Item deleted successfully");
       closeModal();
     } catch (error) {
       toast.error(
@@ -83,10 +88,17 @@ const HistoryPage = () => {
   }
 
   async function handleClear() {
+    const promise = axios.delete(
+      "/api/v1/search/history/clear"
+    );
+    toast.promise(promise, {
+      loading: "Clearing...",
+      success: "History Cleared",
+      error: "Can't Clear History",
+    });
+    setSearchHistory([]);
     try {
-      await axios.delete("/api/v1/search/history/clear");
-      setSearchHistory([]);
-      toast.success("History cleared successfully");
+      await promise;
     } catch (error) {
       console.error(
         "Error clearing history:",

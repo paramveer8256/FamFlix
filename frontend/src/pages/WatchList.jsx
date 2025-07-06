@@ -66,15 +66,20 @@ const WatchList = () => {
   }, []);
 
   async function handleDelete(entry) {
+    const promise = axios.delete(
+      `/api/v1/watchlist/movie/${entry.id}`
+    );
+    toast.promise(promise, {
+      loading: "Deleteing...",
+      success: "Deleted from Watchlist!",
+      error: "Can't to Watchlist.",
+    });
     try {
-      await axios.delete(
-        `/api/v1/watchlist/movie/${entry.id}`
-      );
+      await promise;
       setWatchList((prev) =>
         prev.filter((item) => item.id !== entry.id)
       );
       removeFromWatchList(entry.id);
-      toast.success("Item deleted successfully");
 
       closeModal();
     } catch (error) {
@@ -86,10 +91,17 @@ const WatchList = () => {
   }
 
   async function handleClear() {
+    const promise = axios.delete(
+      "/api/v1/watchlist/movies/clear"
+    );
+    toast.promise(promise, {
+      loading: "Clearing...",
+      success: "Watchlist Cleared!",
+      error: "Can't Clear Watchlist.",
+    });
     try {
-      await axios.delete("/api/v1/watchlist/movies/clear");
+      await promise;
       setWatchList([]);
-      toast.success("Watch list cleared successfully");
     } catch (error) {
       console.error(
         "Error clearing watch list:",
