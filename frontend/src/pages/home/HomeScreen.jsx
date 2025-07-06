@@ -28,7 +28,7 @@ const HomeScreen = () => {
     if (justLoggedIn) {
       toastify("🎉 New avatars have been added!", {
         position: "bottom-left",
-        theme: "dark",
+        theme: "light",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
