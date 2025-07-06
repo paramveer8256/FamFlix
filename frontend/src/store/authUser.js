@@ -9,6 +9,20 @@ export const useAuthUserStore = create((set) => ({
   isLoggingOut: false,
   isLoggingIn: false,
   online: false,
+  onlineUsers: [],
+  setOnlineUsers: (ids) => set({ onlineUsers: ids }),
+
+  addOnlineUser: (id) =>
+    set((state) => ({
+      onlineUsers: [...new Set([...state.onlineUsers, id])],
+    })),
+
+  removeOnlineUser: (id) =>
+    set((state) => ({
+      onlineUsers: state.onlineUsers.filter(
+        (uid) => uid !== id
+      ),
+    })),
   signup: async (credentials) => {
     set({ isSigningUp: true });
     try {
