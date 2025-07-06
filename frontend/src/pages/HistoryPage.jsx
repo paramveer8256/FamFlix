@@ -96,9 +96,9 @@ const HistoryPage = () => {
       success: "History Cleared",
       error: "Can't Clear History",
     });
-    setSearchHistory([]);
     try {
       await promise;
+      setSearchHistory([]);
     } catch (error) {
       console.error(
         "Error clearing history:",
