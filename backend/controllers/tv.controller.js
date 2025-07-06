@@ -153,7 +153,11 @@ export async function getGenres(req, res) {
     const data = await fetchFromTMDB(
       "https://api.themoviedb.org/3/genre/tv/list?language=en-US"
     );
-    res.json({ success: true, genres: data.genres ,type : "tv"});
+    res.json({
+      success: true,
+      genres: data.genres,
+      type: "tv",
+    });
   } catch (error) {
     res.status(500).json({
       message:
@@ -204,6 +208,27 @@ export async function getActorTVShows(req, res) {
     res.status(500).json({
       message:
         "An error occurred while fetching the actor's movies.",
+      error: error.message,
+    });
+  }
+}
+
+export async function getTVReviews(req, res) {
+  const { id } = req.params;
+  try {
+    const data = await fetchFromTMDB(
+      `https://api.themoviedb.org/3/tv/${id}/reviews?language=en-US&page=1`
+    );
+    res.json({ success: true, content: data.results });
+  } catch (error) {
+    if (error.message.includes("404")) {
+      res.status(404).json({
+        message: "TV Shows not found",
+      });
+    }
+    res.status(500).json({
+      message:
+        "An error occurred while fetching the TV Shows reviews.",
       error: error.message,
     });
   }

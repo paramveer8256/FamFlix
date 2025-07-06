@@ -8,13 +8,15 @@ import {
   getGenres,
   getGenreMovies,
   getActorMovies,
-  getMovieCredits
+  getMovieCredits,
+  getMovieReviews,
 } from "../controllers/movie.controller.js";
 
 const router = express.Router();
 
 router.get("/trending", getTrendingMovie);
 router.get("/genre", getGenres);
+router.get("/reviews/:id", getMovieReviews);
 router.get("/credits/:id", getMovieCredits);
 router.get("/genre/:id", getGenreMovies);
 router.get("/actor/:id", getActorMovies);

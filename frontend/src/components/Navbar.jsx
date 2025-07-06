@@ -1,5 +1,5 @@
 import { LogOut, Menu, Search } from "lucide-react";
-import React, { useEffect } from "react";
+import React, { useEffect,useRef } from "react";
 import { Link } from "react-router-dom";
 import { useAuthUserStore } from "../store/authUser.js";
 import { useContentStore } from "../store/content.js";
@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 const Navbar = () => {
   const { user, logout } = useAuthUserStore();
+  const [isOpen, setIsOpen] = React.useState(false);
+  const dropdownRef = useRef();
   const { contentType, setContentType } = useContentStore();
   const [genres, setGenres] = React.useState([]);
   const [isMobile, setIsMobile] = React.useState(false);
@@ -40,7 +42,27 @@ const Navbar = () => {
     logout();
     navigate("/login");
   }
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
 
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+    };
+  }, []);
   return (
     <header className="max-w-6xl mx-auto flex flex-wrap justify-between items-center p-4 h-15">
       <div className="flex items-center justify-center gap-25 z-50 ">
@@ -73,23 +95,31 @@ const Navbar = () => {
           <Link to="/watchlist" className="hover:underline">
             Watch List
           </Link>
-          <div className="dropdown">
-            <Link to="#" className="dropbtn">
+          <div
+            ref={dropdownRef}
+            className="relative dropdown"
+          >
+            <button
+              onClick={() => setIsOpen((prev) => !prev)}
+              className=" hover:underline cursor-pointer"
+            >
               Genres
-            </Link>
-            <div className="dropdown-content z-50">
-              <div className="flex flex-col gap-1 max-h-60 overflow-y-auto pr-2 ">
+            </button>
+
+            {isOpen && (
+              <div className="absolute left-[-50px] mt-2 bg-white text-black rounded-md shadow-lg w-40 z-50 max-h-60 overflow-y-auto">
                 {genres.map((genre) => (
                   <Link
                     to={`/genre/${contentType}/${genre?.id}/${genre?.name}`}
                     key={genre?.id}
-                    className="py-1 px-2.5"
+                    className="block px-4 py-2 hover:bg-gray-200"
+                    onClick={() => setIsOpen(false)} // optional: close dropdown on click
                   >
                     {genre?.name}
                   </Link>
                 ))}
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

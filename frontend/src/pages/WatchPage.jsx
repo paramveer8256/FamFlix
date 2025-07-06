@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import React, { useEffect, useRef } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import Reviews from "../components/Reviews";
 import {
   Bookmark,
   BookmarkCheck,
@@ -17,19 +18,15 @@ import {
 import WatchPageSkeleton from "../components/skeletons/WatchPageSkeleton";
 import toast from "react-hot-toast";
 import { useAuthUserStore } from "../store/authUser";
-
-function formatReleaseDate(date) {
-  return new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
+import formatReleaseDate from "../utils/formateDate";
+import TvEpisodes from "../components/TvEpisodes";
 
 const WatchPage = () => {
   const { user, updateWatchList } = useAuthUserStore();
   // const {  } = useUserStore();
   const [tab, setTab] = React.useState("stream");
+  const [showEpisodes, setShowEpisodes] =
+    React.useState(false);
   const { id, category } = useParams(); // Extract movie ID from URL
   const [trailers, setTrailers] = React.useState([]);
   const [currTrailersIdx, setCurrTrailersIdx] =
@@ -41,9 +38,10 @@ const WatchPage = () => {
   const sliderRef = useRef(null);
   const [isBookmarked, setIsBookmarked] =
     React.useState(false);
-
-  const seasonNumber = null;
-  const episodeNumber = null;
+  const [episodeNumber, setEpisodeNumber] =
+    React.useState(null);
+  const [seasonNumber, setSeasonNumber] =
+    React.useState(null);
 
   React.useEffect(() => {
     async function watchHistory() {
@@ -222,6 +220,13 @@ const WatchPage = () => {
     setTab(newTab);
     setCurrTrailersIdx(0); // Reset trailer index when switching tabs
   };
+  const handleShow = () => {
+    setShowEpisodes((prev) => !prev);
+  };
+  function setData(data) {
+    setSeasonNumber(parseInt(data.showSeason));
+    setEpisodeNumber(parseInt(data.showEpisode));
+  }
   return (
     <div className="bg-black min-h-screen text-white">
       <div className="mx-auto container h-full">
@@ -365,8 +370,30 @@ const WatchPage = () => {
               </span>
             </h2>
           )}
+          <div className="flex flex-col mt-10 md:mt-0 items-center gap-2">
+            {category === "tv" && (
+              <button
+                onClick={handleShow}
+                className={` ${
+                  showEpisodes
+                    ? "bg-blue-500/90"
+                    : "bg-gray-500"
+                } hover:bg-blue-600  text-white mx-auto rounded px-4 py-2 transition duration-200`}
+              >
+                Show Seasons
+              </button>
+            )}
+            <div>
+              {category === "tv" && showEpisodes && (
+                <TvEpisodes
+                  id={content.id}
+                  onSetData={setData}
+                  seasons={content.seasons}
+                />
+              )}
+            </div>
+          </div>
         </div>
-
         {/* movie details */}
         <div className="flex felx-col md:flex-row px-4 items-center justify-between gap-10 max-w-6xl mx-auto">
           <div className="mb-4 md:mb-0">
@@ -432,12 +459,18 @@ const WatchPage = () => {
                   .join(", ")}
               </span>
             </div>
-            <p className="mt-4 sm:text-xl text-md">
-              {content?.overview}
-            </p>
+
+            <div>
+              <span className=" text-[#1E90FF] text-md font-semibold md:text-xl">
+                Overview:{" "}
+              </span>
+              <p className="sm:text-xl text-md">
+                {content?.overview}
+              </p>
+            </div>
           </div>
         </div>
-        <div className="max-w-6xl mx-auto mt-4 px-4">
+        <div className="max-w-6xl mx-auto mt-2 px-4">
           <p className="text-[#1E90FF] text-xl font-semibold">
             Poster:
           </p>
@@ -448,6 +481,9 @@ const WatchPage = () => {
             alt="poster img"
             className=" h-50 w-40 md:h-100 md:w-80  mt-2  md:max-h-[700px] mx-auto rounded "
           />
+        </div>
+        <div>
+          <Reviews id={id} category={category} />
         </div>
         {similar?.length > 0 && (
           <div className="mt-12 max-w-5xl px-4 mx-auto relative">

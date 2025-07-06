@@ -3,6 +3,9 @@
 body{
   min-height: 100vh;
 }
+button{
+  cursor: pointer;
+}
 .hero-bg{
   background-image:linear-gradient(rgba(0,0,0,.8),rgba(0,0,0,.1)) ,url('/hero.png');
 
@@ -72,26 +75,14 @@ body {
   position: relative;
   display: inline-block;
 }
-
+/* 
 .dropbtn {
   color: white;
   text-decoration: none;
-}
+} */
 
-.dropdown-content {
-  display: none;
-  position: absolute;
 
-  background-color: white;
-  min-width: 160px;
-  top:25px;
-  left: -50px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-  z-index: 1;
-  border-radius: 6px;
-}
-
-.dropdown-content a {
+/* .dropdown-content a {
   color: black;
   display: block;
   text-decoration: none;
@@ -100,12 +91,8 @@ body {
 .dropdown-content a:hover {
   background-color: #ddd;
   border-radius: 8px;
-}
+} */
 
-/* Show the dropdown on hover */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
 
 .genre-container {
   display: flex;
