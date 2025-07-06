@@ -20,15 +20,12 @@ import ProfilePage from "./pages/Profile/ProfilePage.jsx";
 import AvatarSelector from "./components/AvatarSelector.jsx";
 import { ToastContainer } from "react-toastify";
 import { useLocation } from "react-router-dom";
-// import socket from "./utils/socket.js";
 
 function App() {
   const {
     user,
     isCheckingAuth,
     authCheck,
-    // addOnlineUser,
-    // removeOnlineUser,
   } = useAuthUserStore();
   const location = useLocation();
 
@@ -36,26 +33,6 @@ function App() {
     authCheck();
   }, [authCheck]);
 
-  // useEffect(() => {
-  //   if (!user?._id) return;
-
-  //   socket.io.opts.query = {
-  //     userId: user?._id,
-  //   };
-  //   socket.connect();
-
-  //   socket.on("user-online", (id) => {
-  //     addOnlineUser(id);
-  //   });
-
-  //   socket.on("user-offline", (id) => {
-  //     removeOnlineUser(id);
-  //   });
-
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, [user]);
 
   if (isCheckingAuth) {
     return (

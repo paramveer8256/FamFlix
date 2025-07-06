@@ -17,8 +17,6 @@ import {
 import WatchPageSkeleton from "../components/skeletons/WatchPageSkeleton";
 import toast from "react-hot-toast";
 import { useAuthUserStore } from "../store/authUser";
-import OnlineUsers from "../components/OnlineUsers";
-// import useUserStore from "../store/userActions";
 
 function formatReleaseDate(date) {
   return new Date(date).toLocaleDateString("en-US", {
@@ -498,7 +496,6 @@ const WatchPage = () => {
             No similar content found.
           </div>
         )}
-        <OnlineUsers />
       </div>
     </div>
   );
