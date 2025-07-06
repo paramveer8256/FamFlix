@@ -26,16 +26,20 @@ const HomeScreen = () => {
       localStorage.getItem("justLoggedIn");
 
     if (justLoggedIn) {
-      toastify("🎉 New avatars have been added!", {
-        position: "bottom-left",
-        theme: "light",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastify(
+        "👋 Hey there, Dev here, just wanted to let you know, you can now customized your Profile and I have added New Avatars just go & check it out Byee!😎",
+        {
+          position: "bottom-left",
+          theme: "light",
+          autoClose: 8000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          textColor: "white",
+        }
+      );
 
       localStorage.removeItem("justLoggedIn"); // Show toast only once *per login*
     }

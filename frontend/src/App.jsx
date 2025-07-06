@@ -22,17 +22,13 @@ import { ToastContainer } from "react-toastify";
 import { useLocation } from "react-router-dom";
 
 function App() {
-  const {
-    user,
-    isCheckingAuth,
-    authCheck,
-  } = useAuthUserStore();
+  const { user, isCheckingAuth, authCheck } =
+    useAuthUserStore();
   const location = useLocation();
 
   useEffect(() => {
     authCheck();
   }, [authCheck]);
-
 
   if (isCheckingAuth) {
     return (
@@ -165,7 +161,7 @@ function App() {
         <Footer />
       )}
       <Toaster position="top-center" />
-      <ToastContainer />
+      <ToastContainer toastStyle={{ color: "black" }} />
     </>
   );
 }
