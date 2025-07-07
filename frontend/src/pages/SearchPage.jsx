@@ -4,6 +4,7 @@ import {
   Search,
   BookmarkCheck,
   BookmarkPlus,
+  FilterIcon,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -11,12 +12,20 @@ import { ORIGINAL_IMG_BASE_URL } from "../utils/constants.js";
 import { Link } from "react-router-dom";
 import SearchSkeleton from "../components/skeletons/SearchSkeleton.jsx";
 import { useAuthUserStore } from "../store/authUser.js";
-
+import Note from "../components/Note.jsx";
+const years = [
+  2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017,
+  2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008,
+  2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000,
+];
 const SearchPage = () => {
   const [activeTab, setActiveTab] = useState("movie");
   const [bookmarkedIds, setBookmarkedIds] = useState(
     new Set()
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filter, setFilter] = useState(false);
+  const [syear, setYear] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -79,7 +88,7 @@ const SearchPage = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `/api/v1/search/${activeTab}/${searchQuery}?page=${currentPage}`
+        `/api/v1/search/${activeTab}/${searchQuery.trim()}?page=${currentPage}&year=${syear}`
       );
       let newResults = res.data?.content || [];
 
@@ -136,11 +145,24 @@ const SearchPage = () => {
       window.removeEventListener("scroll", handleScroll);
   }, [page, loading, hasMore]);
 
+  function handleFilter() {
+    setFilter((prev) => !prev);
+    setYear(null);
+  }
+  function handleYear(year) {
+    setYear(year);
+  }
+  function handleModal() {
+    setIsModalOpen(true);
+  }
+  function closeModal() {
+    setIsModalOpen(false);
+  }
   return (
     <div className="bg-black min-h-screen text-white">
       <Navbar />
       <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-center gap-3 mb-4">
+        <div className="flex justify-center gap-3 mb-2">
           {["movie", "tv", "person"].map((tab) => {
             const isActive = activeTab === tab;
             const activeColor =
@@ -152,6 +174,7 @@ const SearchPage = () => {
             return (
               <button
                 key={tab}
+                disabled={tab === "person" ? filter : null}
                 className={`py-2 px-4 rounded ${
                   isActive
                     ? activeColor
@@ -164,13 +187,59 @@ const SearchPage = () => {
             );
           })}
         </div>
-
+        <div className="max-w-2xl mx-auto px-4 py-4">
+          <div className="flex items-center h-15 flex-wrap gap-4">
+            <button
+              disabled={activeTab === "person"}
+              onClick={handleFilter}
+              className={` ${
+                filter ? "bg-blue-500" : "bg-gray-800"
+              } py-2 px-4 rounded flex gap-1 items-center`}
+            >
+              Filter
+              <FilterIcon className="size-4" />
+            </button>
+            {filter && (
+              <>
+                {" "}
+                <p className="">Year:</p>
+                <div className=" w-20 h-15 scrollbar-hide overflow-y-auto">
+                  {years.map((year) => (
+                    <button
+                      onClick={() => handleYear(year)}
+                      className={`${
+                        syear === year
+                          ? "bg-blue-500"
+                          : "bg-gray-500"
+                      } px-3 mb-1 rounded`}
+                    >
+                      {year}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  className="bg-gray-800 p-1 rounded"
+                  onClick={handleModal}
+                >
+                  Note!!
+                </button>
+                <Note
+                  isOpen={isModalOpen}
+                  onClose={closeModal}
+                  title="Note!!"
+                  message="For using the Advance Filters you won't be to use search bar only the search button obviously for filters to work. Don't ask me how but this is how it works. Peace☮️"
+                />
+              </>
+            )}
+          </div>
+        </div>
         <form
           onSubmit={handleSearch}
           className="flex gap-2 items-stretch mb-8 max-w-2xl mx-auto"
         >
           <input
             type="text"
+            // disabled={filter}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={`Search for a ${activeTab}`}
