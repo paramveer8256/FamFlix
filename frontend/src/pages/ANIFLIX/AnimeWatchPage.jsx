@@ -168,54 +168,67 @@ const AnimeWatchPage = () => {
             </div>
           )}
         </div>
-        <div className="max-w-6xl mx-auto py-10 ">
-          <div className="text-5xl font-bold">
-            {anime.title_english || anime.title} ({anime?.year})
+        <div className="max-w-6xl px-4 mx-auto py-10 ">
+          <div className="text-2xl md:text-5xl font-bold">
+            {anime.title_english || anime.title} (
+            {anime?.year})
           </div>
           <div className="text-gray-400">
             {anime.rating}
           </div>
-          <div className="text-2xl">⭐ {anime.score}</div>
-          <span className="text-red-500 text-xl">
+          <div className="text-xl md:text-2xl">
+            ⭐ {anime.score}
+          </div>
+          <span className="text-red-500 md:text-xl">
             Genres:
-            <span className="text-gray-400 text-lg pl-2">
+            <span className="text-gray-400 text-sm md:text-lg pl-2">
               {anime?.genres?.map((genre) => (
                 <>{genre?.name} </>
               ))}
             </span>
           </span>
           <div>
-            <span className="text-red-500 text-xl">
+            <span className="text-red-500 md:text-xl">
               {" "}
               Status:
             </span>
-            <span className="text-gray-400 text-lg pl-2">
+            <span className="text-gray-400 text-sm md:text-lg pl-2">
               {anime.status}
             </span>
           </div>
           <div>
-            <span className="text-red-500 text-xl">
+            <span className="text-red-500 md:text-xl">
               {" "}
               Rank:
             </span>
-            <span className="text-gray-400 text-lg pl-2">
+            <span className="text-gray-400 text-sm md:text-lg pl-2">
               {anime.rank}
             </span>
           </div>
           <div>
-            <span className="text-red-500 text-xl">
+            <span className="text-red-500 md:text-xl">
               {" "}
               Season:
             </span>
-            <span className="text-gray-400 text-lg pl-2">
+            <span className="text-gray-400 text-sm md:text-lg pl-2">
               {anime.season || null}
             </span>
           </div>
-          <div className="text-red-500 text-xl">
+          <div className="text-red-500 md:text-xl leading-0">
             Overview:
-            <span className="text-gray-400 text-lg pl-2">
+            <span className="text-gray-400 text-sm md:text-lg pl-2">
               {anime?.synopsis}
             </span>
+          </div>
+          <div className="text-red-500 md:text-xl">
+            Poster:
+            <div className="text-gray-400 text-sm md:text-lg pl-2">
+              <img
+                src={anime?.images?.jpg?.image_url}
+                alt="poster img"
+                className="w-32 mx-auto h-50 md:w-80 md:h-100 rounded"
+              />
+            </div>
           </div>
           <div>
             {similar?.length > 0 && (
@@ -227,7 +240,7 @@ const AnimeWatchPage = () => {
                   {similar.map((item) => (
                     <Link
                       key={item?.entry?.mal_id}
-                      to={`/anime/watch/${item?.entry?.id}`}
+                      to={`/anime/watch/${item?.entry?.mal_id}`}
                       className="w-30 md:w-52 flex-none"
                     >
                       <img

@@ -111,7 +111,7 @@ const AnimeHomePage = () => {
         </div>
       </div>
       <div className="relative bg-black z-10 flex flex-col items-center justify-center font-semibold">
-        <h2 className="mb-2 text-white text-lg lg:text-2xl font-serif">
+        <h2 className="mb-2 text-white text-lg lg:text-2xl">
           Switch to Movie World
         </h2>
         <label className="switch">

@@ -222,10 +222,11 @@ const AnimeSearchPage = () => {
           </div>
         )}
         {/* Loading */}
+
+        {loading && loadCount.current < 2 && (
+          <SearchSkeleton />
+        )}
       </div>
-      {loading && loadCount.current < 2 && (
-        <SearchSkeleton />
-      )}
     </div>
   );
 };

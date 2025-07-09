@@ -160,7 +160,7 @@ const HomeScreen = () => {
           className="flex flex-col
         items-center justify-center  font-semibold "
         >
-          <h2 className="mb-2 text-white text-lg lg:text-2xl font-serif">
+          <h2 className="mb-2 text-white text-lg lg:text-2xl">
             Switch to Anime World
           </h2>
           <label className="switch">
