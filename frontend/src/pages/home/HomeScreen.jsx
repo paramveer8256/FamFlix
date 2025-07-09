@@ -19,34 +19,35 @@ const HomeScreen = () => {
   const { trendingContent } = useGetTrendingContent();
   const { contentType } = useContentStore();
   const [imgLoading, setImgLoading] = React.useState(true);
-  const [showSplash, setShowSplash] = React.useState(true);
+  const [showSplash, setShowSplash] = React.useState(() => {
+    return localStorage.getItem("justLoggedIn") === "true";
+  });
 
   // Show splash screen on first load
   React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      setShowSplash(false);
-    }, 4000); // match your video length
+    if (showSplash) {
+      const timeout = setTimeout(() => {
+        setShowSplash(false);
 
-    return () => clearTimeout(timeout);
-  }, []);
-
-  React.useEffect(() => {
-    const justLoggedIn =
-      localStorage.getItem("justLoggedIn");
-    if (justLoggedIn && !showSplash) {
-      toastify(
-        "👋 Hey there, Dev here, just wanted to let you know, you can now customize your Profile and I have added New Avatars. Go check it out! 😎",
-        {
-          position: "bottom-left",
-          theme: "light",
-          autoClose: 8000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
+        // Show toast after splash ends
+        if (localStorage.getItem("justLoggedIn")) {
+          toastify(
+            "👋 Hey there, Dev here, just wanted to let you know, you can now customize your Profile and I have added New Avatars. Go check it out! 😎",
+            {
+              position: "bottom-left",
+              theme: "light",
+              autoClose: 8000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+            }
+          );
+          localStorage.removeItem("justLoggedIn");
         }
-      );
-      localStorage.removeItem("justLoggedIn");
+      }, 4000);
+
+      return () => clearTimeout(timeout);
     }
   }, [showSplash]);
 
