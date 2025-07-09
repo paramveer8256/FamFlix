@@ -15,11 +15,19 @@ import { Loader } from "lucide-react";
 import SearchPage from "./pages/SearchPage.jsx";
 import HistoryPage from "./pages/HistoryPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
-import AnimeWatchPage from "./pages/ANIFLIX/AnimeWatchPage.jsx";
 import ProfilePage from "./pages/Profile/ProfilePage.jsx";
 import AvatarSelector from "./components/AvatarSelector.jsx";
 import { ToastContainer } from "react-toastify";
 import { useLocation } from "react-router-dom";
+// anime pages
+import AnimeWatchPage from "./pages/ANIFLIX/AnimeWatchPage.jsx";
+import AnimeSearchPage from "./pages/ANIFLIX/AnimeSearchPage.jsx";
+import AnimeNews from "./pages/ANIFLIX/AnimeNews.jsx";
+import AnimeGenre from "./pages/ANIFLIX/AnimeGenre.jsx";
+import AnimeWatchlist from "./pages/ANIFLIX/AnimeWatchlist.jsx";
+import AnimeHistory from "./pages/ANIFLIX/AnimeHistory.jsx";
+import AnimeProfile from "./pages/ANIFLIX/AnimeProfile.jsx";
+
 
 function App() {
   const { user, isCheckingAuth, authCheck } =
@@ -106,16 +114,6 @@ function App() {
           }
         />
         <Route
-          path="/anime/watch/:id"
-          element={
-            user ? (
-              <AnimeWatchPage />
-            ) : (
-              <Navigate to={"/login"} />
-            )
-          }
-        />
-        <Route
           path="/genre/:category/:id/:genreName"
           element={
             user ? (
@@ -150,6 +148,77 @@ function App() {
           element={
             user ? (
               <AvatarSelector />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        {/* Anime Routes */}
+        <Route
+          path="/anime/watch/:id"
+          element={
+            user ? (
+              <AnimeWatchPage />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/anime/search"
+          element={
+            user ? (
+              <AnimeSearchPage />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/anime/history"
+          element={
+            user ? (
+              <AnimeHistory />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/anime/watchlist"
+          element={
+            user ? (
+              <AnimeWatchlist />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/genre/anime/:id/:genreName"
+          element={
+            user ? (
+              <AnimeSearchPage />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/anime/profile/:username"
+          element={
+            user ? (
+              <AnimeProfile />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/anime/news"
+          element={
+            user ? (
+              <AnimeNews />
             ) : (
               <Navigate to={"/login"} />
             )

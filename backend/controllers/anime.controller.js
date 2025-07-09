@@ -13,7 +13,7 @@ export const getAnime = async (req, res) => {
         .json({ message: "Data not found" }); // Return to prevent further execution
     }
 
-    res.status(200).json({ success: true, content:data});
+    res.status(200).json({ success: true, content: data });
   } catch (error) {
     console.error(error);
     res
@@ -21,8 +21,6 @@ export const getAnime = async (req, res) => {
       .json({ message: "Internal Server Error" });
   }
 };
-
-
 
 export async function getTrendingAnime(req, res) {
   try {
@@ -56,6 +54,87 @@ export async function getAnimeGenres(req, res) {
       success: true,
       genres: data.data,
       type: "movie",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message:
+        "An error occurred while fetching the movie genres.",
+      error: error.message,
+    });
+  }
+}
+export async function getAnimeSearch(req, res) {
+  try {
+    const q = req.query.q;
+    const page = parseInt(req.query.page) || 1;
+    const data = await fetchAnimeData(
+      `https://api.jikan.moe/v4/anime?q=${q}&page=${page}`
+    );
+    res.json({
+      success: true,
+      content: data.data,
+      page: data.pagination.current_page,
+      totalPages: data.pagination.last_visible_page,
+      totalResults: data.pagination.items.total,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message:
+        "An error occurred while fetching the movie genres.",
+      error: error.message,
+    });
+  }
+}
+export async function getEpisodes(req, res) {
+  try {
+    const id = req.query.id;
+    const page = parseInt(req.query.page) || 1;
+    const data = await fetchAnimeData(
+      `https://api.jikan.moe/v4/anime/${id}/episodes?page=${page}`
+    );
+    res.json({
+      success: true,
+      content: data.data,
+      page: data.pagination.current_page,
+      totalPages: data.pagination.last_visible_page,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message:
+        "An error occurred while fetching the movie genres.",
+      error: error.message,
+    });
+  }
+}
+export async function getAnimeFull(req, res) {
+  try {
+    const id = req.query.id;
+    const data = await fetchAnimeData(
+      `https://api.jikan.moe/v4/anime/${id}`
+    );
+    res.json({
+      success: true,
+      content: data.data,
+      
+    });
+  } catch (error) {
+    res.status(500).json({
+      message:
+        "An error occurred while fetching the movie genres.",
+      error: error.message,
+    });
+  }
+}
+export async function getRecommendations(req, res) {
+  try {
+    const id = req.query.id;
+    const data = await fetchAnimeData(
+      `https://api.jikan.moe/v4/anime/${id}/recommendations`
+    );
+    res.json({
+      success: true,
+      content: data.data,
+      
     });
   } catch (error) {
     res.status(500).json({

@@ -250,7 +250,7 @@ const SearchPage = () => {
           </button>
         </form>
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="lg:px-15 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-6 gap-4">
           {searchResults.map((item) => {
             const imagePath =
               activeTab === "person"
@@ -285,7 +285,7 @@ const SearchPage = () => {
                         ORIGINAL_IMG_BASE_URL + imagePath
                       }
                       alt={nameOrTitle}
-                      className="w-full h-auto rounded"
+                      className="w-64 md:h-100 h-full rounded"
                     />
                     {activeTab !== "person" && (
                       <button

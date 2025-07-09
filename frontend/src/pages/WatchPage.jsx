@@ -4,7 +4,6 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 import Reviews from "../components/Reviews";
 import {
-  Bookmark,
   BookmarkCheck,
   BookmarkPlus,
   ChevronLeft,
@@ -23,7 +22,6 @@ import TvEpisodes from "../components/TvEpisodes";
 
 const WatchPage = () => {
   const { user, updateWatchList } = useAuthUserStore();
-  // const {  } = useUserStore();
   const [tab, setTab] = React.useState("stream");
   const [showEpisodes, setShowEpisodes] =
     React.useState(false);
