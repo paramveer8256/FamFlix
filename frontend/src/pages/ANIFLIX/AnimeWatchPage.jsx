@@ -250,7 +250,7 @@ const AnimeWatchPage = () => {
               <img
                 src={anime?.images?.jpg?.image_url}
                 alt="poster img"
-                className="w-32 mx-auto h-50 md:w-80 md:h-100 rounded"
+                className="w-52 mx-auto h-60 md:w-80 md:h-100 rounded"
               />
             </div>
           </div>
