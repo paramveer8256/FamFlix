@@ -102,8 +102,8 @@ const AnimeWatchPage = () => {
         <AnimeNav />
 
         {/* Iframe Player */}
-        <div className="px-4 py-8 max-w-6xl mx-auto">
-          <div className="relative w-full h-full md:h-170 mt-10 mb-4 aspect-video">
+        <div className="max-w-6xl mx-auto">
+          <div className="relative md:h-170 mt-10 mb-4 aspect-video">
             {/* Mobile */}
             <iframe
               src={`https://vidsrc.cc/v2/embed/anime/ani${id}/${episodeNumber}/dub`}
