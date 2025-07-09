@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Play, StickyNote } from "lucide-react";
 import { Link } from "react-router-dom";
+import WatchPageSkeleton from "../../components/skeletons/WatchPageSkeleton.jsx";
 
 const AnimeWatchPage = () => {
   const { id } = useParams();
@@ -16,6 +17,7 @@ const AnimeWatchPage = () => {
   const [episodeNumber, setEpisodeNumber] =
     React.useState(null);
   const [totalPages, setTotalPages] = React.useState(1);
+  const [loading, setLoading] = React.useState(true);
 
   // Toggle episode section
   function handleShow() {
@@ -40,9 +42,13 @@ const AnimeWatchPage = () => {
       console.error("Failed to fetch episodes", error);
     }
   }
+  useEffect(() => {
+    setShowEpisodes(false);
+  }, [id]);
 
   useEffect(() => {
     async function fetchAnime() {
+      setLoading(() => true);
       try {
         const res = await axios.get(
           `/api/v1/anime/full?id=${id}`
@@ -50,20 +56,24 @@ const AnimeWatchPage = () => {
         setAnime(res.data.content);
       } catch (error) {
         console.error("Failed to fetch episodes", error);
+      } finally {
+        setLoading(() => false);
       }
     }
     fetchAnime();
   }, [id]);
   useEffect(() => {
+    setLoading(() => true);
     async function fetchAnimeRecommendations() {
       try {
         const res = await axios.get(
           `/api/v1/anime/recommendations?id=${id}`
         );
         setSimilar(res.data.content);
-        console.log(res.data.content);
       } catch (error) {
         console.error("Failed to fetch episodes", error);
+      } finally {
+        setLoading(() => false);
       }
     }
     fetchAnimeRecommendations();
@@ -80,6 +90,12 @@ const AnimeWatchPage = () => {
     fetchEpisodes(pageIndex);
   }
 
+  if (loading)
+    return (
+      <div className="min-h-screen bg-black p-10">
+        <WatchPageSkeleton />
+      </div>
+    );
   return (
     <div className="bg-black text-white min-h-screen">
       <div className="mx-auto container h-full">
@@ -147,21 +163,21 @@ const AnimeWatchPage = () => {
 
           {/* Episode Buttons */}
           {showEpisodes && (
-            <div className="flex justify-center max-w-6xl overflow-x-auto scrollbar-hide flex-wrap my-5">
+            <div className="flex justify-center max-w-6xl h-45 md:h-auto overflow-x-auto scrollbar-hide flex-wrap my-5">
               {content?.map((episode) => (
-                <div key={episode.mal_id} className="p-2">
+                <div key={episode?.mal_id} className="p-2">
                   <div
                     className={`${
-                      episodeNumber === episode.mal_id
+                      episodeNumber === episode?.mal_id
                         ? "bg-red-500 text-white"
                         : "bg-gray-400"
                     } p-2 w-22 justify-center items-center flex rounded cursor-pointer`}
                     onClick={() =>
-                      handleClick(episode.mal_id)
+                      handleClick(episode?.mal_id)
                     }
                   >
                     <Play className="size-4 mr-2" />
-                    {episode.mal_id}
+                    {episode?.mal_id}
                   </div>
                 </div>
               ))}
@@ -170,14 +186,13 @@ const AnimeWatchPage = () => {
         </div>
         <div className="max-w-6xl px-4 mx-auto py-10 ">
           <div className="text-2xl md:text-5xl font-bold">
-            {anime.title_english || anime.title} (
-            {anime?.year})
+            {anime?.title_english || anime?.title}
           </div>
           <div className="text-gray-400">
-            {anime.rating}
+            {anime?.rating}
           </div>
           <div className="text-xl md:text-2xl">
-            ⭐ {anime.score}
+            ⭐ {anime?.score}
           </div>
           <span className="text-red-500 md:text-xl">
             Genres:
@@ -193,7 +208,7 @@ const AnimeWatchPage = () => {
               Status:
             </span>
             <span className="text-gray-400 text-sm md:text-lg pl-2">
-              {anime.status}
+              {anime?.status}
             </span>
           </div>
           <div>
@@ -202,7 +217,16 @@ const AnimeWatchPage = () => {
               Rank:
             </span>
             <span className="text-gray-400 text-sm md:text-lg pl-2">
-              {anime.rank}
+              {anime?.rank}
+            </span>
+          </div>
+          <div>
+            <span className="text-red-500 md:text-xl">
+              {" "}
+              Year:
+            </span>
+            <span className="text-gray-400 text-sm md:text-lg pl-2">
+              {anime?.year}
             </span>
           </div>
           <div>
@@ -211,7 +235,7 @@ const AnimeWatchPage = () => {
               Season:
             </span>
             <span className="text-gray-400 text-sm md:text-lg pl-2">
-              {anime.season || null}
+              {anime?.season || null}
             </span>
           </div>
           <div className="text-red-500 md:text-xl leading-0">
