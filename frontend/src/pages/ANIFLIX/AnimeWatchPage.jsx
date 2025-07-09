@@ -205,10 +205,10 @@ const AnimeWatchPage = () => {
           <div>
             <span className="text-red-500 text-xl">
               {" "}
-              Seaon:
+              Season:
             </span>
             <span className="text-gray-400 text-lg pl-2">
-              {anime.season}
+              {anime.season || null}
             </span>
           </div>
           <div className="text-red-500 text-xl">
