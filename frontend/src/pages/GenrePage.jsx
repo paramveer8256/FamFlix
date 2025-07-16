@@ -19,9 +19,7 @@ const GenrePage = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [content, setContent] = useState(null);
-  const [bookmarkedIds, setBookmarkedIds] = useState(
-    new Set()
-  );
+  const [bookmarkedIds, setBookmarkedIds] = useState(new Set());
 
   const fetchGenreResults = async (currentPage) => {
     if (loading || !hasMore) return;
@@ -33,8 +31,7 @@ const GenrePage = () => {
       const newResults = res.data.content;
       setSearchResults((prev) => [...prev, ...newResults]);
       setPage((prev) => prev + 1);
-      if (currentPage >= res.data.totalPages)
-        setHasMore(false);
+      if (currentPage >= res.data.totalPages) setHasMore(false);
     } catch (error) {
       toast.error("Error loading data.", error?.message);
       setHasMore(false);
@@ -60,17 +57,14 @@ const GenrePage = () => {
       }
     };
     window.addEventListener("scroll", handleScroll);
-    return () =>
-      window.removeEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [page, loading, hasMore]);
 
   useEffect(() => {
     const getDetails = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(
-          `/api/v1/${contentType}/${id}/details`
-        );
+        const res = await axios.get(`/api/v1/${contentType}/${id}/details`);
         setContent(res.data.details);
       } catch {
         setContent(null);
@@ -83,21 +77,13 @@ const GenrePage = () => {
 
   useEffect(() => {
     if (user?.watchList) {
-      const ids = new Set(
-        user.watchList.map((item) => item.id)
-      );
+      const ids = new Set(user.watchList.map((item) => item.id));
       setBookmarkedIds(ids);
     }
   }, [user]);
 
-  const handleAddToWatchlist = async (
-    movieId,
-    movieTitle,
-    posterPath
-  ) => {
-    const promise = axios.post(
-      `/api/v1/watchlist/${category}/${movieId}`
-    );
+  const handleAddToWatchlist = async (movieId, movieTitle, posterPath) => {
+    const promise = axios.post(`/api/v1/watchlist/${category}/${movieId}`);
     toast.promise(promise, {
       loading: "Adding...",
       success: "Added to watchlist!",
@@ -107,9 +93,7 @@ const GenrePage = () => {
     try {
       const res = await promise;
       if (res.data.success) {
-        setBookmarkedIds((prev) =>
-          new Set(prev).add(movieId)
-        );
+        setBookmarkedIds((prev) => new Set(prev).add(movieId));
         updateWatchList({
           id: movieId,
           type: category,
@@ -128,24 +112,18 @@ const GenrePage = () => {
       <Navbar />
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-center items-center gap-3 mb-4">
-          <div className="text-2xl font-semibold text-gray-300">
-            Genre:
-          </div>
+          <div className="text-2xl font-semibold text-gray-300">Genre:</div>
           <button className="py-1 px-4 rounded bg-blue-500 text-white hover:bg-blue-600">
             {genreName}
           </button>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="lg:px-15 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-6 gap-4">
           {searchResults.map((item) => {
-            if (!item?.poster_path && !item?.profile_path)
-              return null;
-            const imagePath =
-              item?.poster_path || item?.profile_path;
+            if (!item?.poster_path && !item?.profile_path) return null;
+            const imagePath = item?.poster_path || item?.profile_path;
             const nameOrTitle = item?.title || item?.name;
-            const isBookmarked = bookmarkedIds.has(
-              item?.id
-            );
+            const isBookmarked = bookmarkedIds.has(item?.id);
 
             return (
               <div
@@ -158,11 +136,9 @@ const GenrePage = () => {
                 >
                   <div className="relative">
                     <img
-                      src={
-                        ORIGINAL_IMG_BASE_URL + imagePath
-                      }
+                      src={ORIGINAL_IMG_BASE_URL + imagePath}
                       alt={nameOrTitle}
-                      className="w-full h-auto rounded"
+                      className="h-52 md:h-96 rounded"
                     />
                     <button
                       disabled={isBookmarked}
@@ -177,9 +153,7 @@ const GenrePage = () => {
                         }
                       }}
                       className={`absolute top-2 right-2 group ${
-                        isBookmarked
-                          ? "opacity-70 cursor-not-allowed"
-                          : ""
+                        isBookmarked ? "opacity-70 cursor-not-allowed" : ""
                       } p-2 rounded-2xl bg-black/70 backdrop-blur-lg shadow-[0_0_8px_8px_rgba(0,0,0,0.7)] transition duration-300`}
                     >
                       {isBookmarked ? (
