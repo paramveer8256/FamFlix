@@ -50,9 +50,7 @@ const HistoryPage = () => {
   useEffect(() => {
     const getSearchHistory = async () => {
       try {
-        const res = await axios.get(
-          `/api/v1/search/history`
-        );
+        const res = await axios.get(`/api/v1/search/history`);
         setSearchHistory(res.data.content);
       } catch (error) {
         console.log(error.response?.data?.message);
@@ -65,9 +63,7 @@ const HistoryPage = () => {
   }, []);
 
   async function handleDelete(entry) {
-    const promise = axios.delete(
-      `/api/v1/search/history/${entry.id}`
-    );
+    const promise = axios.delete(`/api/v1/search/history/${entry.id}`);
     toast.promise(promise, {
       loading: "Deleteing...",
       success: "Deleted from History!",
@@ -75,22 +71,15 @@ const HistoryPage = () => {
     });
     try {
       await promise;
-      setSearchHistory((prev) =>
-        prev.filter((item) => item.id !== entry.id)
-      );
+      setSearchHistory((prev) => prev.filter((item) => item.id !== entry.id));
       closeModal();
     } catch (error) {
-      toast.error(
-        "Failed to delete the item",
-        error.message
-      );
+      toast.error("Failed to delete the item", error.message);
     }
   }
 
   async function handleClear() {
-    const promise = axios.delete(
-      "/api/v1/search/history/clear"
-    );
+    const promise = axios.delete("/api/v1/search/history/clear");
     toast.promise(promise, {
       loading: "Clearing...",
       success: "History Cleared",
@@ -100,10 +89,7 @@ const HistoryPage = () => {
       await promise;
       setSearchHistory([]);
     } catch (error) {
-      console.error(
-        "Error clearing history:",
-        error.message
-      );
+      console.error("Error clearing history:", error.message);
     }
   }
 
@@ -113,9 +99,7 @@ const HistoryPage = () => {
       <div className="bg-black min-h-screen text-white">
         <Navbar />
         <div className="max-w-6xl mx-auto px-4 py-8 text-center">
-          <h1 className="text-2xl font-bold">
-            Loading history...
-          </h1>
+          <h1 className="text-2xl font-bold">Loading history...</h1>
         </div>
       </div>
     );
@@ -127,13 +111,9 @@ const HistoryPage = () => {
       <div className="bg-black min-h-screen text-white">
         <Navbar />
         <div className="max-w-6xl mx-auto px-4 py-8">
-          <h1 className=" font-bold text-center mb-8 text-3xl">
-            History
-          </h1>
+          <h1 className=" font-bold text-center mb-8 text-3xl">History</h1>
           <div className="flex justify-center items-center h-96">
-            <p className="text-xl">
-              No Search history found
-            </p>
+            <p className="text-xl">No Search history found</p>
           </div>
         </div>
       </div>
@@ -148,9 +128,7 @@ const HistoryPage = () => {
           onClick={() => navigate(-1)}
           className="size-8 cursor-pointer"
         />
-        <h1 className="font-bold text-center mb-6 text-3xl">
-          History
-        </h1>
+        <h1 className="font-bold text-center mb-6 text-3xl">History</h1>
         <div className="flex justify-between items-center">
           <h2
             className="text-red-500 font-semibold text-lg cursor-pointer px-2 mb-2"
@@ -169,7 +147,11 @@ const HistoryPage = () => {
               className="bg-gray-800 p-4 rounded flex items-center justify-between hover:bg-gray-700 transition hover:scale-105"
             >
               <Link
-                to={`/watch/${entry?.searchType}/${entry?.id}`}
+                to={
+                  entry?.searchType === "person"
+                    ? `/actor/movie/${entry?.id}/${entry?.title}`
+                    : `/watch/${entry?.searchType}/${entry?.id}`
+                }
                 className="flex flex-grow items-start gap-4"
               >
                 <img
