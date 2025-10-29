@@ -328,7 +328,7 @@ const WatchPage = () => {
               {category === "movie" ? (
                 <>
                   <iframe
-                    src={`https://vidsrc.xyz/embed/movie?tmdb=${id}`}
+                    src={`https://vidsrc.icu/embed/movie?tmdb=${id}`}
                     width="90%"
                     height="80%"
                     allowFullScreen
@@ -344,7 +344,7 @@ const WatchPage = () => {
               ) : (
                 <>
                   <iframe
-                    src={`https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${seasonNumber}&episode=${episodeNumber}`}
+                    src={`https://vidsrc.icu/embed/tv?tmdb=${id}&season=${seasonNumber}&episode=${episodeNumber}`}
                     width="90%"
                     height="80%"
                     allowFullScreen
