@@ -10,10 +10,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import ReactPlayer from "react-player";
-import {
-  ORIGINAL_IMG_BASE_URL,
-  SMALL_IMG_BASE_URL,
-} from "../utils/constants";
+import { ORIGINAL_IMG_BASE_URL, SMALL_IMG_BASE_URL } from "../utils/constants";
 import WatchPageSkeleton from "../components/skeletons/WatchPageSkeleton";
 import toast from "react-hot-toast";
 import { useAuthUserStore } from "../store/authUser";
@@ -23,23 +20,18 @@ import TvEpisodes from "../components/TvEpisodes";
 const WatchPage = () => {
   const { user, updateWatchList } = useAuthUserStore();
   const [tab, setTab] = React.useState("stream");
-  const [showEpisodes, setShowEpisodes] =
-    React.useState(true);
+  const [showEpisodes, setShowEpisodes] = React.useState(true);
   const { id, category } = useParams(); // Extract movie ID from URL
   const [trailers, setTrailers] = React.useState([]);
-  const [currTrailersIdx, setCurrTrailersIdx] =
-    React.useState(0);
+  const [currTrailersIdx, setCurrTrailersIdx] = React.useState(0);
   const [loading, setLoading] = React.useState(true);
   const [content, setContent] = React.useState({});
   const [cast, setCast] = React.useState([]);
   const [similar, setSimilar] = React.useState([]);
   const sliderRef = useRef(null);
-  const [isBookmarked, setIsBookmarked] =
-    React.useState(false);
-  const [episodeNumber, setEpisodeNumber] =
-    React.useState(null);
-  const [seasonNumber, setSeasonNumber] =
-    React.useState(null);
+  const [isBookmarked, setIsBookmarked] = React.useState(false);
+  const [episodeNumber, setEpisodeNumber] = React.useState(null);
+  const [seasonNumber, setSeasonNumber] = React.useState(null);
 
   React.useEffect(() => {
     async function watchHistory() {
@@ -63,9 +55,7 @@ const WatchPage = () => {
   }, [user, id]);
 
   const handleAddToWatchlist = async () => {
-    const promise = axios.post(
-      `/api/v1/watchlist/${category}/${id}`
-    );
+    const promise = axios.post(`/api/v1/watchlist/${category}/${id}`);
 
     toast.promise(promise, {
       loading: "Adding...",
@@ -114,9 +104,7 @@ const WatchPage = () => {
   useEffect(() => {
     const getTrailers = async () => {
       try {
-        const res = await axios.get(
-          `/api/v1/${category}/${id}/trailers`
-        );
+        const res = await axios.get(`/api/v1/${category}/${id}/trailers`);
         setTrailers(res.data.trailers);
       } catch (error) {
         if (error.message.includes("404")) {
@@ -131,9 +119,7 @@ const WatchPage = () => {
   useEffect(() => {
     const getSimilar = async () => {
       try {
-        const res = await axios.get(
-          `/api/v1/${category}/${id}/similar`
-        );
+        const res = await axios.get(`/api/v1/${category}/${id}/similar`);
         setSimilar(res.data.content);
       } catch (error) {
         if (error.message.includes("404")) {
@@ -149,9 +135,7 @@ const WatchPage = () => {
     const getMovieDetails = async () => {
       setLoading(() => true);
       try {
-        const res = await axios.get(
-          `/api/v1/${category}/${id}/details`
-        );
+        const res = await axios.get(`/api/v1/${category}/${id}/details`);
         setContent(res.data.details);
       } catch (error) {
         if (error.message.includes("404")) {
@@ -169,9 +153,7 @@ const WatchPage = () => {
     const getMovieCredits = async () => {
       setLoading(() => true);
       try {
-        const res = await axios.get(
-          `/api/v1/${category}/credits/${id}`
-        );
+        const res = await axios.get(`/api/v1/${category}/credits/${id}`);
         setCast(res.data.casts);
       } catch (error) {
         if (error.message.includes("404")) {
@@ -189,8 +171,7 @@ const WatchPage = () => {
       setCurrTrailersIdx(currTrailersIdx + 1);
   }
   function handlePrev() {
-    if (currTrailersIdx > 0)
-      setCurrTrailersIdx(currTrailersIdx - 1);
+    if (currTrailersIdx > 0) setCurrTrailersIdx(currTrailersIdx - 1);
   }
 
   if (loading)
@@ -276,9 +257,7 @@ const WatchPage = () => {
                   : "cursor-pointer"
               }
               `}
-                disabled={
-                  currTrailersIdx === trailers.length - 1
-                }
+                disabled={currTrailersIdx === trailers.length - 1}
                 onClick={handleNext}
               >
                 <ChevronRight size={24} />
@@ -286,9 +265,7 @@ const WatchPage = () => {
             </div>
           ) : null)}
 
-        <div
-          className={`aspect-video mb-8 p-2 sm:px-10 md:px-32 `}
-        >
+        <div className={`aspect-video mb-8 p-2 sm:px-10 md:px-32 `}>
           {tab === "trailer" ? (
             trailers.length === 0 ? null : (
               <ReactPlayer
@@ -373,12 +350,10 @@ const WatchPage = () => {
               <button
                 onClick={handleShow}
                 className={` ${
-                  showEpisodes
-                    ? "bg-blue-500/90"
-                    : "bg-gray-500"
+                  showEpisodes ? "bg-blue-500/90" : "bg-gray-500"
                 } hover:bg-blue-600  text-white mx-auto rounded px-4 py-2 transition duration-200`}
               >
-                Show Seasons
+                {showEpisodes ? "Hide Episodes" : "Show Episodes"}
               </button>
             )}
             <div>
@@ -398,9 +373,7 @@ const WatchPage = () => {
             <h2 className="text-2xl sm:text-5xl font-bold text-balance">
               {content?.title || content?.name}
             </h2>
-            <p className="text-gray-400 italic">
-              {content?.tagline}
-            </p>
+            <p className="text-gray-400 italic">{content?.tagline}</p>
             {/* Add the bookmark button here */}
             <button
               className=" ml-auto mt-2 sm:mt-4 bg-blue-600 hover:bg-blue-700 text-sm sm:text-2xl text-white px-4 sm:px-8  py-2 rounded"
@@ -414,17 +387,13 @@ const WatchPage = () => {
             </button>
             <p className="mt-2 text-lg">
               {formatReleaseDate(
-                content?.release_date ||
-                  content?.first_air_date
+                content?.release_date || content?.first_air_date
               )}{" "}
               |{" "}
               {content?.adult ? (
                 <span className="text-red-600"> 18+</span>
               ) : (
-                <span className="text-green-600">
-                  {" "}
-                  PG-13
-                </span>
+                <span className="text-green-600"> PG-13</span>
               )}{" "}
             </p>
             <div>
@@ -440,8 +409,7 @@ const WatchPage = () => {
                     >
                       {element?.name}
                     </Link>
-                    {index < content.genres.length - 1 &&
-                      ", "}
+                    {index < content.genres.length - 1 && ", "}
                   </span>
                 ))}
               </span>
@@ -462,20 +430,14 @@ const WatchPage = () => {
               <span className=" text-[#1E90FF] text-md font-semibold md:text-xl">
                 Overview:{" "}
               </span>
-              <p className="sm:text-xl text-md">
-                {content?.overview}
-              </p>
+              <p className="sm:text-xl text-md">{content?.overview}</p>
             </div>
           </div>
         </div>
         <div className="max-w-6xl mx-auto mt-2 px-4">
-          <p className="text-[#1E90FF] text-xl font-semibold">
-            Poster:
-          </p>
+          <p className="text-[#1E90FF] text-xl font-semibold">Poster:</p>
           <img
-            src={
-              ORIGINAL_IMG_BASE_URL + content?.poster_path
-            }
+            src={ORIGINAL_IMG_BASE_URL + content?.poster_path}
             alt="poster img"
             className=" h-50 w-40 md:h-100 md:w-80  mt-2  md:max-h-[700px] mx-auto rounded "
           />
@@ -485,9 +447,7 @@ const WatchPage = () => {
         </div>
         {similar?.length > 0 && (
           <div className="mt-12 max-w-5xl px-4 mx-auto relative">
-            <h3 className="text-3xl font-bold mb-4">
-              Similar Movies/Tv show
-            </h3>
+            <h3 className="text-3xl font-bold mb-4">Similar Movies/Tv show</h3>
             <div
               className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 group"
               ref={sliderRef}
@@ -499,9 +459,7 @@ const WatchPage = () => {
                   className="w-30 md:w-52 flex-none"
                 >
                   <img
-                    src={
-                      SMALL_IMG_BASE_URL + item?.poster_path
-                    }
+                    src={SMALL_IMG_BASE_URL + item?.poster_path}
                     alt="poster img"
                     className="w-full h-auto rounded-md"
                   />
