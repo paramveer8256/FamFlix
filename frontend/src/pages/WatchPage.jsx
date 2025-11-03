@@ -24,7 +24,7 @@ const WatchPage = () => {
   const { user, updateWatchList } = useAuthUserStore();
   const [tab, setTab] = React.useState("stream");
   const [showEpisodes, setShowEpisodes] =
-    React.useState(false);
+    React.useState(true);
   const { id, category } = useParams(); // Extract movie ID from URL
   const [trailers, setTrailers] = React.useState([]);
   const [currTrailersIdx, setCurrTrailersIdx] =
@@ -79,7 +79,7 @@ const WatchPage = () => {
       if (res.data.success) {
         setIsBookmarked(true);
 
-        // ✅ Update Zustand user.watchList locally
+        // Update Zustand user.watchList locally
         updateWatchList({
           id: id,
           type: category,
@@ -328,7 +328,7 @@ const WatchPage = () => {
               {category === "movie" ? (
                 <>
                   <iframe
-                    src={`https://vidsrc.icu/embed/movie?tmdb=${id}`}
+                    src={`https://vidsrc.ru/movie/${id}`}
                     width="90%"
                     height="80%"
                     allowFullScreen
@@ -344,7 +344,7 @@ const WatchPage = () => {
               ) : (
                 <>
                   <iframe
-                    src={`https://vidsrc.icu/embed/tv?tmdb=${id}&season=${seasonNumber}&episode=${episodeNumber}`}
+                    src={`https://vidsrc.ru/tv/${id}/${seasonNumber}/${episodeNumber}`}
                     width="90%"
                     height="80%"
                     allowFullScreen
