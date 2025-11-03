@@ -10,12 +10,12 @@ import {
   TV_CATEGORIES,
 } from "../../utils/constants.js";
 import { useContentStore } from "../../store/content.js";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { toast as toastify } from "react-toastify";
 import SplashScreen from "../../components/SplashScreen";
 
 const HomeScreen = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { trendingContent } = useGetTrendingContent();
   const { contentType } = useContentStore();
   const [imgLoading, setImgLoading] = React.useState(true);
@@ -32,7 +32,7 @@ const HomeScreen = () => {
         // Show toast after splash ends
         if (localStorage.getItem("justLoggedIn")) {
           toastify(
-            "👋 Hey there, Dev here, just wanted to let you know, you can now customize your Profile and I have added New Avatars. Go check it out! 😎",
+            "👋 Hey there, Dev here, just wanted to let you know that I added a new player and now you don't have to select the previously selected episode every time you open a TV show.😎",
             {
               position: "bottom-left",
               theme: "light",
@@ -51,17 +51,15 @@ const HomeScreen = () => {
     }
   }, [showSplash]);
 
-  const handleToggle = (e) => {
-    if (e.target.checked) {
-      navigate("/anime");
-    }
-  };
+  // const handleToggle = (e) => {
+  //   if (e.target.checked) {
+  //     navigate("/anime");
+  //   }
+  // };
 
   // Splash screen renders first
   if (showSplash) {
-    return (
-      <SplashScreen onEnd={() => setShowSplash(false)} />
-    );
+    return <SplashScreen onEnd={() => setShowSplash(false)} />;
   }
 
   if (!trendingContent) {
@@ -83,10 +81,7 @@ const HomeScreen = () => {
         )}
 
         <img
-          src={
-            ORIGINAL_IMG_BASE_URL +
-            trendingContent?.backdrop_path
-          }
+          src={ORIGINAL_IMG_BASE_URL + trendingContent?.backdrop_path}
           onLoad={() => setImgLoading(false)}
           alt="hero img"
           className="absolute top-0 left-0 w-full h-full object-cover -z-50"
@@ -100,25 +95,16 @@ const HomeScreen = () => {
           <div className="bg-gradient-to-b from-black via-transparent to-transparent absolute top-0 left-0 w-full h-full -z-10" />
           <div className="max-w-2xl">
             <h1 className="mt-4 md:text-6xl text-4xl font-extrabold text-balance">
-              {trendingContent?.title ||
-                trendingContent?.name}
+              {trendingContent?.title || trendingContent?.name}
             </h1>
             <p className="mt-2 text-lg">
-              {trendingContent?.release_date?.split(
-                "-"
-              )[0] ||
-                trendingContent?.first_air_date?.split(
-                  "-"
-                )[0]}{" "}
-              |{" "}
-              {trendingContent?.adult
-                ? "Adult Content"
-                : "PG-13"}
+              {trendingContent?.release_date?.split("-")[0] ||
+                trendingContent?.first_air_date?.split("-")[0]}{" "}
+              | {trendingContent?.adult ? "Adult Content" : "PG-13"}
             </p>
             <p className="mt-4 sm:text-lg">
               {trendingContent?.overview.length > 200
-                ? trendingContent.overview.slice(0, 200) +
-                  "..."
+                ? trendingContent.overview.slice(0, 200) + "..."
                 : trendingContent?.overview}
             </p>
           </div>
@@ -150,21 +136,15 @@ const HomeScreen = () => {
 
         {contentType === "movie"
           ? MOVIE_CATEGORIES.map((category) => (
-              <MovieSlider
-                key={category}
-                category={category}
-              />
+              <MovieSlider key={category} category={category} />
             ))
           : contentType === "tv"
           ? TV_CATEGORIES.map((category) => (
-              <MovieSlider
-                key={category}
-                category={category}
-              />
+              <MovieSlider key={category} category={category} />
             ))
           : null}
 
-        <div className="flex flex-col items-center justify-center font-semibold">
+        {/* <div className="flex flex-col items-center justify-center font-semibold">
           <h2 className="mb-2 text-white text-lg lg:text-2xl">
             Switch to Anime World
           </h2>
@@ -175,7 +155,7 @@ const HomeScreen = () => {
             />
             <span className="slider round"></span>
           </label>
-        </div>
+        </div> */}
       </div>
     </>
   );

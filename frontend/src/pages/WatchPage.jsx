@@ -20,7 +20,7 @@ import TvEpisodes from "../components/TvEpisodes";
 const WatchPage = () => {
   const { user, updateWatchList } = useAuthUserStore();
   const [tab, setTab] = React.useState("stream");
-  const [showEpisodes, setShowEpisodes] = React.useState(true);
+  const [showEpisodes, setShowEpisodes] = React.useState(false);
   const { id, category } = useParams(); // Extract movie ID from URL
   const [trailers, setTrailers] = React.useState([]);
   const [currTrailersIdx, setCurrTrailersIdx] = React.useState(0);

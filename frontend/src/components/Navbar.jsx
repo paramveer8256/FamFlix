@@ -74,7 +74,7 @@ const Navbar = () => {
           />
         </Link>
         {/* desktop navbar items*/}
-        <div className="hidden sm:flex gap-20 items-center">
+        <div className="hidden lg:flex gap-20 items-center">
           <Link
             to="/"
             className="hover:underline"
@@ -137,7 +137,7 @@ const Navbar = () => {
           }}
         />
 
-        <div className="sm:hidden">
+        <div className="lg:hidden">
           <Menu
             className="size-6 cursor-pointer"
             onClick={handleToggle}
@@ -147,7 +147,7 @@ const Navbar = () => {
 
       {/*mobile nav items */}
       {isMobile && (
-        <div className="md:hidden z-90 absolute top-20 left-0 w-full bg-black border border-gray-800 rounded-md shadow-lg">
+        <div className="lg:hidden z-90 absolute top-20 left-0 w-full bg-black border border-gray-800 rounded-md shadow-lg">
           <Link
             to="/"
             className="hover:underline block"
