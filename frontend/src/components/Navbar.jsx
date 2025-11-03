@@ -1,42 +1,22 @@
 import { LogOut, Menu, Search } from "lucide-react";
-import React, { useEffect,useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useAuthUserStore } from "../store/authUser.js";
 import { useContentStore } from "../store/content.js";
-import axios from "axios";
+import useGetGenres from "../hooks/useGetGenres.jsx";
 import { useNavigate } from "react-router-dom";
-import {
-  Film as MovieIcon,
-  Video,
-  History,
-  ListCheck,
-} from "lucide-react";
+import { Film as MovieIcon, Video, History, ListCheck } from "lucide-react";
 const Navbar = () => {
   const { user, logout } = useAuthUserStore();
   const [isOpen, setIsOpen] = React.useState(false);
   const dropdownRef = useRef();
   const { contentType, setContentType } = useContentStore();
-  const [genres, setGenres] = React.useState([]);
+  const { data: genres = [] } = useGetGenres(contentType);
   const [isMobile, setIsMobile] = React.useState(false);
   const handleToggle = () => {
     setIsMobile(!isMobile);
   };
   const navigate = useNavigate();
-
-  useEffect(() => {
-    try {
-      // Fetch genres from the API
-      const fetchGenres = async () => {
-        const response = await axios.get(
-          `/api/v1/${contentType}/genre`
-        );
-        setGenres(response.data.genres);
-      };
-      fetchGenres();
-    } catch (error) {
-      console.error("Error fetching genres:", error);
-    }
-  }, [contentType]);
 
   function handlelogout() {
     logout();
@@ -44,23 +24,14 @@ const Navbar = () => {
   }
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener(
-      "mousedown",
-      handleClickOutside
-    );
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener(
-        "mousedown",
-        handleClickOutside
-      );
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
   return (
@@ -95,10 +66,7 @@ const Navbar = () => {
           <Link to="/watchlist" className="hover:underline">
             Watch List
           </Link>
-          <div
-            ref={dropdownRef}
-            className="relative dropdown"
-          >
+          <div ref={dropdownRef} className="relative dropdown">
             <button
               onClick={() => setIsOpen((prev) => !prev)}
               className=" hover:underline cursor-pointer"
@@ -138,10 +106,7 @@ const Navbar = () => {
         />
 
         <div className="lg:hidden">
-          <Menu
-            className="size-6 cursor-pointer"
-            onClick={handleToggle}
-          />
+          <Menu className="size-6 cursor-pointer" onClick={handleToggle} />
         </div>
       </div>
 
@@ -193,10 +158,7 @@ const Navbar = () => {
             onClick={handleToggle}
           >
             <div className=" m-2 flex items-center gap-1 hover:bg-gray-800 cursor-pointer">
-              <History
-                className="size-5 mx-2"
-                onClick={handleToggle}
-              />
+              <History className="size-5 mx-2" onClick={handleToggle} />
               History
             </div>
           </Link>
@@ -206,24 +168,15 @@ const Navbar = () => {
             onClick={handleToggle}
           >
             <div className=" m-2 flex items-center gap-1 hover:bg-gray-800 cursor-pointer">
-              <ListCheck
-                className="size-5 mx-2"
-                onClick={handleToggle}
-              />
+              <ListCheck className="size-5 mx-2" onClick={handleToggle} />
               Watch List
             </div>
           </Link>
           <div className=" m-2 flex items-center gap-1 hover:bg-gray-800 cursor-pointer">
-            <LogOut
-              className="size-5 mx-2"
-              onClick={handlelogout}
-            />
+            <LogOut className="size-5 mx-2" onClick={handlelogout} />
             <p onClick={handlelogout}>Logout</p>
           </div>
-          <Link
-            to="#"
-            className=" px-2 text-xl block text-[#1E90FF] "
-          >
+          <Link to="#" className=" px-2 text-xl block text-[#1E90FF] ">
             Genres List
           </Link>
           <div className="px-4 pt-1 pb-4 flex flex-wrap text-sm gap-x-2 max-h-35 flex-col">

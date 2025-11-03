@@ -16,6 +16,8 @@ import toast from "react-hot-toast";
 import { useAuthUserStore } from "../store/authUser";
 import formatReleaseDate from "../utils/formateDate";
 import TvEpisodes from "../components/TvEpisodes";
+import useWatchlist from "../hooks/useWatchlist";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const WatchPage = () => {
   const { user, updateWatchList } = useAuthUserStore();
@@ -32,6 +34,24 @@ const WatchPage = () => {
   const [isBookmarked, setIsBookmarked] = React.useState(false);
   const [episodeNumber, setEpisodeNumber] = React.useState(null);
   const [seasonNumber, setSeasonNumber] = React.useState(null);
+  const queryClient = useQueryClient();
+
+  const addToWatchlistMutation = useMutation({
+    mutationFn: async () => axios.post(`/api/v1/watchlist/${category}/${id}`),
+    onSuccess: () => {
+      toast.success("Added to watchlist!");
+      queryClient.invalidateQueries(["watchlist"]); // refresh list
+      setIsBookmarked(true);
+    },
+    onError: (error) => {
+      if (error.response?.status === 409) {
+        toast.error("Already in watchlist.");
+      } else {
+        toast.error("Failed to add to watchlist.");
+        console.error(error);
+      }
+    },
+  });
 
   React.useEffect(() => {
     async function watchHistory() {
@@ -54,33 +74,8 @@ const WatchPage = () => {
     }
   }, [user, id]);
 
-  const handleAddToWatchlist = async () => {
-    const promise = axios.post(`/api/v1/watchlist/${category}/${id}`);
-
-    toast.promise(promise, {
-      loading: "Adding...",
-      success: "Added to watchlist!",
-      error: "Already added to watchlist.",
-    });
-
-    try {
-      const res = await promise;
-
-      if (res.data.success) {
-        setIsBookmarked(true);
-
-        // Update Zustand user.watchList locally
-        updateWatchList({
-          id: id,
-          type: category,
-          title: content?.title || content?.name,
-          image: content?.poster_path,
-          addedAt: new Date(), // optional
-        });
-      }
-    } catch (error) {
-      console.error("Failed to add to watchlist", error);
-    }
+  const handleAddToWatchlist = () => {
+    addToWatchlistMutation.mutate();
   };
 
   const scrollLeft = () => {
