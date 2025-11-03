@@ -16,9 +16,34 @@ const TvEpisodes = ({ id, onSetData, seasons }) => {
       if (savedSeason) {
         setSelectedSeason(savedSeason);
         setSelectedEpisode(String(saved.episode));
+        return;
       }
     }
-  }, [id, seasons, getWatchHistoryById]);
+
+    // 👇 Default: first season + episode 1
+    if (seasons?.length > 0) {
+      const firstSeason = seasons.find((s) => s.episode_count > 0);
+      if (firstSeason) {
+        setSelectedSeason(firstSeason);
+        setSelectedEpisode("1");
+
+        // also save this to Zustand
+        setCurrentWatch({
+          contentId: id,
+          type: "tv",
+          season: firstSeason.season_number,
+          episode: 1,
+        });
+
+        // notify WatchPage so the iframe loads Season 1 Episode 1
+        onSetData({
+          id,
+          showSeason: firstSeason.season_number,
+          showEpisode: 1,
+        });
+      }
+    }
+  }, [id, seasons, getWatchHistoryById, setCurrentWatch, onSetData]);
 
   //  When user selects new episode
   useEffect(() => {

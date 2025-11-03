@@ -20,7 +20,7 @@ import TvEpisodes from "../components/TvEpisodes";
 const WatchPage = () => {
   const { user, updateWatchList } = useAuthUserStore();
   const [tab, setTab] = React.useState("stream");
-  const [showEpisodes, setShowEpisodes] = React.useState(false);
+  const [showEpisodes, setShowEpisodes] = React.useState(true);
   const { id, category } = useParams(); // Extract movie ID from URL
   const [trailers, setTrailers] = React.useState([]);
   const [currTrailersIdx, setCurrTrailersIdx] = React.useState(0);
@@ -280,7 +280,6 @@ const WatchPage = () => {
             )
           ) : (
             <div className="relative w-full h-full mb-4">
-              {/* Mobile iframe */}
               {category === "movie" ? (
                 <iframe
                   src={`https://vidsrc.ru/movie/${id}`}
@@ -288,7 +287,7 @@ const WatchPage = () => {
                   height="90%"
                   referrerPolicy="origin"
                   allowFullScreen
-                  className="block mx-auto lg:hidden rounded mt-4"
+                  className="block mx-auto rounded mt-4"
                 ></iframe>
               ) : category === "tv" ? (
                 <iframe
@@ -297,7 +296,7 @@ const WatchPage = () => {
                   height="90%"
                   referrerPolicy="origin"
                   allowFullScreen
-                  className="block mx-auto lg:hidden rounded mt-4"
+                  className="block mx-auto  rounded mt-4"
                 ></iframe>
               ) : null}
               {/* {category === "movie" ? (
@@ -321,7 +320,7 @@ const WatchPage = () => {
               ) : null} */}
 
               {/* Desktop iframe */}
-              {category === "movie" ? (
+              {/* {category === "movie" ? (
                 <>
                   <iframe
                     src={`https://vidsrc.ru/movie/${id}`}
@@ -346,14 +345,14 @@ const WatchPage = () => {
                     allowFullScreen
                     className="lg:block hidden mx-auto rounded-xl mt-4 border-2 border-[#1E90FF]"
                   ></iframe>
-                  <p className="md:px-13 px-2 pt-2 text-sm sm:text-xl italic">
-                    Use Brave browser for no ads.😎
-                  </p>
-                  <p className="md:px-13 px-2 text-sm sm:text-lg italic">
-                    Report any broken link.🥲
-                  </p>
                 </>
-              )}
+              )} */}
+              <p className="md:px-13 px-2 pt-2 text-sm sm:text-xl italic">
+                Use Brave browser for no ads.😎
+              </p>
+              <p className="md:px-13 px-2 text-sm sm:text-lg italic">
+                Report any broken link.🥲
+              </p>
             </div>
           )}
           {trailers?.length === 0 && tab === "trailer" && (
