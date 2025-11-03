@@ -283,6 +283,25 @@ const WatchPage = () => {
               {/* Mobile iframe */}
               {category === "movie" ? (
                 <iframe
+                  src={`https://vidsrc.ru/movie/${id}`}
+                  width="95%"
+                  height="90%"
+                  referrerPolicy="origin"
+                  allowFullScreen
+                  className="block mx-auto lg:hidden rounded mt-4"
+                ></iframe>
+              ) : category === "tv" ? (
+                <iframe
+                  src={`https://vidsrc.ru/tv/${id}/${seasonNumber}/${episodeNumber}`}
+                  width="95%"
+                  height="90%"
+                  referrerPolicy="origin"
+                  allowFullScreen
+                  className="block mx-auto lg:hidden rounded mt-4"
+                ></iframe>
+              ) : null}
+              {/* {category === "movie" ? (
+                <iframe
                   src={`https://vidsrc.icu/embed/movie/${id}`}
                   width="95%"
                   height="90%"
@@ -299,7 +318,7 @@ const WatchPage = () => {
                   allowFullScreen
                   className="block mx-auto border-2 border-[#1E90FF] lg:hidden rounded mt-4"
                 ></iframe>
-              ) : null}
+              ) : null} */}
 
               {/* Desktop iframe */}
               {category === "movie" ? (
