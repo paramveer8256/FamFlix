@@ -220,19 +220,10 @@ const WatchPage = () => {
         </div>
 
         {/* Player Section */}
-        <div className="aspect-video mb-8 p-2 sm:px-10 md:px-32">
+        <div className=" mb-8 p-2 sm:px-10 md:px-32">
           {tab === "trailer" ? (
             trailers.length > 0 ? (
               <>
-                <ReactPlayer
-                  controls
-                  width="100%"
-                  height="90%"
-                  className="mx-auto rounded-lg overflow-hidden"
-                  url={`https://www.youtube.com/embed/${
-                    trailers[currTrailersIdx]?.key || ""
-                  }`}
-                />
                 <div className="flex justify-between items-center my-4 px-4">
                   <button
                     className="bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded disabled:opacity-50"
@@ -249,6 +240,15 @@ const WatchPage = () => {
                     <ChevronRight size={24} />
                   </button>
                 </div>
+                <ReactPlayer
+                  controls
+                  width="100%"
+                  height="90%"
+                  className="mx-auto aspect-video rounded-lg overflow-hidden"
+                  url={`https://www.youtube.com/embed/${
+                    trailers[currTrailersIdx]?.key || ""
+                  }`}
+                />
               </>
             ) : (
               <p className="text-center mt-6 text-lg text-gray-400">
@@ -271,16 +271,18 @@ const WatchPage = () => {
                 height="90%"
                 referrerPolicy="origin"
                 allowFullScreen
-                className="block mx-auto rounded mt-4"
+                className="block aspect-video mx-auto rounded mt-4"
               ></iframe>
-              <p className="md:px-13 px-2 pt-2 text-sm sm:text-xl italic">
-                Use Brave browser for no ads. 😎
-              </p>
-              <p className="md:px-13 px-2 text-sm sm:text-lg italic">
-                Report any broken link. 🥲
-              </p>
             </div>
           )}
+          <div className="mb-4">
+            <p className="md:px-13 px-2 pt-2 text-sm sm:text-xl italic">
+              Use Brave browser for no ads. 😎
+            </p>
+            <p className="md:px-13 px-2 text-sm sm:text-lg italic">
+              Report any broken link. 🥲
+            </p>
+          </div>
 
           {/* TV Episodes */}
           {category === "tv" && (
