@@ -62,7 +62,7 @@ const Review = ({ id, category }) => {
                     ? () => handleToggle(review.id)
                     : undefined
                 }
-                className={`cursor-pointer min-w-[300px] max-w-sm bg-white/10 rounded-lg shadow-md transition-all duration-300 p-4 flex flex-col justify-between ${
+                className={`cursor-pointer break-all min-w-[300px] max-w-sm bg-white/10 rounded-lg shadow-md transition-all duration-300 p-4 flex flex-col justify-between ${
                   isExpanded
                     ? "h-auto"
                     : "h-[220px] overflow-hidden"

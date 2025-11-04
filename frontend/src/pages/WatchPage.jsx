@@ -18,7 +18,7 @@ import formatReleaseDate from "../utils/formateDate";
 import TvEpisodes from "../components/TvEpisodes";
 import useWatchlist from "../hooks/useWatchlist";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
+import { servers } from "../utils/constants";
 const WatchPage = () => {
   const { id, category } = useParams();
   const location = useLocation();
@@ -37,6 +37,19 @@ const WatchPage = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [episodeNumber, setEpisodeNumber] = useState(null);
   const [seasonNumber, setSeasonNumber] = useState(null);
+  const [server, setServer] = useState("server1");
+
+  const handleServerChange = (newServer) => {
+    setServer(newServer);
+  };
+  const getVideoSrc = () => {
+    const currentServer = servers.find((s) => s.key === server);
+    if (!currentServer) return "";
+
+    return category === "movie"
+      ? `${currentServer.movieUrl}${id}`
+      : `${currentServer.tvUrl}${id}/${seasonNumber}/${episodeNumber}`;
+  };
 
   //  Get current watchlist from TanStack Query
   const { data: watchlist = [], refetch } = useWatchlist();
@@ -220,7 +233,7 @@ const WatchPage = () => {
         </div>
 
         {/* Player Section */}
-        <div className=" mb-8 p-2 sm:px-10 md:px-32">
+        <div className="mb-8 p-2 sm:px-10 md:px-32">
           {tab === "trailer" ? (
             trailers.length > 0 ? (
               <>
@@ -258,15 +271,7 @@ const WatchPage = () => {
           ) : (
             <div className="relative w-full h-full mb-4">
               <iframe
-                src={
-                  category === "movie"
-                    ? isIOS
-                      ? `https://vidsrc.icu/embed/movie/${id}`
-                      : `https://vidsrc.ru/movie/${id}`
-                    : isIOS
-                    ? `https://vidsrc.icu/embed/tv/${id}/${seasonNumber}/${episodeNumber}`
-                    : `https://vidsrc.ru/tv/${id}/${seasonNumber}/${episodeNumber}`
-                }
+                src={getVideoSrc()}
                 width="95%"
                 height="90%"
                 referrerPolicy="origin"
@@ -275,25 +280,36 @@ const WatchPage = () => {
               ></iframe>
             </div>
           )}
-          <div className="mb-4">
-            <p className="md:px-13 px-2 pt-2 text-sm sm:text-xl italic">
-              Use Brave browser for no ads. 😎
-            </p>
-            <p className="md:px-13 px-2 text-sm sm:text-lg italic">
-              Report any broken link. 🥲
-            </p>
+          {/* {Tabs of servers} */}
+          <div className="flex flex-col items-center ">
+            <p className="text-gray-400">Select a server:</p>
+            {tab === "stream" && (
+              <div className="flex flex-wrap justify-center gap-2 mt-2">
+                {servers.map((s) => (
+                  <button
+                    key={s.key}
+                    onClick={() => handleServerChange(s.key)}
+                    className={`py-2 px-4 rounded-lg transition-all ${
+                      server === s.key
+                        ? "bg-green-600 text-white"
+                        : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                    }`}
+                  >
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* TV Episodes */}
           {category === "tv" && (
-            <div className="flex flex-col items-center gap-2">
+            <div className="flex flex-col mt-2 items-center gap-2">
               <button
                 onClick={() => setShowEpisodes((prev) => !prev)}
-                className={` ${
-                  showEpisodes ? "bg-blue-500/90" : "bg-gray-500"
-                } hover:bg-blue-600 text-white rounded px-4 py-2`}
+                className={` text-gray-400 rounded px-4 py-2`}
               >
-                {showEpisodes ? "Hide Episodes" : "Show Episodes"}
+                {showEpisodes ? "Hide Episodes" : "Show Episodes:"}
               </button>
               {showEpisodes && (
                 <TvEpisodes
@@ -304,8 +320,15 @@ const WatchPage = () => {
               )}
             </div>
           )}
+          <div className="mb-4">
+            <p className="md:px-13 px-2 pt-2 text-sm sm:text-xl italic">
+              Use Brave browser for no ads. 😎
+            </p>
+            <p className="md:px-13 px-2 text-sm sm:text-lg italic">
+              Report any broken link. 🥲
+            </p>
+          </div>
         </div>
-
         {/* Content Details */}
         <div className="flex flex-col md:flex-row px-4 items-center justify-between gap-10 max-w-6xl mx-auto">
           <div>
