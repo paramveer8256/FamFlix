@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion as Motion, AnimatePresence } from "framer-motion";
 
 const DeleteConfirmationModal = ({
   isOpen,
@@ -11,13 +11,13 @@ const DeleteConfirmationModal = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
+        <Motion.div
           className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
@@ -35,18 +35,14 @@ const DeleteConfirmationModal = ({
             {/* Title */}
             <h2
               className={`text-xl font-bold mb-2 ${
-                title === "Update Profile"
-                  ? "text-blue-500"
-                  : "text-red-500"
+                title === "Update Profile" ? "text-blue-500" : "text-red-500"
               }`}
             >
               {title}
             </h2>
 
             {/* Message */}
-            <p className="text-sm font-bold text-gray-300 mb-6">
-              {message}
-            </p>
+            <p className="text-sm font-bold text-gray-300 mb-6">{message}</p>
 
             {/* Actions */}
             <div className="flex justify-end gap-3">
@@ -67,13 +63,11 @@ const DeleteConfirmationModal = ({
                     : "bg-red-600 hover:bg-red-700"
                 } transition text-sm font-semibold`}
               >
-                {title === "Update Profile"
-                  ? "Update"
-                  : "Delete"}
+                {title === "Update Profile" ? "Update" : "Delete"}
               </button>
             </div>
-          </motion.div>
-        </motion.div>
+          </Motion.div>
+        </Motion.div>
       )}
     </AnimatePresence>
   );

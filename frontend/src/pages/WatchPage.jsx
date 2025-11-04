@@ -1,6 +1,6 @@
 import { useParams, Link, useLocation } from "react-router-dom";
-import { isIOS, isAndroid } from "react-device-detect";
-import React, { useEffect, useRef, useState } from "react";
+import { isIOS } from "react-device-detect";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Reviews from "../components/Reviews";
@@ -60,7 +60,7 @@ const WatchPage = () => {
   });
 
   const removeFromWatchlistMutation = useMutation({
-    mutationFn: async () => axios.delete(`/api/v1/watchlist/${category}/${id}`),
+    mutationFn: async () => axios.delete(`/api/v1/watchlist/movie/${id}`),
     onSuccess: () => {
       toast.success("Removed from Watchlist!");
       queryClient.invalidateQueries(["watchlist"]);
@@ -261,12 +261,10 @@ const WatchPage = () => {
                 src={
                   category === "movie"
                     ? isIOS
-                      ? `https://vidsrc.icu/movie/${id}`
+                      ? `https://vidsrc.icu/embed/movie?tmdb=${id}`
                       : `https://vidsrc.ru/movie/${id}`
                     : isIOS
-                    ? `https://vidsrc.icu/tv/${id}/${seasonNumber || 1}/${
-                        episodeNumber || 1
-                      }`
+                    ? `https://vidsrc.icu/embed/tv?tmdb=${id}&season=${seasonNumber}&episode=${episodeNumber}`
                     : `https://vidsrc.ru/tv/${id}/${seasonNumber || 1}/${
                         episodeNumber || 1
                       }`
