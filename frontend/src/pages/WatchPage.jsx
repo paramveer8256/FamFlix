@@ -261,13 +261,11 @@ const WatchPage = () => {
                 src={
                   category === "movie"
                     ? isIOS
-                      ? `https://vidsrc.icu/embed/movie?tmdb=${id}`
+                      ? `https://vidsrc.icu/embed/movie/${id}`
                       : `https://vidsrc.ru/movie/${id}`
                     : isIOS
-                    ? `https://vidsrc.icu/embed/tv?tmdb=${id}&season=${seasonNumber}&episode=${episodeNumber}`
-                    : `https://vidsrc.ru/tv/${id}/${seasonNumber || 1}/${
-                        episodeNumber || 1
-                      }`
+                    ? `https://vidsrc.icu/embed/tv/${id}/${seasonNumber}/${episodeNumber}`
+                    : `https://vidsrc.ru/tv/${id}/${seasonNumber}/${episodeNumber}`
                 }
                 width="95%"
                 height="90%"
@@ -439,5 +437,5 @@ const WatchPage = () => {
 };
 
 export default WatchPage;
-// `https://vidsrc.icu/movie/${id}`
-// `https://vidsrc.icu/tv/${id}/${seasonNumber || 1}/${episodeNumber || 1}`
+// `https://vidsrc.icu/embed/movie/${id}`
+// `https://vidsrc.icu/embed/tv/${id}/${seasonNumber}/${episodeNumber}`
