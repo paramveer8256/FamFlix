@@ -37,6 +37,11 @@ export const servers = [
   {
     key: "server5",
     label: "Server 5",
+    movieUrl: "https://vidrock.net/movie/",
+    tvUrl: "https://vidrock.net/tv/",
+  },{
+    key: "server6",
+    label: "Server 6",
     movieUrl: "https://vidsrc.cc/v2/embed/movie/",
     tvUrl: "https://vidsrc.cc/v2/embed/tv/",
   },
