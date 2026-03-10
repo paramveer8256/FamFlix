@@ -6,25 +6,19 @@ export async function setmovieToWatchList(req, res) {
 
   try {
     const data = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/movie/${id}?language=en-US`
+      `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
     );
 
     if (!data) {
-      return res
-        .status(404)
-        .json({ message: "No movie found" });
+      return res.status(404).json({ message: "No movie found" });
     }
     // Get user and check if movie already in watch list
     const user = await User.findById(req.user._id);
 
-    const alreadyExists = user.watchList.some(
-      (item) => item.id === data.id
-    );
+    const alreadyExists = user.watchList.some((item) => item.id === data.id);
 
     if (alreadyExists) {
-      return res
-        .status(409)
-        .json({ message: "Movie already in watch list" });
+      return res.status(409).json({ message: "Movie already in watch list" });
     }
     await User.findByIdAndUpdate(req.user._id, {
       $push: {
@@ -35,6 +29,7 @@ export async function setmovieToWatchList(req, res) {
               title: data.title,
               type: "movie",
               image: data.poster_path,
+              release_date: data.release_date,
               created: new Date(),
             },
           ],
@@ -48,9 +43,7 @@ export async function setmovieToWatchList(req, res) {
       content: data,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
 export async function settvToWatchList(req, res) {
@@ -58,25 +51,19 @@ export async function settvToWatchList(req, res) {
 
   try {
     const data = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/tv/${id}?language=en-US`
+      `https://api.themoviedb.org/3/tv/${id}?language=en-US`,
     );
 
     if (!data) {
-      return res
-        .status(404)
-        .json({ message: "No movie found" });
+      return res.status(404).json({ message: "No movie found" });
     }
     // Get user and check if movie already in watch list
     const user = await User.findById(req.user._id);
 
-    const alreadyExists = user.watchList.some(
-      (item) => item.id === data.id
-    );
+    const alreadyExists = user.watchList.some((item) => item.id === data.id);
 
     if (alreadyExists) {
-      return res
-        .status(409)
-        .json({ message: "TV Show already in watch list" });
+      return res.status(409).json({ message: "TV Show already in watch list" });
     }
     await User.findByIdAndUpdate(req.user._id, {
       $push: {
@@ -100,9 +87,7 @@ export async function settvToWatchList(req, res) {
       content: data,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
 
@@ -122,9 +107,7 @@ export async function getWatchList(req, res) {
     });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
 
@@ -145,9 +128,7 @@ export async function deleteWatchList(req, res) {
     });
   } catch (error) {
     console.log(error);
-    res
-      .status(500)
-      .json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
 
@@ -166,13 +147,9 @@ export async function clearWatchList(req, res) {
     user.watchList = []; // Clear the array
     await user.save(); // <-- MISSING AWAIT WAS HERE
 
-    res
-      .status(200)
-      .json({ message: "Watch list cleared successfully" });
+    res.status(200).json({ message: "Watch list cleared successfully" });
   } catch (error) {
     console.error("Error in clearWatchList:", error);
-    res
-      .status(500)
-      .json({ message: "Failed to clear watch list" });
+    res.status(500).json({ message: "Failed to clear watch list" });
   }
 }

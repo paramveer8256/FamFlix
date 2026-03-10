@@ -4,7 +4,7 @@ import {
   Pencil,
   Film,
   Heart,
-Info,
+  Info,
   SearchIcon as Search,
 } from "lucide-react";
 import Navbar from "../../components/Navbar";
@@ -40,16 +40,12 @@ const ProfilePage = () => {
   const { user, logout } = useAuthUserStore();
   const [isClicked, setIsClicked] = useState(false);
 
-  const [watchHistory, setWatchHistory] = React.useState(
-    []
-  );
+  const [watchHistory, setWatchHistory] = React.useState([]);
   const navigate = useNavigate();
 
   React.useEffect(() => {
     const fetchWatchHistory = async () => {
-      const response = await axios.get(
-        "/api/v1/watchHistory/history"
-      );
+      const response = await axios.get("/api/v1/watchHistory/history");
       if (response.data.success) {
         setWatchHistory(response.data.content);
       }
@@ -101,16 +97,20 @@ const ProfilePage = () => {
               style={{ cursor: "pointer" }}
             />
             <div>
-              <h1 className="text-2xl font-bold">
-                {user.username}
-              </h1>
-              <p className="text-gray-400 text-sm">
-                {user.email}
-              </p>
+              <h1 className="text-2xl font-bold">{user.username}</h1>
+              <p className="text-gray-400 text-sm">{user.email}</p>
               <p className="text-sm text-blue-500 font-semibold">
-                Plan: Basic • Member since{" "}
-                {formatDate(user.createdAt)}
+                Plan: Basic • Member since {formatDate(user.createdAt)}
               </p>
+
+              <div className="flex mt-4">
+                <Link
+                  to="/change-password"
+                  className="px-6 py-2 bg-[#1E90FF] hover:bg-[#1f88e5] active:bg-[#529af1] text-white font-semibold rounded-md"
+                >
+                  Change Password
+                </Link>
+              </div>
             </div>
           </div>
           <button
@@ -139,20 +139,14 @@ const ProfilePage = () => {
             label="Updates"
             onClick={() => navigate("/updates")}
           />
-          <ProfileCard
-            icon={<LogOut />}
-            label="Logout"
-            onClick={logout}
-          />
+          <ProfileCard icon={<LogOut />} label="Logout" onClick={logout} />
         </div>
 
         {/* Optional: Add more sections here */}
         {/* <Recommendations /> */}
         {/* <AccountDetails /> */}
         <div className="bg-gray-800 p-4  md:p-6   rounded-lg">
-          <h2 className="font-bold pb-6 text-2xl">
-            Recent Activity
-          </h2>
+          <h2 className="font-bold pb-6 text-2xl">Recent Activity</h2>
 
           {watchHistory.map((entry) => (
             <div
@@ -184,20 +178,17 @@ const ProfilePage = () => {
                     entry?.type === "movie"
                       ? "bg-blue-600"
                       : entry?.type === "tv"
-                      ? "bg-green-600"
-                      : "bg-red-600"
+                        ? "bg-green-600"
+                        : "bg-red-600"
                   }`}
                 >
-                  {entry?.type[0].toUpperCase() +
-                    entry?.type.slice(1)}
+                  {entry?.type[0].toUpperCase() + entry?.type.slice(1)}
                 </span>
               </div>
             </div>
           ))}
           {watchHistory.length === 0 && (
-            <p className="text-gray-400">
-              No recent activity to display.
-            </p>
+            <p className="text-gray-400">No recent activity to display.</p>
           )}
         </div>
       </div>

@@ -1,6 +1,7 @@
 import Footer from "./components/Footer";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import ChangePassword from "./pages/ChangePassword.jsx";
 import HomePage from "./pages/home/HomePage";
 import WatchPage from "./pages/WatchPage.jsx";
 import WatchList from "./pages/WatchList.jsx";
@@ -57,6 +58,10 @@ function App() {
         <Route
           path="/signup"
           element={!user ? <SignupPage /> : <Navigate to={"/"} />}
+        />
+        <Route
+          path="/change-password"
+          element={user ? <ChangePassword /> : <Navigate to={"/login"} />}
         />
         <Route
           path="/watch/:category/:id"

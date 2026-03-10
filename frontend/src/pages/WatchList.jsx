@@ -92,7 +92,7 @@ const WatchList = () => {
       </div>
     );
   }
-
+  console.log(watchlist[0]);
   if (isError) {
     return (
       <div className="bg-black min-h-screen text-white">
@@ -166,7 +166,10 @@ const WatchList = () => {
                 />
                 <div className="flex flex-col">
                   <span className="text-white font-semibold text-sm">
-                    {entry?.title}
+                    {entry?.title}{" "}
+                    {entry?.release_date
+                      ? `(${entry.release_date.slice(0, 4)})`
+                      : null}
                   </span>
                   <span className="text-gray-400 text-sm">
                     {formatDate(entry?.created)}
@@ -180,8 +183,8 @@ const WatchList = () => {
                     entry?.type === "movie"
                       ? "bg-blue-600"
                       : entry?.type === "tv"
-                      ? "bg-green-600"
-                      : "bg-red-600"
+                        ? "bg-green-600"
+                        : "bg-red-600"
                   }`}
                 >
                   {entry?.type[0].toUpperCase() + entry?.type.slice(1)}

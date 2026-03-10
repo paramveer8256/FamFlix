@@ -12,35 +12,24 @@ export const useAuthUserStore = create((set) => ({
   signup: async (credentials) => {
     set({ isSigningUp: true });
     try {
-      const res = await axios.post(
-        "/api/v1/auth/signup",
-        credentials
-      );
+      const res = await axios.post("/api/v1/auth/signup", credentials);
       set({ user: res.data.user, isSigningUp: false });
       toast.success("Account created successfully");
       // Redirect to home page or any other page
     } catch (error) {
-      toast.error(
-        error.response.data.message ||
-          "Something went wrong"
-      );
+      toast.error(error.response.data.message || "Something went wrong");
       set({ user: null, isSigningUp: false });
     }
   },
   login: async (credentials) => {
     set({ isLoggingIn: true });
     try {
-      const res = await axios.post(
-        "/api/v1/auth/login",
-        credentials
-      );
+      const res = await axios.post("/api/v1/auth/login", credentials);
       set({ user: res.data.user, isLoggingIn: false });
       toast.success("Logged in successfully");
       // Redirect to home page or any other page
     } catch (error) {
-      toast.error(
-        error.response.data.message || "Login failed"
-      );
+      toast.error(error.response.data.message || "Login failed");
       set({ user: null, isLoggingIn: false });
     }
   },
@@ -52,19 +41,31 @@ export const useAuthUserStore = create((set) => ({
       toast.success("Logged out successfully");
     } catch (error) {
       set({ user: null, isLoggingOut: false });
-      toast.error(
-        error.response.data.message || "Logout failed"
-      );
+      toast.error(error.response.data.message || "Logout failed");
     }
   },
+  changePassword: async (credentials) => {
+    try {
+      const { logout } = useAuthUserStore.getState();
+      const promise = axios.patch("/api/v1/auth/change-password", credentials);
+
+      await toast.promise(promise, {
+        loading: "Updating password...",
+        success: "Password updated successfully",
+        error: (err) =>
+          err.response?.data?.message || "Failed to update password",
+      });
+      logout();
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   updateWatchList: (newItem) =>
     set((state) => ({
       user: {
         ...state.user,
-        watchList: [
-          ...(state.user?.watchList || []),
-          newItem,
-        ],
+        watchList: [...(state.user?.watchList || []), newItem],
       },
     })),
   removeFromWatchList: (itemId) =>
@@ -72,9 +73,7 @@ export const useAuthUserStore = create((set) => ({
       user: {
         ...state.user,
         watchList:
-          state.user?.watchList.filter(
-            (item) => item.id !== itemId
-          ) || [],
+          state.user?.watchList.filter((item) => item.id !== itemId) || [],
       },
     })),
   updateInfo: async ({ avatar, username, email }) => {
@@ -101,10 +100,7 @@ export const useAuthUserStore = create((set) => ({
         },
       }));
     } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-          "Something went wrong"
-      );
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   },
 

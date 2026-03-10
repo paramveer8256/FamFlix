@@ -5,13 +5,11 @@ const LoginPage = () => {
   const { searchParams } = new URL(document.location);
   const emailParam = searchParams.get("email");
   const passwordParam = searchParams.get("password");
-  const [emailorusername, setemailorusername] =
-    React.useState(emailParam || "");
-  const [password, setPassword] = React.useState(
-    passwordParam || ""
+  const [emailorusername, setemailorusername] = React.useState(
+    emailParam || "",
   );
-  const [showPassword, setShowPassword] =
-    React.useState(false);
+  const [password, setPassword] = React.useState(passwordParam || "");
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const { login, isLoggingIn } = useAuthUserStore();
   const handleLogin = (e) => {
@@ -20,10 +18,7 @@ const LoginPage = () => {
     login({ emailorusername, password });
   };
   return (
-    <div
-      className="h-screen w-full hero-bg"
-      onSubmit={handleLogin}
-    >
+    <div className="h-screen w-full hero-bg" onSubmit={handleLogin}>
       <header className="max-w-6xl mx-auto p-4 flex items-center justify-between">
         <Link to={"/"}>
           <img
@@ -54,9 +49,7 @@ const LoginPage = () => {
                 className="w-full px-3 py-2 rounded-md border border-gray-700 text-white bg-transparent focus:outline-none focus:ring"
                 placeholder="Enter Email or Username"
                 value={emailorusername}
-                onChange={(e) =>
-                  setemailorusername(e.target.value)
-                }
+                onChange={(e) => setemailorusername(e.target.value)}
               />
             </div>
 
@@ -70,21 +63,26 @@ const LoginPage = () => {
                   id="password"
                   required
                   value={password}
-                  onChange={(e) =>
-                    setPassword(e.target.value)
-                  }
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter the Password"
                   className="w-full px-3 py-2 rounded-md border border-gray-700 text-white bg-transparent focus:outline-none focus:ring"
                 />
                 <button
                   type="button"
-                  onClick={() =>
-                    setShowPassword((prev) => !prev)
-                  }
+                  onClick={() => setShowPassword((prev) => !prev)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-semibold text-gray-400"
                 >
                   {showPassword ? "Hide" : "Show"}
                 </button>
+              </div>
+              <div>
+                <div className="flex justify-end">
+                  <Link
+                    className="px-2 py-1 text-white"
+                  >
+                    Forgot Password?
+                  </Link>
+                </div>
               </div>
             </div>
 

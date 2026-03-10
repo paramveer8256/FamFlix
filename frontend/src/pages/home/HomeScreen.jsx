@@ -36,8 +36,9 @@ const HomeScreen = () => {
           toastify(
             <div className="text-sm">
               <p className="mb-2">
-                👋 Hey! Dev here — I’ve updated the Search History. Your recent
-                searches are saved and appear instantly at the top. 😎
+                👋 Hey! Dev here — I’ve updated the Watchlist. Now Release dates
+                will be visible next to the Movies and TV shows. Also added
+                Change Password in Profile Page. 😎
               </p>
 
               <div className="flex justify-between items-center mt-2 text-sm">

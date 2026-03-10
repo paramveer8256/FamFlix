@@ -52,6 +52,24 @@ export const servers = [
 export const updates = [
   {
     version: packageJson.version,
+    // v1.3.0
+    date: "2026-03-11",
+    title: "Watchlist Improvements + Password Management",
+
+    description:
+      "Improved watchlist data consistency and added account security features including password management.",
+
+    updates: `
+  • Added Release date support for Watchlist items.
+  • Added Change Password feature for authenticated users.
+  `,
+
+    bugFixes: `No bug fixes.`,
+
+    active: true,
+  },
+  {
+    version: "1.2.1",
     // v1.2.1
     date: "2026-02-28",
     title: "Search History + Changelog System",
@@ -68,6 +86,6 @@ export const updates = [
   • Corrected MongoDB $push position handling using $each + $position.
   `,
 
-    active: true,
+    active: false,
   },
 ];
