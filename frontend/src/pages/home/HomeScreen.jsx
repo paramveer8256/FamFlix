@@ -36,9 +36,7 @@ const HomeScreen = () => {
           toastify(
             <div className="text-sm">
               <p className="mb-2">
-                👋 Hey! Dev here — I’ve updated the Watchlist. Now Release dates
-                will be visible next to the Movies and TV shows. Also added
-                Change Password in Profile Page. 😎
+                👋 Hey! Dev here — I’ve added the Forgot password feature in Login page.😎
               </p>
 
               <div className="flex justify-between items-center mt-2 text-sm">

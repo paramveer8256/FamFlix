@@ -52,6 +52,24 @@ export const servers = [
 export const updates = [
   {
     version: packageJson.version,
+    // v1.4.0
+    date: "2026-03-13",
+    title: "Password Recovery + Email Reset System",
+
+    description:
+      "Added secure password recovery with email-based reset links and improved account security features.",
+
+    updates: `
+  • Added Forgot Password functionality.
+  • Implemented secure password reset via email link.
+  `,
+
+    bugFixes: `Minor bug fixes.`,
+
+    active: true,
+  },
+  {
+    version: "1.3.0",
     // v1.3.0
     date: "2026-03-11",
     title: "Watchlist Improvements + Password Management",
@@ -66,7 +84,7 @@ export const updates = [
 
     bugFixes: `No bug fixes.`,
 
-    active: true,
+    active: false,
   },
   {
     version: "1.2.1",

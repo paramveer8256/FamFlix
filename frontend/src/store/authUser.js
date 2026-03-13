@@ -44,6 +44,40 @@ export const useAuthUserStore = create((set) => ({
       toast.error(error.response.data.message || "Logout failed");
     }
   },
+
+  forgotPassword: async (credentials) => {
+    try {
+      const promise = axios.post("/api/v1/auth/forgot-password", credentials);
+
+      await toast.promise(promise, {
+        loading: "Sending reset email...",
+        success: "Password reset email sent",
+        error: (err) =>
+          err.response?.data?.message || "Failed to send reset email",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  resetPassword: async (credentials) => {
+    try {
+      const { logout } = useAuthUserStore.getState();
+
+      const promise = axios.patch("/api/v1/auth/reset-password", credentials);
+
+      await toast.promise(promise, {
+        loading: "Resetting password...",
+        success: "Password reset successfully",
+        error: (err) =>
+          err.response?.data?.message || "Failed to reset password",
+      });
+      logout();
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   changePassword: async (credentials) => {
     try {
       const { logout } = useAuthUserStore.getState();

@@ -78,6 +78,7 @@ const LoginPage = () => {
               <div>
                 <div className="flex justify-end">
                   <Link
+                  to={"/forgot-password"}
                     className="px-2 py-1 text-white"
                   >
                     Forgot Password?

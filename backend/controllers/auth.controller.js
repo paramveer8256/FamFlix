@@ -1,4 +1,6 @@
 import User from "../models/user.model.js";
+import crypto from "crypto";
+import axios from "axios";
 import bcrypt from "bcryptjs";
 import { generateTokenAndSetCookie } from "../utils/generateToken.js";
 
@@ -149,6 +151,171 @@ export async function logout(req, res) {
   }
 }
 
+export async function forgotPassword(req, res) {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "Email is required",
+      });
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase() });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User with this email does not exist",
+      });
+    }
+
+    // Generate reset token
+    const resetToken = crypto.randomBytes(32).toString("hex");
+
+    // Hash token before saving
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    user.resetPasswordToken = hashedToken;
+    user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+    await user.save();
+
+    const resetLink = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
+
+    // Send email (example)
+    await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: {
+          name: "FAMFLIX",
+          email: "paramveer8256@gmail.com",
+        },
+        to: [{ email: user.email }],
+        subject: "Password Reset Request",
+        htmlContent: `
+<div style="font-family: Arial, sans-serif; background-color:#f4f6f8; padding:40px 0;">
+  <div style="max-width:600px; margin:auto; background:white; border-radius:10px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.05);">
+
+    <div style="background:#2563eb; padding:20px; text-align:center;">
+      <h1 style="color:white; margin:0;">FAMFLIX</h1>
+    </div>
+
+    <div style="padding:30px; color:#333;">
+      <h2 style="margin-top:0;">Reset Your Password</h2>
+
+      <p style="font-size:16px;">
+        We received a request to reset your password. Click the button below to set a new password.
+      </p>
+
+      <div style="text-align:center; margin:30px 0;">
+        <a href="${resetLink}" 
+           style="background:#2563eb; color:white; padding:14px 28px; text-decoration:none; border-radius:6px; font-weight:bold; display:inline-block;">
+           Reset Password
+        </a>
+      </div>
+
+      <p style="font-size:14px; color:#666;">
+        This link will expire in <b>10 minutes</b>. If you did not request a password reset, you can safely ignore this email.
+      </p>
+
+      <p style="margin-top:30px;">
+        Thanks,<br/>
+        <b>FAMFLIX Team</b>
+      </p>
+    </div>
+
+    <div style="background:#f1f5f9; text-align:center; padding:15px; font-size:12px; color:#666;">
+      © ${new Date().getFullYear()} FAMFLIX. All rights reserved.
+    </div>
+
+  </div>
+</div>
+`,
+      },
+      {
+        headers: {
+          "api-key": process.env.BREVO_API_KEY,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset email sent",
+    });
+  } catch (error) {
+    console.log("Error in forgotPassword:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+}
+
+export async function resetPassword(req, res) {
+  try {
+    const { token, newPassword } = req.body;
+
+    if (!token || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Token and new password are required",
+      });
+    }
+
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(newPassword)) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Password must be at least 8 characters long and contain one number and one special character",
+      });
+    }
+
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+    const user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid or expired reset token",
+      });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successfully",
+    });
+  } catch (error) {
+    console.log("Error in resetPassword:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+}
+
 export async function changePassword(req, res) {
   try {
     const { currentPassword, newPassword } = req.body;
@@ -190,7 +357,7 @@ export async function changePassword(req, res) {
         message: "Current password is incorrect",
       });
     }
-    
+
     if (await bcrypt.compare(newPassword, user.password)) {
       return res.status(400).json({
         success: false,

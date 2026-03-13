@@ -29,6 +29,8 @@ import AnimeGenre from "./pages/ANIFLIX/AnimeGenre.jsx";
 import AnimeWatchlist from "./pages/ANIFLIX/AnimeWatchlist.jsx";
 import AnimeHistory from "./pages/ANIFLIX/AnimeHistory.jsx";
 import AnimeProfile from "./pages/ANIFLIX/AnimeProfile.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
 
 function App() {
   const { user, isCheckingAuth, authCheck } = useAuthUserStore();
@@ -58,6 +60,14 @@ function App() {
         <Route
           path="/signup"
           element={!user ? <SignupPage /> : <Navigate to={"/"} />}
+        />
+        <Route
+          path="/forgot-password"
+          element={!user ? <ForgotPassword /> : <Navigate to={"/"} />}
+        />
+        <Route
+          path="/reset-password/:token"
+          element={!user ? <ResetPassword /> : <Navigate to={"/"} />}
         />
         <Route
           path="/change-password"
