@@ -74,6 +74,7 @@ export async function settvToWatchList(req, res) {
               title: data.name,
               type: "tv",
               image: data.poster_path,
+              release_date: data.first_air_date,
               created: new Date(),
             },
           ],
