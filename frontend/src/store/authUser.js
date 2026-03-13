@@ -55,15 +55,14 @@ export const useAuthUserStore = create((set) => ({
         error: (err) =>
           err.response?.data?.message || "Failed to send reset email",
       });
+      return true;
     } catch (error) {
       console.log(error);
     }
   },
 
-  resetPassword: async (credentials) => {
+  resetPassword: async (credentials, navigate) => {
     try {
-      const { logout } = useAuthUserStore.getState();
-
       const promise = axios.patch("/api/v1/auth/reset-password", credentials);
 
       await toast.promise(promise, {
@@ -72,7 +71,8 @@ export const useAuthUserStore = create((set) => ({
         error: (err) =>
           err.response?.data?.message || "Failed to reset password",
       });
-      logout();
+
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }

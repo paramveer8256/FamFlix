@@ -2,10 +2,12 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAuthUserStore } from "../store/authUser";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
   const { resetPassword } = useAuthUserStore();
   const { token } = useParams();
+  const navigate = useNavigate();
 
   const [newPassword, setNewPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
@@ -19,10 +21,13 @@ const ResetPassword = () => {
       return;
     }
 
-    resetPassword({
-      token,
-      newPassword,
-    });
+    resetPassword(
+      {
+        token,
+        newPassword,
+      },
+      navigate,
+    );
   };
 
   return (
