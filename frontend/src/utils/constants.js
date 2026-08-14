@@ -12,18 +12,18 @@ export const MOVIE_CATEGORIES = [
 export const TV_CATEGORIES = ["airing_today", "on_the_air", "top_rated"];
 
 export const servers = [
-  // {
-  //   key: "server1",
-  //   label: "Server 1",
-  //   movieUrl: "https://vidsrc.ru/movie/",
-  //   tvUrl: "https://vidsrc.ru/tv/",
-  // },
   {
-    key: "server2",
-    label: "Server 2",
-    movieUrl: "https://vidsrc.icu/embed/movie/",
-    tvUrl: "https://vidsrc.icu/embed/tv/",
+    key: "server1",
+    label: "Server 1",
+    movieUrl: "https://vidsrc.ru/movie/",
+    tvUrl: "https://vidsrc.ru/tv/",
   },
+  // {
+  //   key: "server2",
+  //   label: "Server 2",
+  //   movieUrl: "https://vidsrc.icu/embed/movie/",
+  //   tvUrl: "https://vidsrc.icu/embed/tv/",
+  // },
   {
     key: "server3",
     label: "Server 3",
@@ -42,11 +42,29 @@ export const servers = [
     movieUrl: "https://vidrock.net/movie/",
     tvUrl: "https://vidrock.net/tv/",
   },
+  // {
+  //   key: "server6",
+  //   label: "Server 6",
+  //   movieUrl: "https://vidsrc.cc/v2/embed/movie/",
+  //   tvUrl: "https://vidsrc.cc/v2/embed/tv/",
+  // },
   {
-    key: "server6",
-    label: "Server 6",
-    movieUrl: "https://vidsrc.cc/v2/embed/movie/",
-    tvUrl: "https://vidsrc.cc/v2/embed/tv/",
+    key: "server7",
+    label: "Server 7",
+    movieUrl: "https://vidsrc.sbs/embed/movie/",
+    tvUrl: "https://vidsrc.sbs/embed/tv/",
+  },
+  {
+    key: "server8",
+    label: "Server 8",
+    movieUrl: "https://vidsrc.in/embed/movie/",
+    tvUrl: "https://vidsrc.in/embed/tv/",
+  },
+  {
+    key: "server9",
+    label: "Server 9",
+    movieUrl: "https://vidsrc.to/embed/movie/",
+    tvUrl: "https://vidsrc.to/embed/tv/",
   },
   // {
   //   key: "server7",
