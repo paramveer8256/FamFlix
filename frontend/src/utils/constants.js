@@ -25,6 +25,12 @@ export const servers = [
   //   tvUrl: "https://vidsrc.icu/embed/tv/",
   // },
   {
+    key: "server2",
+    label: "Server 2",
+    movieUrl: "https://vsembed.ru/embed/movie/",
+    tvUrl: "https://vsembed.ru/embed/tv/",
+  },
+  {
     key: "server3",
     label: "Server 3",
     movieUrl: "https://vidlink.pro/movie/",
@@ -60,12 +66,12 @@ export const servers = [
     movieUrl: "https://vidsrc.in/embed/movie/",
     tvUrl: "https://vidsrc.in/embed/tv/",
   },
-  {
-    key: "server9",
-    label: "Server 9",
-    movieUrl: "https://vidsrc.to/embed/movie/",
-    tvUrl: "https://vidsrc.to/embed/tv/",
-  },
+  // {
+  //   key: "server9",
+  //   label: "Server 9",
+  //   movieUrl: "https://vidsrc.to/embed/movie/",
+  //   tvUrl: "https://vidsrc.to/embed/tv/",
+  // },
   // {
   //   key: "server7",
   //   label: "Download (Ads)",

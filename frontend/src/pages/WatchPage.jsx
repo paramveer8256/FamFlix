@@ -293,8 +293,8 @@ const WatchPage = () => {
             <div className="relative w-full h-full mb-4">
               <iframe
                 src={getVideoSrc()}
-                width="95%"
-                height="90%"
+                width="100%"
+                height="100%"
                 className="block aspect-video mx-auto rounded mt-4"
                 referrerPolicy="no-referrer"
                 loading="lazy"
