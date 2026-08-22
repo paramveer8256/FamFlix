@@ -59,8 +59,9 @@ const HomeScreen = () => {
           toastify(
             <div className="text-sm">
               <p className="mb-2">
-                👋 Hey! Dev here — I've added new features! regarding continue
-                watching.😎
+                👋 Hey! Dev here — I've added some awesome new social features!
+                You can now find friends, send friend requests, view profiles,
+                and chat in real time. 😎
               </p>
 
               <div className="flex justify-between items-center mt-2 text-sm">

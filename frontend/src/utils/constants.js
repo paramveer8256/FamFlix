@@ -81,7 +81,33 @@ export const servers = [
 ];
 export const updates = [
   {
-    version: packageJson.version,
+  version: packageJson.version,
+  // v2.0.0
+  date: "2026-08-22",
+  title: "Social Features & Real-Time Chat",
+
+  description:
+    "Introduced a complete social layer with friends, profiles, real-time presence, and messaging, along with improved watchlist and watch history integration.",
+
+  updates: `
+  • Added user search and friend request system.
+  • Added friend profiles with watchlist and watch history.
+  • Added real-time online/offline presence.
+  • Added real-time one-to-one messaging with Socket.IO.
+  • Added unread message counts and live conversation previews.
+  • Added automatic message read tracking.
+  • Added real-time navbar notification counts.
+  • Improved mobile chat navigation and full-screen experience.
+  • Added friend removal confirmation.
+  `,
+
+  bugFixes:
+    "Fixed chat synchronization, unread counts, presence updates, and responsive layout issues.",
+
+  active: true,
+},
+  {
+    version: "1.7.1",
     // v1.7.1
     date: "2026-05-11",
     title: "Watch Page UI Enhancements",
@@ -96,7 +122,7 @@ export const updates = [
 
     bugFixes: `Minor bug fixes and performance improvements.`,
 
-    active: true,
+    active: false,
   },
   {
     version: "1.6.0",
