@@ -5,7 +5,9 @@ import {
   getWatchList,
   setmovieToWatchList,
   settvToWatchList,
+  getUserWatchList,
 } from "../controllers/watch.controller.js";
+import { protectRoute } from "../middleware/protectRoute.js";
 
 const router = express.Router();
 
@@ -13,6 +15,7 @@ router.post("/movie/:id", setmovieToWatchList);
 router.post("/tv/:id", settvToWatchList);
 
 router.get("/movies", getWatchList);
+router.get("/user/:userId", protectRoute, getUserWatchList);
 
 router.delete("/movies/clear", clearWatchList);
 router.delete("/movie/:id", deleteWatchList);

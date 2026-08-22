@@ -18,7 +18,7 @@ import TvEpisodes from "../components/TvEpisodes";
 import useWatchlist from "../hooks/useWatchlist";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { servers } from "../utils/constants";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion as Motion } from "framer-motion";
 
 const WatchPage = () => {
   const { id, category } = useParams();
@@ -505,14 +505,14 @@ const WatchPage = () => {
           <p className="text-[#1E90FF] text-xl font-semibold">Poster:</p>
           <AnimatePresence>
             {isClicked && (
-              <motion.div
+              <Motion.div
                 className="fixed inset-0 z-50 bg-black/80  flex items-center justify-center"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={handleClick}
               >
-                <motion.div
+                <Motion.div
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.5 }}
@@ -524,8 +524,8 @@ const WatchPage = () => {
                     alt="Selected Avatar"
                     className="h-120 w-80 md:h-120 md:w-100 rounded-lg cursor-pointer"
                   />
-                </motion.div>
-              </motion.div>
+                </Motion.div>
+              </Motion.div>
             )}
           </AnimatePresence>
           <img

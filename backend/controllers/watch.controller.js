@@ -154,3 +154,30 @@ export async function clearWatchList(req, res) {
     res.status(500).json({ message: "Failed to clear watch list" });
   }
 }
+
+export async function getUserWatchList(req, res) {
+  try {
+    const { userId } = req.params;
+
+    const user = await User.findById(userId).select("watchList");
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      content: user.watchList || [],
+    });
+  } catch (error) {
+    console.error("getUserWatchList:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+}

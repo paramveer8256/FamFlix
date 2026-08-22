@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ORIGINAL_IMG_BASE_URL } from "../../utils/constants";
 import { Link } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion as Motion } from "framer-motion";
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -65,14 +65,14 @@ const ProfilePage = () => {
           <div className="flex items-center gap-4">
             <AnimatePresence>
               {isClicked && (
-                <motion.div
+                <Motion.div
                   className="fixed inset-0 z-50 bg-black/60 backdrop-blur-lg flex items-center justify-center"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   onClick={handleClick}
                 >
-                  <motion.div
+                  <Motion.div
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.5 }}
@@ -84,8 +84,8 @@ const ProfilePage = () => {
                       alt="Selected Avatar"
                       className="size-70 md:size-100 rounded-full cursor-pointer"
                     />
-                  </motion.div>
-                </motion.div>
+                  </Motion.div>
+                </Motion.div>
               )}
             </AnimatePresence>
             <img
@@ -100,7 +100,8 @@ const ProfilePage = () => {
               <p className="text-gray-400 text-sm">{user.email}</p>
               <p className="text-sm text-blue-500 font-semibold">
                 Plan:
-                <span className="text-purple-600 text-lg"> Cosmic</span> • Member since {formatDate(user.createdAt)}
+                <span className="text-purple-600 text-lg"> Cosmic</span> •
+                Member since {formatDate(user.createdAt)}
               </p>
             </div>
           </div>

@@ -6,13 +6,11 @@ export async function setContent(req, res) {
 
   try {
     const data = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/${category}/${id}?language=en-US`
+      `https://api.themoviedb.org/3/${category}/${id}?language=en-US`,
     );
 
     if (!data) {
-      return res
-        .status(404)
-        .json({ message: "No movie found" });
+      return res.status(404).json({ message: "No movie found" });
     }
 
     // Remove if already exists
@@ -45,9 +43,7 @@ export async function setContent(req, res) {
     });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
 
@@ -67,8 +63,32 @@ export async function getWatchHistory(req, res) {
     });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+export async function getUserWatchHistory(req, res) {
+  try {
+    const { userId } = req.params;
+
+    const user = await User.findById(userId).select("watchHistory");
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      content: user.watchHistory || [],
+    });
+  } catch (error) {
+    console.error("getUserWatchHistory:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
   }
 }
